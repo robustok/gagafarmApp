@@ -428,21 +428,6 @@
 			concurrency 	"Sequential"
 			opExportControl 	"Public"
 			uid        	0)))
-	    (object Class "UserLocalDataSource"
-		quid       	"5926BEE10132"
-		used_nodes 	(list uses_relationship_list
-		    (object Uses_Relationship
-			quid       	"5926C009009E"
-			supplier   	"Logical View::User"
-			quidu      	"59242C140334"))
-		operations 	(list Operations
-		    (object Operation "saveUser"
-			quid       	"5926BF1E001D"
-			documentation 	"保存用户数据至本机数据库"
-			result     	"void"
-			concurrency 	"Sequential"
-			opExportControl 	"Public"
-			uid        	0)))
 	    (object Mechanism @10
 		logical_models 	(list unit_reference_list
 		    (object Object "张三"
@@ -483,15 +468,6 @@
 					sequence   	"1.1"
 					ordinal    	1
 					quidu      	"59242E7403CC"
-					creation   	FALSE)
-				    (object Message ""
-					quid       	"5926BFC50165"
-					frequency  	"Aperiodic"
-					synchronization 	"Return"
-					dir        	"ToClientFromSupplier"
-					sequence   	"1.1.2"
-					ordinal    	6
-					quidu      	"000000000000"
 					creation   	FALSE))))
 			class      	"Logical View::RegisterFragment"
 			quidu      	"5924E19C01B9"
@@ -514,15 +490,6 @@
 					sequence   	"1.1.1"
 					ordinal    	2
 					quidu      	"5924FC0500AD"
-					creation   	FALSE)
-				    (object Message ""
-					quid       	"5926BFBA01DE"
-					frequency  	"Aperiodic"
-					synchronization 	"Return"
-					dir        	"ToClientFromSupplier"
-					sequence   	"1.1.1.2"
-					ordinal    	5
-					quidu      	"000000000000"
 					creation   	FALSE))))
 			class      	"Logical View::RegisterPresenter"
 			quidu      	"59242F6F0236"
@@ -532,39 +499,8 @@
 		    (object Object "保存注册数据"
 			quid       	"5926BD9E012D"
 			documentation 	"用户名和密码"
-			collaborators 	(list link_list
-			    (object Link
-				quid       	"5926BF940017"
-				supplier   	"$UNNAMED$6"
-				quidu      	"5926BF8601BB"
-				messages   	(list Messages
-				    (object Message "saveUser( )"
-					quid       	"5926BF940018"
-					frequency  	"Aperiodic"
-					synchronization 	"Simple"
-					dir        	"FromClientToSupplier"
-					sequence   	"1.1.1.1"
-					ordinal    	3
-					quidu      	"5926BF1E001D"
-					creation   	FALSE)
-				    (object Message ""
-					quid       	"5926BFAF0326"
-					frequency  	"Aperiodic"
-					synchronization 	"Return"
-					dir        	"ToClientFromSupplier"
-					sequence   	"1.1.1.1.1"
-					ordinal    	4
-					quidu      	"000000000000"
-					creation   	FALSE))))
 			class      	"Logical View::UserRepository"
 			quidu      	"5924FBC3019C"
-			persistence 	"Transient"
-			creationObj 	TRUE
-			multi      	FALSE)
-		    (object Object "$UNNAMED$6"
-			quid       	"5926BF8601BB"
-			class      	"Logical View::UserLocalDataSource"
-			quidu      	"5926BEE10132"
 			persistence 	"Transient"
 			creationObj 	TRUE
 			multi      	FALSE))))
@@ -629,7 +565,7 @@
 			    icon_style 	"Icon"
 			    anchor     	2
 			    nlines     	2
-			    max_width  	491
+			    max_width  	494
 			    justify    	0)
 			width      	58
 			height     	58
@@ -677,7 +613,7 @@
 			    icon_style 	"Icon"
 			    anchor     	2
 			    nlines     	2
-			    max_width  	303
+			    max_width  	309
 			    justify    	0)
 			width      	58
 			height     	58
@@ -773,7 +709,7 @@
 			    icon_style 	"Icon"
 			    anchor     	2
 			    nlines     	2
-			    max_width  	387
+			    max_width  	394
 			    justify    	0)
 			width      	58
 			height     	58
@@ -882,7 +818,7 @@
 			    icon_style 	"Icon"
 			    anchor     	2
 			    nlines     	2
-			    max_width  	153
+			    max_width  	159
 			    justify    	0)
 			width      	58
 			height     	58
@@ -1055,64 +991,6 @@
 			vertices   	(list Points
 			    (1102, 1386)
 			    (1104, 1124))
-			line_style 	0)
-		    (object ClassView "Class" "Logical View::UserLocalDataSource" @29
-			ShowCompartmentStereotypes 	TRUE
-			IncludeAttribute 	TRUE
-			IncludeOperation 	TRUE
-			location   	(1900, 1472)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@29
-			    location   	(1642, 1389)
-			    fill_color 	13434879
-			    nlines     	1
-			    max_width  	516
-			    justify    	0
-			    label      	"UserLocalDataSource")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"5926BEE10132"
-			compartment 	(object Compartment
-			    Parent_View 	@29
-			    location   	(1642, 1456)
-			    font       	(object Font
-				size       	10
-				face       	"Arial"
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    icon_style 	"Icon"
-			    fill_color 	13434879
-			    anchor     	2
-			    nlines     	2
-			    max_width  	250
-			    justify    	1)
-			width      	534
-			height     	194
-			annotation 	8
-			autoResize 	TRUE)
-		    (object UsesView "" @30
-			stereotype 	TRUE
-			line_color 	3342489
-			quidu      	"5926C009009E"
-			client     	@29
-			supplier   	@13
-			vertices   	(list Points
-			    (1736, 1374)
-			    (1307, 1120))
 			line_style 	0)))
 	    (object InteractionDiagram "RegisterSequence"
 		mechanism_ref 	@10
@@ -1121,10 +999,10 @@
 		zoom       	100
 		max_height 	28350
 		max_width  	21600
-		origin_x   	400
+		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object InterObjView "张三" @31
+		    (object InterObjView "张三" @29
 			location   	(300, 384)
 			font       	(object Font
 			    size       	12
@@ -1136,7 +1014,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@31
+			    Parent_View 	@29
 			    location   	(300, 412)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1149,27 +1027,27 @@
 			fill_color 	13434879
 			quidu      	"59269C690048"
 			width      	250
-			height     	996
+			height     	566
 			icon_height 	162
 			icon_width 	120
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @32
+			Focus_Of_Control 	(object Focus_Of_Control "" @30
 			    location   	(300, 470)
 			    line_color 	3342489
-			    InterObjView 	@31
+			    InterObjView 	@29
 			    height     	90
 			    y_coord    	0
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @33
+			Focus_Of_Control 	(object Focus_Of_Control "" @31
 			    location   	(300, 470)
 			    line_color 	3342489
-			    InterObjView 	@31
+			    InterObjView 	@29
 			    height     	90
 			    y_coord    	0
 			    Nested     	TRUE))
-		    (object InterObjView "用户注册界面" @34
-			location   	(999, 315)
+		    (object InterObjView "用户注册界面" @32
+			location   	(1343, 309)
 			font       	(object Font
 			    size       	12
 			    face       	"Arial"
@@ -1180,8 +1058,8 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@34
-			    location   	(999, 315)
+			    Parent_View 	@32
+			    location   	(1343, 309)
 			    fill_color 	13434879
 			    anchor_loc 	1
 			    nlines     	2
@@ -1193,34 +1071,27 @@
 			fill_color 	13434879
 			quidu      	"59269CB70078"
 			width      	518
-			height     	1065
+			height     	641
 			icon_height 	0
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @35
-			    location   	(999, 401)
+			Focus_Of_Control 	(object Focus_Of_Control "" @33
+			    location   	(1343, 395)
 			    line_color 	3342489
-			    InterObjView 	@34
-			    height     	129
-			    y_coord    	39
+			    InterObjView 	@32
+			    height     	135
+			    y_coord    	45
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @36
-			    location   	(999, 470)
+			Focus_Of_Control 	(object Focus_Of_Control "" @34
+			    location   	(1343, 470)
 			    line_color 	3342489
-			    InterObjView 	@34
-			    height     	820
-			    y_coord    	730
-			    Nested     	TRUE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @37
-			    location   	(999, 1190)
-			    line_color 	3342489
-			    InterObjView 	@34
-			    height     	1
-			    y_coord    	-89
+			    InterObjView 	@32
+			    height     	285
+			    y_coord    	195
 			    Nested     	TRUE))
-		    (object InterObjView "表示层" @38
-			location   	(1612, 337)
+		    (object InterObjView "表示层" @35
+			location   	(1988, 350)
 			font       	(object Font
 			    size       	12
 			    face       	"Arial"
@@ -1231,8 +1102,8 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@38
-			    location   	(1612, 337)
+			    Parent_View 	@35
+			    location   	(1988, 350)
 			    fill_color 	13434879
 			    anchor_loc 	1
 			    nlines     	2
@@ -1244,34 +1115,27 @@
 			fill_color 	13434879
 			quidu      	"59269E65023D"
 			width      	588
-			height     	1043
+			height     	600
 			icon_height 	0
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @39
-			    location   	(1612, 423)
+			Focus_Of_Control 	(object Focus_Of_Control "" @36
+			    location   	(1988, 436)
 			    line_color 	3342489
-			    InterObjView 	@38
+			    InterObjView 	@35
 			    height     	90
 			    y_coord    	0
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @40
-			    location   	(1612, 665)
+			Focus_Of_Control 	(object Focus_Of_Control "" @37
+			    location   	(1988, 665)
 			    line_color 	3342489
-			    InterObjView 	@38
-			    height     	525
-			    y_coord    	435
-			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @41
-			    location   	(1612, 1085)
-			    line_color 	3342489
-			    InterObjView 	@38
-			    height     	1
-			    y_coord    	-89
-			    Nested     	TRUE))
-		    (object InterObjView "保存注册数据" @42
-			location   	(2193, 512)
+			    InterObjView 	@35
+			    height     	195
+			    y_coord    	105
+			    Nested     	FALSE))
+		    (object InterObjView "保存注册数据" @38
+			location   	(2569, 568)
 			font       	(object Font
 			    size       	12
 			    face       	"Arial"
@@ -1282,8 +1146,8 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@42
-			    location   	(2193, 512)
+			    Parent_View 	@38
+			    location   	(2569, 568)
 			    fill_color 	13434879
 			    anchor_loc 	1
 			    nlines     	2
@@ -1295,77 +1159,26 @@
 			fill_color 	13434879
 			quidu      	"5926BD9E012D"
 			width      	454
-			height     	868
+			height     	382
 			icon_height 	0
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @43
-			    location   	(2193, 598)
+			Focus_Of_Control 	(object Focus_Of_Control "" @39
+			    location   	(2569, 654)
 			    line_color 	3342489
-			    InterObjView 	@42
-			    height     	232
-			    y_coord    	142
+			    InterObjView 	@38
+			    height     	176
+			    y_coord    	86
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @44
-			    location   	(2193, 770)
+			Focus_Of_Control 	(object Focus_Of_Control "" @40
+			    location   	(2569, 770)
 			    line_color 	3342489
-			    InterObjView 	@42
-			    height     	315
-			    y_coord    	225
-			    Nested     	TRUE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @45
-			    location   	(2193, 980)
-			    line_color 	3342489
-			    InterObjView 	@42
-			    height     	1
-			    y_coord    	-89
-			    Nested     	TRUE))
-		    (object InterObjView "$UNNAMED$6" @46
-			location   	(2643, 391)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	TRUE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@46
-			    location   	(2643, 391)
-			    fill_color 	13434879
-			    anchor_loc 	1
-			    nlines     	2
-			    max_width  	282
-			    justify    	0
-			    label      	"")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"5926BF8601BB"
-			width      	300
-			height     	989
-			icon_height 	0
-			icon_width 	0
-			icon_y_offset 	0
-			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @47
-			    location   	(2643, 477)
-			    line_color 	3342489
-			    InterObjView 	@46
+			    InterObjView 	@38
 			    height     	90
 			    y_coord    	0
-			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @48
-			    location   	(2643, 875)
-			    line_color 	3342489
-			    InterObjView 	@46
-			    height     	105
-			    y_coord    	15
-			    Nested     	FALSE))
-		    (object NoteView @49
+			    Nested     	TRUE))
+		    (object NoteView @41
 			location   	(150, 66)
 			font       	(object Font
 			    size       	12
@@ -1377,7 +1190,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@49
+			    Parent_View 	@41
 			    location   	(12, 6)
 			    fill_color 	13434879
 			    nlines     	2
@@ -1388,7 +1201,7 @@
 			fill_color 	13434879
 			width      	300
 			height     	132)
-		    (object InterMessView "showSaveRegisterData()" @50
+		    (object InterMessView "showSaveRegisterData()" @42
 			location   	(0, 470)
 			font       	(object Font
 			    size       	12
@@ -1399,9 +1212,9 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @51
-			    Parent_View 	@50
-			    location   	(649, 426)
+			label      	(object SegLabel @43
+			    Parent_View 	@42
+			    location   	(821, 426)
 			    font       	(object Font
 				size       	12
 				face       	"Arial"
@@ -1421,14 +1234,14 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@31
-			supplier   	@34
-			Focus_Src  	@33
-			Focus_Entry 	@36
+			client     	@29
+			supplier   	@32
+			Focus_Src  	@31
+			Focus_Entry 	@34
 			origin     	(315, 470)
-			terminus   	(983, 470)
+			terminus   	(1327, 470)
 			ordinal    	0)
-		    (object InterMessView "saveRegisterData(User)" @52
+		    (object InterMessView "saveRegisterData(User)" @44
 			location   	(0, 665)
 			font       	(object Font
 			    size       	12
@@ -1439,9 +1252,9 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @53
-			    Parent_View 	@52
-			    location   	(1305, 621)
+			label      	(object SegLabel @45
+			    Parent_View 	@44
+			    location   	(1665, 621)
 			    font       	(object Font
 				size       	12
 				face       	"Arial"
@@ -1461,14 +1274,14 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@34
-			supplier   	@38
-			Focus_Src  	@36
-			Focus_Entry 	@40
-			origin     	(1014, 665)
-			terminus   	(1596, 665)
+			client     	@32
+			supplier   	@35
+			Focus_Src  	@34
+			Focus_Entry 	@37
+			origin     	(1358, 665)
+			terminus   	(1972, 665)
 			ordinal    	1)
-		    (object InterMessView "saveUser( )" @54
+		    (object InterMessView "saveUser( )" @46
 			location   	(0, 770)
 			font       	(object Font
 			    size       	12
@@ -1479,9 +1292,9 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @55
-			    Parent_View 	@54
-			    location   	(1902, 726)
+			label      	(object SegLabel @47
+			    Parent_View 	@46
+			    location   	(2278, 726)
 			    font       	(object Font
 				size       	12
 				face       	"Arial"
@@ -1501,173 +1314,13 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@38
-			supplier   	@42
-			Focus_Src  	@40
-			Focus_Entry 	@44
-			origin     	(1627, 770)
-			terminus   	(2177, 770)
-			ordinal    	2)
-		    (object InterMessView "saveUser( )" @56
-			location   	(0, 875)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object SegLabel @57
-			    Parent_View 	@56
-			    location   	(2417, 831)
-			    font       	(object Font
-				size       	12
-				face       	"Arial"
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    quidu      	"5926BF940018"
-			    anchor_loc 	1
-			    nlines     	1
-			    max_width  	313
-			    justify    	0
-			    label      	"saveUser( )"
-			    pctDist    	0.500000
-			    height     	45
-			    orientation 	0)
-			line_color 	3342489
-			client     	@42
-			supplier   	@46
-			Focus_Src  	@44
-			Focus_Entry 	@48
-			origin     	(2208, 875)
-			terminus   	(2627, 875)
-			ordinal    	3)
-		    (object InterMessView "" @58
-			location   	(0, 980)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object SegLabel @59
-			    Parent_View 	@58
-			    location   	(2418, 936)
-			    font       	(object Font
-				size       	12
-				face       	"Arial"
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    quidu      	"5926BFAF0326"
-			    anchor_loc 	1
-			    nlines     	1
-			    max_width  	450
-			    justify    	0
-			    label      	""
-			    pctDist    	0.500000
-			    height     	45
-			    orientation 	1)
-			line_color 	3342489
-			client     	@46
-			supplier   	@42
-			Focus_Src  	@48
-			Focus_Entry 	@45
-			origin     	(2627, 980)
-			terminus   	(2209, 980)
-			ordinal    	4)
-		    (object InterMessView "" @60
-			location   	(0, 1085)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object SegLabel @61
-			    Parent_View 	@60
-			    location   	(1903, 1041)
-			    font       	(object Font
-				size       	12
-				face       	"Arial"
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    quidu      	"5926BFBA01DE"
-			    anchor_loc 	1
-			    nlines     	1
-			    max_width  	450
-			    justify    	0
-			    label      	""
-			    pctDist    	0.500000
-			    height     	45
-			    orientation 	1)
-			line_color 	3342489
-			client     	@42
+			client     	@35
 			supplier   	@38
-			Focus_Src  	@44
-			Focus_Entry 	@41
-			origin     	(2177, 1085)
-			terminus   	(1628, 1085)
-			ordinal    	5)
-		    (object InterMessView "" @62
-			location   	(0, 1190)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object SegLabel @63
-			    Parent_View 	@62
-			    location   	(1306, 1146)
-			    font       	(object Font
-				size       	12
-				face       	"Arial"
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    quidu      	"5926BFC50165"
-			    anchor_loc 	1
-			    nlines     	1
-			    max_width  	450
-			    justify    	0
-			    label      	""
-			    pctDist    	0.500000
-			    height     	45
-			    orientation 	1)
-			line_color 	3342489
-			client     	@38
-			supplier   	@34
-			Focus_Src  	@40
-			Focus_Entry 	@37
-			origin     	(1596, 1190)
-			terminus   	(1015, 1190)
-			ordinal    	6)))))
+			Focus_Src  	@37
+			Focus_Entry 	@40
+			origin     	(2003, 770)
+			terminus   	(2553, 770)
+			ordinal    	2)))))
     root_subsystem 	(object SubSystem "Component View"
 	quid       	"5922B2ED0323"
 	physical_models 	(list unit_reference_list)
