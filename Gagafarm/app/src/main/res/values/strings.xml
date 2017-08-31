@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Gagafarm</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="userName">用户名</string>
+    <string name="password">密码</string>
+</resources>
