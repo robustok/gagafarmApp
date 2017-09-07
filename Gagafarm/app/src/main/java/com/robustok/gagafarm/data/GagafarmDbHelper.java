@@ -5,10 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.robustok.gagafarm.Utility.UserPersistenceContract;
+
 /**
  * Created by Administrator on 2017/6/6.
  */
-/**
+
 public class GagafarmDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "gagafarm.db";
@@ -35,4 +37,3 @@ public class GagafarmDbHelper extends SQLiteOpenHelper {
     }
 
 }
-**/

@@ -11,7 +11,6 @@ public final class User {
     private String mUserName;
     private String mPassword;
     public User(){}
-
     public User(@NonNull String userName, @Nullable String password) {
         this.mUserName = userName;
         this.mPassword = password;
@@ -22,4 +21,6 @@ public final class User {
     public String getPassword(){
         return this.mPassword;
     }
+    public void setUserName(String userName){mUserName = userName;}
+    public void setPassword(String password){mPassword = password;}
 }

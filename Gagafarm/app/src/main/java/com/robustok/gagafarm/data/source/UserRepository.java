@@ -6,32 +6,25 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2017/6/29.
- * 用户注册数据源
+ * 用户注册数据源接口
  */
 
-public class UserRepository implements UserDataSource{
-    @Override
-    public void savaUser(User user) {
+public interface UserRepository {
 
-    }
+    //保存用户数据
+    boolean savaUser(User user);
 
-    @Override
-    public User getUser(String getUser) {
-        return null;
-    }
+    //获取一个指定用户
+    User getUser(String getUser);
 
-    @Override
-    public List<User> getAllUsers() {
-        return null;
-    }
+    //获取所有用户的信息
+    List<User> getAllUsers();
 
-    @Override
-    public void deleteUser(String deleteUser) {
+    //删除用户
+    boolean deleteUser(String deleteUser);
 
-    }
+    //删除所有用户
+    boolean deleteAllUsers();
 
-    @Override
-    public void deleteAllUsers() {
 
-    }
 }

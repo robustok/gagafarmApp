@@ -13,9 +13,12 @@ import android.widget.TextView;
 
 import com.robustok.gagafarm.R;
 import com.robustok.gagafarm.Utility.ActivityUtils;
+import com.robustok.gagafarm.Utility.Injection;
+import com.robustok.gagafarm.data.source.LocalUserDataSource;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    private RegisterPresenter mRegisterPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,5 +40,9 @@ public class RegisterActivity extends AppCompatActivity {
         transaction.commit();
 **/
        ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),registerFragment,R.id.contentFrame);
+
+        mRegisterPresenter = new RegisterPresenter(Injection.provideUserRepository(getApplicationContext()), registerFragment);
+
+        registerFragment.setPresenter(mRegisterPresenter);
     }
 }

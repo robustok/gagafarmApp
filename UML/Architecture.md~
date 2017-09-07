@@ -337,7 +337,7 @@
 				supplier   	@1
 				vertices   	(list Points
 				    (459, 450)
-				    (595, 493))
+				    (596, 492))
 				line_style 	0)
 			    (object RoleView "$UNNAMED$2" @6
 				Parent_View 	@4
@@ -349,7 +349,7 @@
 				supplier   	@3
 				vertices   	(list Points
 				    (459, 450)
-				    (324, 407))
+				    (324, 405))
 				line_style 	0)))
 		    (object AssociationViewNew "$UNNAMED$3" @7
 			location   	(477, 303)
@@ -376,7 +376,7 @@
 				supplier   	@2
 				vertices   	(list Points
 				    (477, 303)
-				    (631, 243))
+				    (741, 203))
 				line_style 	0)
 			    (object RoleView "$UNNAMED$5" @9
 				Parent_View 	@7
@@ -388,7 +388,7 @@
 				supplier   	@3
 				vertices   	(list Points
 				    (477, 303)
-				    (324, 364))
+				    (324, 363))
 				line_style 	0)))
 		    (object UseCaseView "Use Case View::登录" @10
 			location   	(1381, 68)
@@ -510,7 +510,31 @@
 			fill_color 	13434879
 			quidu      	"595247E10315"
 			height     	118)
-		    (object ClassView "Class" "Use Case View::用户" @15
+		    (object UseCaseView "Use Case View::完善个人信息" @15
+			location   	(1162, 850)
+			font       	(object Font
+			    size       	12
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@15
+			    location   	(1162, 988)
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	630
+			    justify    	0
+			    label      	"完善个人信息")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"595205D000B4"
+			height     	118)
+		    (object ClassView "Class" "Use Case View::用户" @16
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -525,7 +549,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@15
+			    Parent_View 	@16
 			    location   	(1334, 557)
 			    anchor_loc 	1
 			    nlines     	2
@@ -538,7 +562,7 @@
 			quidu      	"595203B002D7"
 			annotation 	8
 			autoResize 	TRUE)
-		    (object AssociationViewNew "$UNNAMED$9" @16
+		    (object AssociationViewNew "$UNNAMED$9" @17
 			location   	(1348, 275)
 			font       	(object Font
 			    size       	12
@@ -553,31 +577,31 @@
 			line_color 	3342489
 			quidu      	"5952489402F3"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$10" @17
-				Parent_View 	@16
+			    (object RoleView "$UNNAMED$10" @18
+				Parent_View 	@17
 				location   	(14, -122)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"595248950121"
-				client     	@16
+				client     	@17
 				supplier   	@10
 				vertices   	(list Points
 				    (1348, 275)
-				    (1354, 234))
+				    (1381, 68))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$11" @18
-				Parent_View 	@16
+			    (object RoleView "$UNNAMED$11" @19
+				Parent_View 	@17
 				location   	(14, -122)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"595248950125"
-				client     	@16
-				supplier   	@15
+				client     	@17
+				supplier   	@16
 				vertices   	(list Points
 				    (1348, 275)
-				    (1343, 316))
+				    (1334, 397))
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$12" @19
+		    (object AssociationViewNew "$UNNAMED$12" @20
 			location   	(1511, 283)
 			font       	(object Font
 			    size       	12
@@ -592,31 +616,31 @@
 			line_color 	3342489
 			quidu      	"595248990330"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$13" @20
-				Parent_View 	@19
+			    (object RoleView "$UNNAMED$13" @21
+				Parent_View 	@20
 				location   	(177, -114)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"5952489A0272"
-				client     	@19
+				client     	@20
 				supplier   	@11
 				vertices   	(list Points
 				    (1511, 283)
-				    (1632, 209))
+				    (1725, 153))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$14" @21
-				Parent_View 	@19
+			    (object RoleView "$UNNAMED$14" @22
+				Parent_View 	@20
 				location   	(177, -114)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"5952489A0275"
-				client     	@19
-				supplier   	@15
+				client     	@20
+				supplier   	@16
 				vertices   	(list Points
 				    (1511, 283)
-				    (1391, 357))
+				    (1391, 356))
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$15" @22
+		    (object AssociationViewNew "$UNNAMED$15" @23
 			location   	(1511, 399)
 			font       	(object Font
 			    size       	12
@@ -631,31 +655,31 @@
 			line_color 	3342489
 			quidu      	"5952489D0189"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$16" @23
-				Parent_View 	@22
+			    (object RoleView "$UNNAMED$16" @24
+				Parent_View 	@23
 				location   	(177, 2)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"5952489E00E2"
-				client     	@22
+				client     	@23
 				supplier   	@12
 				vertices   	(list Points
 				    (1511, 399)
-				    (1631, 402))
+				    (1630, 401))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$17" @24
-				Parent_View 	@22
+			    (object RoleView "$UNNAMED$17" @25
+				Parent_View 	@23
 				location   	(177, 2)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"5952489E00E6"
-				client     	@22
-				supplier   	@15
+				client     	@23
+				supplier   	@16
 				vertices   	(list Points
 				    (1511, 399)
 				    (1391, 397))
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$18" @25
+		    (object AssociationViewNew "$UNNAMED$18" @26
 			location   	(1503, 546)
 			font       	(object Font
 			    size       	12
@@ -670,31 +694,31 @@
 			line_color 	3342489
 			quidu      	"595248A00338"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$19" @26
-				Parent_View 	@25
+			    (object RoleView "$UNNAMED$19" @27
+				Parent_View 	@26
 				location   	(169, 149)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"595248A1027A"
-				client     	@25
+				client     	@26
 				supplier   	@13
 				vertices   	(list Points
 				    (1503, 546)
-				    (1615, 645))
+				    (1613, 644))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$20" @27
-				Parent_View 	@25
+			    (object RoleView "$UNNAMED$20" @28
+				Parent_View 	@26
 				location   	(169, 149)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"595248A1027D"
-				client     	@25
-				supplier   	@15
+				client     	@26
+				supplier   	@16
 				vertices   	(list Points
 				    (1503, 546)
 				    (1391, 447))
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$21" @28
+		    (object AssociationViewNew "$UNNAMED$21" @29
 			location   	(1420, 705)
 			font       	(object Font
 			    size       	12
@@ -709,56 +733,32 @@
 			line_color 	3342489
 			quidu      	"595248A501BA"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$22" @29
-				Parent_View 	@28
+			    (object RoleView "$UNNAMED$22" @30
+				Parent_View 	@29
 				location   	(86, 308)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"595248A802FA"
-				client     	@28
+				client     	@29
 				supplier   	@14
 				vertices   	(list Points
 				    (1420, 705)
-				    (1454, 826))
+				    (1451, 824))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$23" @30
-				Parent_View 	@28
+			    (object RoleView "$UNNAMED$23" @31
+				Parent_View 	@29
 				location   	(86, 308)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"595248A802FD"
-				client     	@28
-				supplier   	@15
+				client     	@29
+				supplier   	@16
 				vertices   	(list Points
 				    (1420, 705)
 				    (1386, 585))
 				line_style 	0)))
-		    (object UseCaseView "Use Case View::完善个人信息" @31
-			location   	(1162, 850)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@31
-			    location   	(1162, 988)
-			    anchor_loc 	1
-			    nlines     	2
-			    max_width  	630
-			    justify    	0
-			    label      	"完善个人信息")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"595205D000B4"
-			height     	118)
 		    (object AssociationViewNew "$UNNAMED$24" @32
-			location   	(1228, 665)
+			location   	(1222, 688)
 			font       	(object Font
 			    size       	12
 			    face       	"Arial"
@@ -774,27 +774,27 @@
 			roleview_list 	(list RoleViews
 			    (object RoleView "$UNNAMED$25" @33
 				Parent_View 	@32
-				location   	(-106, 268)
+				location   	(-112, 291)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"5953183D0123"
 				client     	@32
-				supplier   	@31
+				supplier   	@15
 				vertices   	(list Points
-				    (1228, 665)
+				    (1222, 688)
 				    (1180, 792))
 				line_style 	0)
 			    (object RoleView "$UNNAMED$26" @34
 				Parent_View 	@32
-				location   	(-106, 268)
+				location   	(-112, 291)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"5953183D0125"
 				client     	@32
-				supplier   	@15
+				supplier   	@16
 				vertices   	(list Points
-				    (1228, 665)
-				    (1276, 538))
+				    (1222, 688)
+				    (1263, 585))
 				line_style 	0)))))))
     root_category 	(object Class_Category "Logical View"
 	quid       	"5922B2ED0321"
@@ -809,7 +809,12 @@
 		exportControl 	"Public"
 		logical_models 	(list unit_reference_list
 		    (object Class "RegisterActivity"
-			quid       	"595318C00114")
+			quid       	"595318C00114"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "mRegisterPresenter"
+				quid       	"59AC9AA3016C"
+				type       	"RegisterPresenter"
+				quidu      	"595319630314")))
 		    (object Class "RegisterFragment"
 			quid       	"5953191E0258"
 			realized_interfaces 	(list realize_rel_list
@@ -819,7 +824,7 @@
 				quidu      	"595356DE02E6")))
 		    (object Class "RegisterContract"
 			quid       	"595319430050"
-			documentation 	"规定view 和presenter 层的协议"
+			documentation 	"规定用户注册的view 和presenter 层的协议"
 			stereotype 	"Interface"
 			nestedClasses 	(list nestedClasses
 			    (object Class "View"
@@ -833,9 +838,21 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "setPresenter"
+					quid       	"59AC9B83003C"
+					parameters 	(list Parameters
+					    (object Parameter "registerPresenter"
+						quid       	"59AC9BD40010"
+						type       	"Presenter"
+						quidu      	"595356FC0286"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0)))
 			    (object Class "Presenter"
 				quid       	"595356FC0286"
+				documentation 	"presenter层的标准方法"
 				stereotype 	"Interface"
 				operations 	(list Operations
 				    (object Operation "userNameIsAvailable"
@@ -851,7 +868,12 @@
 					uid        	0)
 				    (object Operation "saveUser"
 					quid       	"59535A3F039A"
-					documentation 	"保存用户的数据"
+					documentation 	"保存用户的注册数据"
+					parameters 	(list Parameters
+					    (object Parameter "user"
+						quid       	"5954AFEA01B4"
+						type       	"User"
+						quidu      	"5953615301DB"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -862,8 +884,498 @@
 			    (object Realize_Relationship
 				quid       	"5953605002E1"
 				supplier   	"Logical View::register::RegisterContract::Presenter"
-				quidu      	"595356FC0286"))))
-		logical_presentations 	(list unit_reference_list))
+				quidu      	"595356FC0286")))
+		    (object Mechanism @35
+			logical_models 	(list unit_reference_list
+			    (object Object "用户注册View"
+				quid       	"59ABF0A700FA"
+				collaborators 	(list link_list
+				    (object Link
+					quid       	"59ABF1300365"
+					supplier   	"用户注册Presenter"
+					quidu      	"59ABF0DE0159"
+					messages   	(list Messages
+					    (object Message "saveUser(User)"
+						quid       	"59ABF1300366"
+						frequency  	"Aperiodic"
+						synchronization 	"Simple"
+						dir        	"FromClientToSupplier"
+						sequence   	"1"
+						ordinal    	0
+						quidu      	"59535A3F039A"
+						creation   	FALSE))))
+				class      	"Logical View::register::RegisterFragment"
+				quidu      	"5953191E0258"
+				persistence 	"Transient"
+				creationObj 	FALSE
+				multi      	FALSE)
+			    (object Object "用户注册Presenter"
+				quid       	"59ABF0DE0159"
+				collaborators 	(list link_list
+				    (object Link
+					quid       	"59ABF48A0347"
+					supplier   	"保存用户注册数据Model"
+					quidu      	"59ABF444027A"
+					messages   	(list Messages
+					    (object Message "savaUser(User)"
+						quid       	"59ABF48A0348"
+						frequency  	"Aperiodic"
+						synchronization 	"Simple"
+						dir        	"FromClientToSupplier"
+						sequence   	"1.1"
+						ordinal    	1
+						quidu      	"5953613500AD"
+						creation   	FALSE))))
+				class      	"Logical View::register::RegisterPresenter"
+				quidu      	"595319630314"
+				persistence 	"Transient"
+				creationObj 	TRUE
+				multi      	FALSE)
+			    (object Object "保存用户注册数据Model"
+				quid       	"59ABF444027A"
+				class      	"Logical View::data::source::LocalUserDataSource"
+				quidu      	"59534C8C004A"
+				persistence 	"Transient"
+				creationObj 	TRUE
+				multi      	FALSE))))
+		logical_presentations 	(list unit_reference_list
+		    (object ClassDiagram "RegisterClassDiagram"
+			quid       	"59535603019A"
+			title      	"RegisterClassDiagram"
+			zoom       	100
+			max_height 	28350
+			max_width  	21600
+			origin_x   	0
+			origin_y   	0
+			items      	(list diagram_item_list
+			    (object ClassView "Class" "Logical View::register::RegisterFragment" @36
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(355, 675)
+				font       	(object Font
+				    size       	12
+				    face       	"Arial"
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@36
+				    location   	(144, 618)
+				    fill_color 	13434879
+				    nlines     	1
+				    max_width  	422
+				    justify    	0
+				    label      	"RegisterFragment")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"5953191E0258"
+				width      	440
+				height     	142
+				annotation 	8
+				autoResize 	TRUE)
+			    (object ClassView "Class" "Logical View::register::RegisterContract::View" @37
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(364, 114)
+				font       	(object Font
+				    size       	12
+				    face       	"Arial"
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@37
+				    location   	(363, 222)
+				    anchor_loc 	1
+				    nlines     	2
+				    max_width  	378
+				    justify    	0
+				    label      	"View")
+				icon       	"Interface"
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"595356DE02E6"
+				width      	58
+				height     	58
+				annotation 	8
+				autoResize 	TRUE)
+			    (object RealizeView "" @38
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"5953600803C2"
+				client     	@36
+				supplier   	@37
+				vertices   	(list Points
+				    (356, 603)
+				    (359, 250))
+				line_style 	0)
+			    (object ClassView "Class" "Logical View::register::RegisterContract::Presenter" @39
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(1103, 126)
+				font       	(object Font
+				    size       	12
+				    face       	"Arial"
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@39
+				    location   	(1102, 234)
+				    anchor_loc 	1
+				    nlines     	2
+				    max_width  	488
+				    justify    	0
+				    label      	"Presenter")
+				icon       	"Interface"
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"595356FC0286"
+				width      	58
+				height     	58
+				annotation 	8
+				autoResize 	TRUE)
+			    (object ClassView "Class" "Logical View::register::RegisterPresenter" @40
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(1104, 666)
+				font       	(object Font
+				    size       	12
+				    face       	"Arial"
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@40
+				    location   	(891, 609)
+				    fill_color 	13434879
+				    nlines     	1
+				    max_width  	426
+				    justify    	0
+				    label      	"RegisterPresenter")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"595319630314"
+				width      	444
+				height     	142
+				annotation 	8
+				autoResize 	TRUE)
+			    (object RealizeView "" @41
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"5953605002E1"
+				client     	@40
+				supplier   	@39
+				vertices   	(list Points
+				    (1103, 594)
+				    (1102, 262))
+				line_style 	0)
+			    (object ClassView "Class" "Logical View::data::source::LocalUserDataSource" @42
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(1648, 917)
+				font       	(object Font
+				    size       	12
+				    face       	"Arial"
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@42
+				    location   	(1387, 832)
+				    fill_color 	13434879
+				    nlines     	1
+				    max_width  	522
+				    justify    	0
+				    label      	"LocalUserDataSource")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"59534C8C004A"
+				width      	540
+				height     	198
+				annotation 	8
+				autoResize 	TRUE)
+			    (object ClassView "Class" "Logical View::data::source::UserRepository" @43
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(1657, 155)
+				font       	(object Font
+				    size       	12
+				    face       	"Arial"
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@43
+				    location   	(1656, 263)
+				    anchor_loc 	1
+				    nlines     	2
+				    max_width  	490
+				    justify    	0
+				    label      	"UserRepository")
+				icon       	"Interface"
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"59534BBD02E0"
+				width      	58
+				height     	58
+				annotation 	8
+				autoResize 	TRUE)
+			    (object RealizeView "" @44
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"59536091013A"
+				client     	@42
+				supplier   	@43
+				vertices   	(list Points
+				    (1649, 817)
+				    (1652, 291))
+				line_style 	0)))
+		    (object InteractionDiagram "Sequence"
+			mechanism_ref 	@35
+			quid       	"59A91F9C0397"
+			title      	"Sequence"
+			zoom       	100
+			max_height 	28350
+			max_width  	21600
+			origin_x   	0
+			origin_y   	0
+			items      	(list diagram_item_list
+			    (object InterObjView "用户注册View" @45
+				location   	(453, 225)
+				font       	(object Font
+				    size       	12
+				    face       	"Arial"
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	TRUE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@45
+				    location   	(453, 225)
+				    fill_color 	13434879
+				    anchor_loc 	1
+				    nlines     	2
+				    max_width  	538
+				    justify    	0
+				    label      	"用户注册View")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"59ABF0A700FA"
+				width      	556
+				height     	519
+				icon_height 	0
+				icon_width 	0
+				icon_y_offset 	0
+				annotation 	1
+				Focus_Of_Control 	(object Focus_Of_Control "" @46
+				    location   	(453, 459)
+				    line_color 	3342489
+				    InterObjView 	@45
+				    height     	90
+				    y_coord    	0
+				    Nested     	FALSE))
+			    (object InterObjView "用户注册Presenter" @47
+				location   	(1036, 328)
+				font       	(object Font
+				    size       	12
+				    face       	"Arial"
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	TRUE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@47
+				    location   	(1036, 328)
+				    fill_color 	13434879
+				    anchor_loc 	1
+				    nlines     	2
+				    max_width  	448
+				    justify    	0
+				    label      	"用户注册Presenter")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"59ABF0DE0159"
+				width      	466
+				height     	416
+				icon_height 	0
+				icon_width 	0
+				icon_y_offset 	0
+				annotation 	1
+				Focus_Of_Control 	(object Focus_Of_Control "" @48
+				    location   	(1036, 414)
+				    line_color 	3342489
+				    InterObjView 	@47
+				    height     	105
+				    y_coord    	15
+				    Nested     	FALSE)
+				Focus_Of_Control 	(object Focus_Of_Control "" @49
+				    location   	(1036, 459)
+				    line_color 	3342489
+				    InterObjView 	@47
+				    height     	195
+				    y_coord    	105
+				    Nested     	TRUE))
+			    (object InterObjView "保存用户注册数据Model" @50
+				location   	(1663, 419)
+				font       	(object Font
+				    size       	12
+				    face       	"Arial"
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	TRUE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@50
+				    location   	(1663, 419)
+				    fill_color 	13434879
+				    anchor_loc 	1
+				    nlines     	2
+				    max_width  	596
+				    justify    	0
+				    label      	"保存用户注册数据Model")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"59ABF444027A"
+				width      	614
+				height     	325
+				icon_height 	0
+				icon_width 	0
+				icon_y_offset 	0
+				annotation 	1
+				Focus_Of_Control 	(object Focus_Of_Control "" @51
+				    location   	(1663, 505)
+				    line_color 	3342489
+				    InterObjView 	@50
+				    height     	119
+				    y_coord    	29
+				    Nested     	FALSE)
+				Focus_Of_Control 	(object Focus_Of_Control "" @52
+				    location   	(1663, 564)
+				    line_color 	3342489
+				    InterObjView 	@50
+				    height     	90
+				    y_coord    	0
+				    Nested     	TRUE))
+			    (object InterMessView "saveUser(User)" @53
+				location   	(0, 459)
+				font       	(object Font
+				    size       	12
+				    face       	"Arial"
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object SegLabel @54
+				    Parent_View 	@53
+				    location   	(744, 415)
+				    font       	(object Font
+					size       	12
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    quidu      	"59ABF1300366"
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	404
+				    justify    	0
+				    label      	"saveUser(User)"
+				    pctDist    	0.500000
+				    height     	45
+				    orientation 	0)
+				line_color 	3342489
+				client     	@45
+				supplier   	@47
+				Focus_Src  	@46
+				Focus_Entry 	@49
+				origin     	(468, 459)
+				terminus   	(1020, 459)
+				ordinal    	0)
+			    (object InterMessView "savaUser(User)" @55
+				location   	(0, 564)
+				font       	(object Font
+				    size       	12
+				    face       	"Arial"
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object SegLabel @56
+				    Parent_View 	@55
+				    location   	(1349, 520)
+				    font       	(object Font
+					size       	12
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    quidu      	"59ABF48A0348"
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	404
+				    justify    	0
+				    label      	"savaUser(User)"
+				    pctDist    	0.500000
+				    height     	45
+				    orientation 	0)
+				line_color 	3342489
+				client     	@47
+				supplier   	@50
+				Focus_Src  	@49
+				Focus_Entry 	@52
+				origin     	(1051, 564)
+				terminus   	(1647, 564)
+				ordinal    	1)))))
 	    (object Class_Category "data"
 		quid       	"59531C5F00EB"
 		documentation 	"管理数据源，用户bean等"
@@ -873,19 +1385,19 @@
 			quid       	"5953615301DB"
 			documentation 	"用户bean"
 			class_attributes 	(list class_attribute_list
-			    (object ClassAttribute "name"
+			    (object ClassAttribute "mName"
 				quid       	"59536188036B"
 				type       	"String")
-			    (object ClassAttribute "password"
+			    (object ClassAttribute "mPassword"
 				quid       	"595361C800B2"
 				type       	"String")))
 		    (object Class_Category "source"
 			quid       	"59534C4D024A"
 			exportControl 	"Public"
 			logical_models 	(list unit_reference_list
-			    (object Class "UserDataSource"
+			    (object Class "UserRepository"
 				quid       	"59534BBD02E0"
-				documentation 	"用户数据源"
+				documentation 	"用户注册数据源接口"
 				stereotype 	"Interface"
 				operations 	(list Operations
 				    (object Operation "savaUser"
@@ -931,16 +1443,18 @@
 					uid        	0)
 				    (object Operation "deleteAllUsers"
 					quid       	"595363C40088"
+					documentation 	"删除所有用户"
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)))
-			    (object Class "UserRepository"
+			    (object Class "LocalUserDataSource"
 				quid       	"59534C8C004A"
+				documentation 	"用户注册数据源"
 				realized_interfaces 	(list realize_rel_list
 				    (object Realize_Relationship
 					quid       	"59536091013A"
-					supplier   	"Logical View::data::source::UserDataSource"
+					supplier   	"Logical View::data::source::UserRepository"
 					quidu      	"59534BBD02E0"))))
 			logical_presentations 	(list unit_reference_list)))
 		logical_presentations 	(list unit_reference_list))
@@ -949,6 +1463,15 @@
 		documentation 	"管理各种公用类"
 		exportControl 	"Public"
 		logical_models 	(list unit_reference_list)
+		logical_presentations 	(list unit_reference_list))
+	    (object Class_Category "MainActivity"
+		quid       	"595492740305"
+		documentation 	"管理项目主活动界面"
+		exportControl 	"Public"
+		logical_models 	(list unit_reference_list
+		    (object Class "MainActivity"
+			quid       	"595492B20310"
+			documentation 	"项目主活动"))
 		logical_presentations 	(list unit_reference_list)))
 	logical_presentations 	(list unit_reference_list
 	    (object ClassDiagram "Main"
@@ -959,280 +1482,7 @@
 		max_width  	21600
 		origin_x   	0
 		origin_y   	400
-		items      	(list diagram_item_list))
-	    (object ClassDiagram "RegisterClassDiagram"
-		quid       	"59535603019A"
-		title      	"RegisterClassDiagram"
-		zoom       	100
-		max_height 	28350
-		max_width  	21600
-		origin_x   	0
-		origin_y   	0
-		items      	(list diagram_item_list
-		    (object ClassView "Class" "Logical View::register::RegisterFragment" @35
-			ShowCompartmentStereotypes 	TRUE
-			IncludeAttribute 	TRUE
-			IncludeOperation 	TRUE
-			location   	(355, 675)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@35
-			    location   	(144, 593)
-			    fill_color 	13434879
-			    nlines     	1
-			    max_width  	422
-			    justify    	0
-			    label      	"RegisterFragment")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"5953191E0258"
-			width      	440
-			height     	192
-			annotation 	8
-			autoResize 	TRUE)
-		    (object ClassView "Class" "Logical View::register::RegisterContract::View" @36
-			ShowCompartmentStereotypes 	TRUE
-			IncludeAttribute 	TRUE
-			IncludeOperation 	TRUE
-			location   	(364, 114)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@36
-			    location   	(363, 222)
-			    anchor_loc 	1
-			    nlines     	2
-			    max_width  	378
-			    justify    	0
-			    label      	"View")
-			icon       	"Interface"
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"595356DE02E6"
-			compartment 	(object Compartment
-			    Parent_View 	@36
-			    location   	(121, 320)
-			    font       	(object Font
-				size       	10
-				face       	"Arial"
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    icon_style 	"Icon"
-			    anchor     	2
-			    nlines     	2
-			    max_width  	481
-			    justify    	0)
-			width      	58
-			height     	58
-			annotation 	8
-			autoResize 	TRUE)
-		    (object RealizeView "" @37
-			stereotype 	TRUE
-			line_color 	3342489
-			quidu      	"5953600803C2"
-			client     	@35
-			supplier   	@36
-			vertices   	(list Points
-			    (356, 578)
-			    (357, 419))
-			line_style 	0)
-		    (object ClassView "Class" "Logical View::register::RegisterContract::Presenter" @38
-			ShowCompartmentStereotypes 	TRUE
-			IncludeAttribute 	TRUE
-			IncludeOperation 	TRUE
-			location   	(1103, 126)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@38
-			    location   	(1102, 234)
-			    anchor_loc 	1
-			    nlines     	2
-			    max_width  	488
-			    justify    	0
-			    label      	"Presenter")
-			icon       	"Interface"
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"595356FC0286"
-			compartment 	(object Compartment
-			    Parent_View 	@38
-			    location   	(876, 332)
-			    font       	(object Font
-				size       	10
-				face       	"Arial"
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    icon_style 	"Icon"
-			    anchor     	2
-			    nlines     	3
-			    max_width  	450
-			    justify    	0)
-			width      	58
-			height     	58
-			annotation 	8
-			autoResize 	TRUE)
-		    (object ClassView "Class" "Logical View::register::RegisterPresenter" @39
-			ShowCompartmentStereotypes 	TRUE
-			IncludeAttribute 	TRUE
-			IncludeOperation 	TRUE
-			location   	(1104, 666)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@39
-			    location   	(891, 584)
-			    fill_color 	13434879
-			    nlines     	1
-			    max_width  	426
-			    justify    	0
-			    label      	"RegisterPresenter")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"595319630314"
-			width      	444
-			height     	192
-			annotation 	8
-			autoResize 	TRUE)
-		    (object RealizeView "" @40
-			stereotype 	TRUE
-			line_color 	3342489
-			quidu      	"5953605002E1"
-			client     	@39
-			supplier   	@38
-			vertices   	(list Points
-			    (1103, 569)
-			    (1102, 480))
-			line_style 	0)
-		    (object ClassView "Class" "Logical View::data::source::UserRepository" @41
-			ShowCompartmentStereotypes 	TRUE
-			IncludeAttribute 	TRUE
-			IncludeOperation 	TRUE
-			location   	(1648, 917)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@41
-			    location   	(1462, 835)
-			    fill_color 	13434879
-			    nlines     	1
-			    max_width  	372
-			    justify    	0
-			    label      	"UserRepository")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"59534C8C004A"
-			width      	390
-			height     	192
-			annotation 	8
-			autoResize 	TRUE)
-		    (object ClassView "Class" "Logical View::data::source::UserDataSource" @42
-			ShowCompartmentStereotypes 	TRUE
-			IncludeAttribute 	TRUE
-			IncludeOperation 	TRUE
-			location   	(1657, 155)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@42
-			    location   	(1656, 263)
-			    anchor_loc 	1
-			    nlines     	2
-			    max_width  	490
-			    justify    	0
-			    label      	"UserDataSource")
-			icon       	"Interface"
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"59534BBD02E0"
-			compartment 	(object Compartment
-			    Parent_View 	@42
-			    location   	(1486, 361)
-			    font       	(object Font
-				size       	10
-				face       	"Arial"
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    icon_style 	"Icon"
-			    anchor     	2
-			    nlines     	6
-			    max_width  	338
-			    justify    	0)
-			width      	58
-			height     	58
-			annotation 	8
-			autoResize 	TRUE)
-		    (object RealizeView "" @43
-			stereotype 	TRUE
-			line_color 	3342489
-			quidu      	"59536091013A"
-			client     	@41
-			supplier   	@42
-			vertices   	(list Points
-			    (1649, 820)
-			    (1649, 660))
-			line_style 	0)))))
+		items      	(list diagram_item_list))))
     root_subsystem 	(object SubSystem "Component View"
 	quid       	"5922B2ED0323"
 	physical_models 	(list unit_reference_list)
