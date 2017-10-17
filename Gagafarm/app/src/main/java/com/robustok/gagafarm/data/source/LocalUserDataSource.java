@@ -9,8 +9,12 @@ import com.robustok.gagafarm.data.User;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 
 
 import java.util.ArrayList;
@@ -21,17 +25,17 @@ import java.util.List;
  * 用户注册数据源
  */
 
-public class LocalUserDataSource implements UserRepository{
+public class LocalUserDataSource implements UserDataSource {
 
    public static LocalUserDataSource INSTANCE ;
     private GagafarmDbHelper mGagafarmDbHelper;
     private LocalUserDataSource(@NonNull Context context){
-      //checkNotNull(context);
+      checkNotNull(context);
       mGagafarmDbHelper = new GagafarmDbHelper(context);
     }
     @Override
-    public boolean savaUser(@NonNull User user) {
-        try {
+    public void saveUser(@NonNull User user) {
+            checkNotNull(user);
             SQLiteDatabase db = mGagafarmDbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put(UserPersistenceContract.UserEntry.COLUMN_NAME_USERNAME, user.getUserName());
@@ -39,12 +43,6 @@ public class LocalUserDataSource implements UserRepository{
             //返回插入成功的行的id
             long i = db.insert(UserPersistenceContract.UserEntry.TABLE_NAME, null, values);
             db.close();
-            return true;
-        }
-        catch(Exception ex){
-            return false;
-        }
-
     }
     @Override
     public User getUser(String getUser) {

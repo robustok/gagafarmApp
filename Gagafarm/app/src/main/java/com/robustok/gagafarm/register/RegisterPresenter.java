@@ -1,10 +1,7 @@
 package com.robustok.gagafarm.register;
 
-import android.util.Log;
-
 import com.robustok.gagafarm.data.User;
-import com.robustok.gagafarm.data.source.LocalUserDataSource;
-import com.robustok.gagafarm.data.source.UserRepository;
+import com.robustok.gagafarm.data.source.UserDataSource;
 
 import java.util.List;
 
@@ -13,11 +10,11 @@ import java.util.List;
  */
 
 public class RegisterPresenter implements RegisterContract.Presenter {
-    private UserRepository mLocalUserDataSource;
+    private UserDataSource mUserRepository;
     private RegisterContract.View mRegisterFragment;
     public RegisterPresenter(){}
-    public RegisterPresenter(UserRepository userRepository,RegisterContract.View registerView){
-        this.mLocalUserDataSource = userRepository;
+    public RegisterPresenter(UserDataSource userRepository, RegisterContract.View registerView){
+        this.mUserRepository = userRepository;
         this.mRegisterFragment = registerView;
    }
 
@@ -28,16 +25,16 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public void saveUser(User user) {
-       if(mLocalUserDataSource.savaUser(user)){
-           mRegisterFragment.showRegisterSuccess("恭喜，注册成功!");
-       }
-        else
-           mRegisterFragment.showRegisterSuccess("对不起，注册失败！");
+        mUserRepository.saveUser(user);
+        if (this.getUserByName(user.getUserName()) == null) {
+            mRegisterFragment.showRegisterSuccess(user.getUserName());
+        }
     }
+
 
     @Override
     public List<User> getAllUser() {
-       return mLocalUserDataSource.getAllUsers();
+       return mUserRepository.getAllUsers();
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.robustok.gagafarm.register;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
     private RegisterContract.Presenter mRegisterPresenter;
     private TextView mUserName;
     private TextView mPassword;
+    private OnFragmentInteractionListener  mListener;
     public RegisterFragment() {
         // Required empty public constructor
     }
@@ -42,16 +45,21 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
        Button btnSubmit = (Button)getActivity().findViewById(R.id.btn_regist);
        btnSubmit.setOnClickListener(new View.OnClickListener(){
            public void onClick(View view){
-               User user =new User(mUserName.getText().toString(),mPassword.getText().toString());
-             mRegisterPresenter.saveUser(user);
 
+                    User user =new User(mUserName.getText().toString(),mPassword.getText().toString());
+                    mRegisterPresenter.saveUser(user);
            }
        });
     }
     @Override
     public void showRegisterSuccess(String okOrNot) {
-        TextView result = (TextView)getActivity().findViewById(R.id.result);
-        result.setText(okOrNot);
+      /*  getFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null) .replace(R.id.contentFrame, new
+                RegisterResultFragment()).commit();*/
+       //How delivery okOrNot to RegisterResultFragment?
+        User user =new User(okOrNot,null);
+        mListener.onFragmentInteraction(user);
     }
 
     //return a instance using factory pattern
@@ -61,6 +69,27 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
 
     public void setPresenter(RegisterContract.Presenter  registerPresenter ){
         this.mRegisterPresenter = registerPresenter;
+    }
+
+    public interface OnFragmentInteractionListener{
+        void onFragmentInteraction(User user);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
 }

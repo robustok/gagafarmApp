@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/bundle-iMetro_HD.css">
+<link id="mobile-style" media="only screen and (max-width: 768px)" type="text/css" rel="stylesheet" href="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/bundle-iMetro_HD-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/qianxudetianxia/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/qianxudetianxia/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/qianxudetianxia/wlwmanifest.xml">
+<script src="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'qianxudetianxia', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/blog-common.js" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/qianxudetianxia/"><img id="blogLogo" src="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/qianxudetianxia/">谦虚的天下</a></h1>
+<h2>深入探索android,多总结,多创新... ...</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/qianxudetianxia/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E8%B0%A6%E8%99%9A%E7%9A%84%E5%A4%A9%E4%B8%8B">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/qianxudetianxia/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/qianxudetianxia/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 88&nbsp; </span>
+<span id="stats_article_count">文章 - 10&nbsp; </span>
+<span id="stats-comment_count">评论 - 1402</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园.html">Android学习系列(27)--App缓存管理</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>无论大型或小型应用，灵活的缓存可以说不仅大大减轻了服务器的压力，而且因为更快速的用户体验而方便了用户。<br>Android的apk可以说是作为小型应用，其中99%的应用并不是需要实时更新的，而且诟病于蜗牛般的移动网速，与服务器的数据交互是能少则少，这样用户体验才更好，这也是我们有时舍弃webview而采用json传输数据的原因之一。&nbsp;<br>采用缓存，可以进一步大大缓解数据交互的压力，特此，我们简略列举一下缓存管理的适用环境：<br>1. 提供网络服务的应用<br>2. 数据更新不需要实时更新，但是哪怕是3-5分钟的延迟也是可以采用缓存机制。&nbsp;<br>3. 缓存的过期时间是可以接受的(不会因为缓存带来的好处，导致某些数据因为更新不及时而影响产品的形象等)<br>带来的好处：<br>1. 服务器的压力大大减小<br>2. 客户端的响应速度大大变快(用户体验)<br>3. 客户端的数据加载出错情况大大较少，大大提高了应有的稳定性(用户体验)<br>4. 一定程度上可以支持离线浏览(或者说为离线浏览提供了技术支持)</p>
+<p><strong>一、缓存管理的方法</strong><br>这里的缓存管理的原理很简：通过时间的设置来判断是否读取缓存还是重新下载。<br>里面会有一些细节的处理，后面会详细阐述。<br>基于这个原理，目前鄙人见过的两种比较常见的缓存管理方法是:数据库法和文件法。</p>
+<p><strong>二、数据库法缓存管理</strong><br>这种方法是在下载完数据文件后，把文件的相关信息如url，路经，下载时间，过期时间等存放到数据库，下次下载的时候根据url先从数据库中查询，如果查询到当前时间并未过期，就根据路径读取本地文件，从而实现缓存的效果。<br>从实现上我们可以看到这种方法可以灵活存放文件的属性，进而提供了很大的扩展性，可以为其它的功能提供一定的支持；<br>从操作上需要创建数据库，每次查询数据库，如果过期还需要更新数据库，清理缓存的时候还需要删除数据库数据，稍显麻烦，而数据库操作不当又容易出现一系列的性能，ANR问题，实现的时候要谨慎，具体作的话，但也只是增加一个工具类或方法的事情。<br>还有一个问题，缓存的数据库是存放在/data/data/&lt;package&gt;/databases/目录下，是占用内存空间的，如果缓存累计，容易浪费内存，需要及时清理缓存。<br>当然这种方法从目前一些应用的实用上看，我没有发现什么问题。<br>本文我侧重强调第二种方法，第一种方法的实现，就此掠过。&nbsp;</p>
+<p><strong>三、文件法缓存管理</strong><br>这种方法，使用File.lastModified()方法得到文件的最后修改时间，与当前时间判断是否过期，从而实现缓存效果。<br>实现上只能使用这一个属性，没有为其它的功能提供技术支持的可能。<br>操作上倒是简单，比较时间即可。本身处理也不容易带来其它问题，代价低廉。</p>
+<p><strong>四、</strong><strong>文件法缓存管理的两点说明<br></strong><span style="text-decoration: underline;"><em>1. 不同类型的文件的缓存时间不一样。</em></span><br>笼统的说，不变文件的缓存时间是永久，变化文件的缓存时间是最大忍受不变时间。<br>说白点，图片文件内容是不变的，直到清理，我们是可以永远读取缓存的。<br>配置文件内容是可能更新的，需要设置一个可接受的缓存时间。<br><span style="text-decoration: underline;"><em>2. 不同环境下的缓存时间标准不一样。</em></span><br>无网络环境下，我们只能读取缓存文件，哪怕缓存早就过期。<br>WiFi网络环境下，缓存时间可以设置短一点，一是网速较快，而是流量不要钱。<br>移动数据流量环境下，缓存时间可以设置长一点，节省流量，就是节省金钱，而且用户体验也更好。<br>举个例子吧，最近本人在做的一个应用在wifi环境下的缓存时间设置为5分钟，移动数据流量下的缓存时间设置为1小时。<br>这个时间根据自己的实际情况来设置：数据的更新频率，数据的重要性等。</p>
+<p><strong>五、何时刷新</strong><br>开发者一方面希望尽量读取缓存，用户一方面希望实时刷新，但是响应速度越快越好，流量消耗越少越好，是一个矛盾。<br>其实何时刷新我也不知道，这里我提供两点建议：<br><em><span style="text-decoration: underline;">1. 数据的最长多长时间不变，对应用无大的影响。</span></em><br>比如，你的数据更新时间为1天，则缓存时间设置为4~8小时比较合适，一天他总会看到更新，如果你觉得你是资讯类应用，再减少，2~4小时，如果你觉得数据比较重要或者比较受欢迎，用户会经常把玩，再减少，1~2小时，依次类推。<br>为了保险起见，你可能需要毫无理由的再次缩减一下。<br><em><span style="text-decoration: underline;">2. 提供刷新按钮。</span></em><br>上面说的保险起见不一定保险，最保险的方法使在相关界面提供一个刷新按钮，为缓存，为加载失败提供一次重新来过的机会，有了这个刷新按钮，我们的心也才真的放下来。</p>
+<p><strong>六、文件缓存法的具体实现</strong><br>针对配置文件的缓存，我新建了一个类ConfigCache:</p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_260686" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div><div class="line number29 index28 alt2">29</div><div class="line number30 index29 alt1">30</div><div class="line number31 index30 alt2">31</div><div class="line number32 index31 alt1">32</div><div class="line number33 index32 alt2">33</div><div class="line number34 index33 alt1">34</div><div class="line number35 index34 alt2">35</div><div class="line number36 index35 alt1">36</div><div class="line number37 index36 alt2">37</div><div class="line number38 index37 alt1">38</div><div class="line number39 index38 alt2">39</div><div class="line number40 index39 alt1">40</div><div class="line number41 index40 alt2">41</div><div class="line number42 index41 alt1">42</div><div class="line number43 index42 alt2">43</div><div class="line number44 index43 alt1">44</div><div class="line number45 index44 alt2">45</div><div class="line number46 index45 alt1">46</div><div class="line number47 index46 alt2">47</div><div class="line number48 index47 alt1">48</div><div class="line number49 index48 alt2">49</div><div class="line number50 index49 alt1">50</div><div class="line number51 index50 alt2">51</div><div class="line number52 index51 alt1">52</div><div class="line number53 index52 alt2">53</div><div class="line number54 index53 alt1">54</div><div class="line number55 index54 alt2">55</div><div class="line number56 index55 alt1">56</div><div class="line number57 index56 alt2">57</div><div class="line number58 index57 alt1">58</div><div class="line number59 index58 alt2">59</div><div class="line number60 index59 alt1">60</div><div class="line number61 index60 alt2">61</div><div class="line number62 index61 alt1">62</div><div class="line number63 index62 alt2">63</div><div class="line number64 index63 alt1">64</div><div class="line number65 index64 alt2">65</div><div class="line number66 index65 alt1">66</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java keyword">import</code> <code class="java plain">java.io.File;</code></div><div class="line number2 index1 alt1"><code class="java keyword">import</code> <code class="java plain">java.io.IOException;</code></div><div class="line number3 index2 alt2">&nbsp;</div><div class="line number4 index3 alt1"><code class="java keyword">import</code> <code class="java plain">android.util.Log;</code></div><div class="line number5 index4 alt2">&nbsp;</div><div class="line number6 index5 alt1"><code class="java keyword">import</code> <code class="java plain">com.tianxia.app.floworld.AppApplication;</code></div><div class="line number7 index6 alt2"><code class="java keyword">import</code> <code class="java plain">com.tianxia.app.floworld.utils.FileUtils;</code></div><div class="line number8 index7 alt1"><code class="java keyword">import</code> <code class="java plain">com.tianxia.app.floworld.utils.NetworkUtils;</code></div><div class="line number9 index8 alt2">&nbsp;</div><div class="line number10 index9 alt1"><code class="java keyword">public</code> <code class="java keyword">class</code> <code class="java plain">ConfigCache {</code></div><div class="line number11 index10 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">private</code> <code class="java keyword">static</code> <code class="java keyword">final</code> <code class="java plain">String TAG = ConfigCache.</code><code class="java keyword">class</code><code class="java plain">.getName();</code></div><div class="line number12 index11 alt1">&nbsp;</div><div class="line number13 index12 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java keyword">static</code> <code class="java keyword">final</code> <code class="java keyword">int</code> <code class="java plain">CONFIG_CACHE_MOBILE_TIMEOUT&nbsp; = </code><code class="java value">3600000</code><code class="java plain">;&nbsp; </code><code class="java comments">//1 hour</code></div><div class="line number14 index13 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java keyword">static</code> <code class="java keyword">final</code> <code class="java keyword">int</code> <code class="java plain">CONFIG_CACHE_WIFI_TIMEOUT&nbsp;&nbsp;&nbsp; = </code><code class="java value">300000</code><code class="java plain">;&nbsp;&nbsp; </code><code class="java comments">//5 minute</code></div><div class="line number15 index14 alt2">&nbsp;</div><div class="line number16 index15 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java keyword">static</code> <code class="java plain">String getUrlCache(String url) {</code></div><div class="line number17 index16 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">if</code> <code class="java plain">(url == </code><code class="java keyword">null</code><code class="java plain">) {</code></div><div class="line number18 index17 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">return</code> <code class="java keyword">null</code><code class="java plain">;</code></div><div class="line number19 index18 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number20 index19 alt1">&nbsp;</div><div class="line number21 index20 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">String result = </code><code class="java keyword">null</code><code class="java plain">;</code></div><div class="line number22 index21 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">File file = </code><code class="java keyword">new</code> <code class="java plain">File(AppApplication.mSdcardDataDir + </code><code class="java string">"/"</code> <code class="java plain">+ getCacheDecodeString(url));</code></div><div class="line number23 index22 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">if</code> <code class="java plain">(file.exists() &amp;&amp; file.isFile()) {</code></div><div class="line number24 index23 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">long</code> <code class="java plain">expiredTime = System.currentTimeMillis() - file.lastModified();</code></div><div class="line number25 index24 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">Log.d(TAG, file.getAbsolutePath() + </code><code class="java string">" expiredTime:"</code> <code class="java plain">+ expiredTime/</code><code class="java value">60000</code> <code class="java plain">+ </code><code class="java string">"min"</code><code class="java plain">);</code></div><div class="line number26 index25 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//1. in case the system time is incorrect (the time is turn back long ago)</code></div><div class="line number27 index26 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//2. when the network is invalid, you can only read the cache</code></div><div class="line number28 index27 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">if</code> <code class="java plain">(AppApplication.mNetWorkState != NetworkUtils.NETWORN_NONE &amp;&amp; expiredTime &lt; </code><code class="java value">0</code><code class="java plain">) {</code></div><div class="line number29 index28 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">return</code> <code class="java keyword">null</code><code class="java plain">;</code></div><div class="line number30 index29 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number31 index30 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">if</code><code class="java plain">(AppApplication.mNetWorkState == NetworkUtils.NETWORN_WIFI</code></div><div class="line number32 index31 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">&amp;&amp; expiredTime &gt; CONFIG_CACHE_WIFI_TIMEOUT) {</code></div><div class="line number33 index32 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">return</code> <code class="java keyword">null</code><code class="java plain">;</code></div><div class="line number34 index33 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">} </code><code class="java keyword">else</code> <code class="java keyword">if</code> <code class="java plain">(AppApplication.mNetWorkState == NetworkUtils.NETWORN_MOBILE</code></div><div class="line number35 index34 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">&amp;&amp; expiredTime &gt; CONFIG_CACHE_MOBILE_TIMEOUT) {</code></div><div class="line number36 index35 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">return</code> <code class="java keyword">null</code><code class="java plain">;</code></div><div class="line number37 index36 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number38 index37 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">try</code> <code class="java plain">{</code></div><div class="line number39 index38 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">result = FileUtils.readTextFile(file);</code></div><div class="line number40 index39 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">} </code><code class="java keyword">catch</code> <code class="java plain">(IOException e) {</code></div><div class="line number41 index40 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">e.printStackTrace();</code></div><div class="line number42 index41 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number43 index42 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number44 index43 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">return</code> <code class="java plain">result;</code></div><div class="line number45 index44 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number46 index45 alt1">&nbsp;</div><div class="line number47 index46 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java keyword">static</code> <code class="java keyword">void</code> <code class="java plain">setUrlCache(String data, String url) {</code></div><div class="line number48 index47 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">File file = </code><code class="java keyword">new</code> <code class="java plain">File(AppApplication.mSdcardDataDir + </code><code class="java string">"/"</code> <code class="java plain">+ getCacheDecodeString(url));</code></div><div class="line number49 index48 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">try</code> <code class="java plain">{</code></div><div class="line number50 index49 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//创建缓存数据到磁盘，就是创建文件</code></div><div class="line number51 index50 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">FileUtils.writeTextFile(file, data);</code></div><div class="line number52 index51 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">} </code><code class="java keyword">catch</code> <code class="java plain">(IOException e) {</code></div><div class="line number53 index52 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">Log.d(TAG, </code><code class="java string">"write "</code> <code class="java plain">+ file.getAbsolutePath() + </code><code class="java string">" data failed!"</code><code class="java plain">);</code></div><div class="line number54 index53 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">e.printStackTrace();</code></div><div class="line number55 index54 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number56 index55 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number57 index56 alt2">&nbsp;</div><div class="line number58 index57 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java keyword">static</code> <code class="java plain">String getCacheDecodeString(String url) {</code></div><div class="line number59 index58 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//1. 处理特殊字符</code></div><div class="line number60 index59 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//2. 去除后缀名带来的文件浏览器的视图凌乱(特别是图片更需要如此类似处理，否则有的手机打开图库，全是我们的缓存图片)</code></div><div class="line number61 index60 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">if</code> <code class="java plain">(url != </code><code class="java keyword">null</code><code class="java plain">) {</code></div><div class="line number62 index61 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">return</code> <code class="java plain">url.replaceAll(</code><code class="java string">"[.:/,%?&amp;=]"</code><code class="java plain">, </code><code class="java string">"+"</code><code class="java plain">).replaceAll(</code><code class="java string">"[+]+"</code><code class="java plain">, </code><code class="java string">"+"</code><code class="java plain">);</code></div><div class="line number63 index62 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number64 index63 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">return</code> <code class="java keyword">null</code><code class="java plain">;</code></div><div class="line number65 index64 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number66 index65 alt1"><code class="java plain">}</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>&nbsp; &nbsp; &nbsp; 从实现上我们全面考虑了几个细节，注释已经说明，不再赘述。<br>&nbsp; &nbsp; &nbsp; 然后我们调用方法如下：</p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_186554" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java keyword">void</code> <code class="java plain">getConfig(){</code></div><div class="line number2 index1 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//首先尝试读取缓存</code></div><div class="line number3 index2 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">String cacheConfigString = ConfigCache.getUrlCache(CONFIG_URL);</code></div><div class="line number4 index3 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//根据结果判定是读取缓存，还是重新读取</code></div><div class="line number5 index4 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">if</code> <code class="java plain">(cacheConfigString != </code><code class="java keyword">null</code><code class="java plain">) {</code></div><div class="line number6 index5 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">showConfig(cacheConfigString);</code></div><div class="line number7 index6 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">} </code><code class="java keyword">else</code> <code class="java plain">{</code></div><div class="line number8 index7 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//如果缓存结果是空，说明需要重新加载</code></div><div class="line number9 index8 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//缓存为空的原因可能是1.无缓存;2. 缓存过期;3.读取缓存出错</code></div><div class="line number10 index9 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">AsyncHttpClient client = </code><code class="java keyword">new</code> <code class="java plain">AsyncHttpClient();</code></div><div class="line number11 index10 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">client.get(CONFIG_URL, </code><code class="java keyword">new</code> <code class="java plain">AsyncHttpResponseHandler(){</code></div><div class="line number12 index11 alt1">&nbsp;</div><div class="line number13 index12 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java color1">@Override</code></div><div class="line number14 index13 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java keyword">void</code> <code class="java plain">onSuccess(String result){</code></div><div class="line number15 index14 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//成功下载，则保存到本地作为后面缓存文件</code></div><div class="line number16 index15 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">ConfigCache.setUrlCache(result,&nbsp; CONFIG_URL);</code></div><div class="line number17 index16 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//后面可以是UI更新，仅供参考</code></div><div class="line number18 index17 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">showConfig(result);</code></div><div class="line number19 index18 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number20 index19 alt1">&nbsp;</div><div class="line number21 index20 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java color1">@Override</code></div><div class="line number22 index21 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java keyword">void</code> <code class="java plain">onFailure(Throwable arg0) {</code></div><div class="line number23 index22 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//根据失败原因，考虑是显示加载失败，还是再读取缓存</code></div><div class="line number24 index23 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number25 index24 alt2">&nbsp;</div><div class="line number26 index25 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">});</code></div><div class="line number27 index26 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number28 index27 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>　　这样配置文件既能有效缓存，又能及时更新了，同时支持离线浏览。</p>
+<p><strong>七、小结</strong><br>&nbsp; &nbsp; &nbsp;智能手机的缓存管理应用非常的普遍和需要，是提高用户体验的有效手段之一。<br>&nbsp; &nbsp; &nbsp;当然，缓存管理一些内容没有细说，如图片缓存，缓存清理等，这些处理起来比较简单。&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/qianxudetianxia/category/293007.html" target="_blank">Android学习系列</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/qianxudetianxia/tag/Android/">Android</a>, <a href="http://www.cnblogs.com/qianxudetianxia/tag/Android%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97/">Android学习系列</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(2112128,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;8233420b-63cf-dd11-9e4d-001cf0cd104b&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/qianxudetianxia/" target="_blank"><img src="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/u31770.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/qianxudetianxia/">谦虚的天下</a><br>
+            <a href="http://home.cnblogs.com/u/qianxudetianxia/followees">关注 - 28</a><br>
+            <a href="http://home.cnblogs.com/u/qianxudetianxia/followers">粉丝 - 2159</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor">荣誉：<a href="http://www.cnblogs.com/expert/" target="_blank">推荐博客</a></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;8233420b-63cf-dd11-9e4d-001cf0cd104b&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(2112128,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">22</span>
+    </div>
+    <div class="buryit" onclick="votePost(2112128,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/01/01/2309102.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/01/01/2309102.html" title="发布于2012-01-01 23:45">Android学习系列(24)--App代码规范之使用CheckStyle</a><br><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/27/2010965.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/27/2010965.html" title="发布于2012-02-27 23:05">Android设计模式系列(9)--SDK源码之适配器模式</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2012-02-20 23:07</span> <a href="http://www.cnblogs.com/qianxudetianxia/">谦虚的天下</a> 阅读(<span id="post_view_count">44321</span>) 评论(<span id="post_comment_count">39</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=2112128" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#" onclick="AddToWz(2112128);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=35328,cb_entryId=2112128,cb_blogApp=currentBlogApp,cb_blogUserGuid='8233420b-63cf-dd11-9e4d-001cf0cd104b',cb_entryCreatedDate='2012/2/20 23:07:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<br>
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2313110" class="layer">#1楼</a><a name="2313110" id="comment_anchor_2313110"></a>  <span class="comment_date">2012-02-21 09:38</span> <a id="a_comment_author_2313110" href="http://www.cnblogs.com/haoyun/" target="_blank">好运</a> <a href="http://msg.cnblogs.com/send/%E5%A5%BD%E8%BF%90" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2313110" class="blog_comment_body">不错。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2313110,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2313110,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2313110_avatar" style="display:none;">http://pic.cnblogs.com/face/u354145.jpg?id=09141954</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2313170" class="layer">#2楼</a><a name="2313170" id="comment_anchor_2313170"></a>  <span class="comment_date">2012-02-21 10:32</span> <a id="a_comment_author_2313170" href="http://www.cnblogs.com/heimuer/" target="_blank">xupeng</a> <a href="http://msg.cnblogs.com/send/xupeng" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2313170" class="blog_comment_body">收藏了，多谢分享。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2313170,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2313170,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2314410" class="layer">#3楼</a><a name="2314410" id="comment_anchor_2314410"></a>  <span class="comment_date">2012-02-22 13:41</span> <a id="a_comment_author_2314410" href="http://www.cnblogs.com/sinber/" target="_blank">sinber</a> <a href="http://msg.cnblogs.com/send/sinber" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2314410" class="blog_comment_body">内容不错，学习了，非常感谢分享。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2314410,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2314410,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2314622" class="layer">#4楼</a><a name="2314622" id="comment_anchor_2314622"></a>  <span class="comment_date">2012-02-22 18:07</span> <a id="a_comment_author_2314622" href="http://www.cnblogs.com/kondoh/" target="_blank">kdh</a> <a href="http://msg.cnblogs.com/send/kdh" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2314622" class="blog_comment_body">楼主写的不错，学习了，希望能再提供一些好的文章，呵呵</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2314622,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2314622,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2314622_avatar" style="display:none;">http://pic.cnblogs.com/face/348661/20160421201546.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2328929" class="layer">#5楼</a><a name="2328929" id="comment_anchor_2328929"></a>  <span class="comment_date">2012-03-12 19:52</span> <a id="a_comment_author_2328929" href="http://www.cnblogs.com/xingfu/" target="_blank">天籁の圁</a> <a href="http://msg.cnblogs.com/send/%E5%A4%A9%E7%B1%81%E3%81%AE%E5%9C%81" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2328929" class="blog_comment_body"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2313170" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2313170);">@</a>
+谦虚的天下<br>每一个请求的URL对应一个缓存File么?</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2328929,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2328929,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2328929_avatar" style="display:none;">http://pic.cnblogs.com/face/u230565.jpg</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2328930" class="layer">#6楼</a><a name="2328930" id="comment_anchor_2328930"></a>[<span class="louzhu">楼主</span>]  <span class="comment_date">2012-03-12 19:53</span> <a id="a_comment_author_2328930" href="http://www.cnblogs.com/qianxudetianxia/" target="_blank">谦虚的天下</a> <a href="http://msg.cnblogs.com/send/%E8%B0%A6%E8%99%9A%E7%9A%84%E5%A4%A9%E4%B8%8B" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2328930" class="blog_comment_body"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2328929" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2328929);">@</a>
+天籁の圁<br>对的</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2328930,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2328930,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2328930_avatar" style="display:none;">http://pic.cnblogs.com/face/u31770.png?id=08141252</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2328936" class="layer">#7楼</a><a name="2328936" id="comment_anchor_2328936"></a>  <span class="comment_date">2012-03-12 19:59</span> <a id="a_comment_author_2328936" href="http://www.cnblogs.com/xingfu/" target="_blank">天籁の圁</a> <a href="http://msg.cnblogs.com/send/%E5%A4%A9%E7%B1%81%E3%81%AE%E5%9C%81" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2328936" class="blog_comment_body"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2328930" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2328930);">@</a>
+谦虚的天下<br>那最合适就是在取回完整的json数据的时候就将其保存起来了.<br><br><br>感谢分享,感谢无私分享<br>如果不需要缓存太多.也不需要离线功能.<br>只需要5-10缓存的话<br>在application建立一个cache&lt;Map&gt;来对应url把缓存存在内存中也不错</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2328936,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2328936,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2328936_avatar" style="display:none;">http://pic.cnblogs.com/face/u230565.jpg</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2328940" class="layer">#8楼</a><a name="2328940" id="comment_anchor_2328940"></a>[<span class="louzhu">楼主</span>]  <span class="comment_date">2012-03-12 20:03</span> <a id="a_comment_author_2328940" href="http://www.cnblogs.com/qianxudetianxia/" target="_blank">谦虚的天下</a> <a href="http://msg.cnblogs.com/send/%E8%B0%A6%E8%99%9A%E7%9A%84%E5%A4%A9%E4%B8%8B" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2328940" class="blog_comment_body"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2328936" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2328936);">@</a>
+天籁の圁<br>恩，如果只是纯粹的临时缓存，放到内存里也是可以的<br>放到内存里，应用程序一旦停止，再打开的话就又要重新下载了，缓存的效果就没有了，而且手机应用内存是很小的，8M，16M的，一般不必须的话，像这些数据类型的东西不要放到内存里（一般应用配置性的文件可以放到内存里），省着点内存用用好</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2328940,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2328940,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2328940_avatar" style="display:none;">http://pic.cnblogs.com/face/u31770.png?id=08141252</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2330148" class="layer">#9楼</a><a name="2330148" id="comment_anchor_2330148"></a>  <span class="comment_date">2012-03-13 23:00</span> <a id="a_comment_author_2330148" href="http://www.cnblogs.com/xingfu/" target="_blank">天籁の圁</a> <a href="http://msg.cnblogs.com/send/%E5%A4%A9%E7%B1%81%E3%81%AE%E5%9C%81" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2330148" class="blog_comment_body"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2328940" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2328940);">@</a>
+谦虚的天下<br>因为要把请求的url和请求参数来做文件名<br><br><br>有时候请求太长就不行了.<br>不过这时候可以考虑一下用md5把url和请求参数加密一下 哈哈</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2330148,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2330148,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2330148_avatar" style="display:none;">http://pic.cnblogs.com/face/u230565.jpg</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2330150" class="layer">#10楼</a><a name="2330150" id="comment_anchor_2330150"></a>[<span class="louzhu">楼主</span>]  <span class="comment_date">2012-03-13 23:03</span> <a id="a_comment_author_2330150" href="http://www.cnblogs.com/qianxudetianxia/" target="_blank">谦虚的天下</a> <a href="http://msg.cnblogs.com/send/%E8%B0%A6%E8%99%9A%E7%9A%84%E5%A4%A9%E4%B8%8B" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2330150" class="blog_comment_body"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2330148" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2330148);">@</a>
+天籁の圁<br>呵呵，我觉得不需要，也没有用</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2330150,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2330150,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2330150_avatar" style="display:none;">http://pic.cnblogs.com/face/u31770.png?id=08141252</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2330257" class="layer">#11楼</a><a name="2330257" id="comment_anchor_2330257"></a>  <span class="comment_date">2012-03-14 08:57</span> <a id="a_comment_author_2330257" href="http://www.cnblogs.com/xingfu/" target="_blank">天籁の圁</a> <a href="http://msg.cnblogs.com/send/%E5%A4%A9%E7%B1%81%E3%81%AE%E5%9C%81" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2330257" class="blog_comment_body">只是为了把文件名缩短,不是真正意义上的加密<br>如果请求的url太长,就无法createNewFile了<br>还有别的办法么&gt;</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2330257,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2330257,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2330257_avatar" style="display:none;">http://pic.cnblogs.com/face/u230565.jpg</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2330289" class="layer">#12楼</a><a name="2330289" id="comment_anchor_2330289"></a>[<span class="louzhu">楼主</span>]  <span class="comment_date">2012-03-14 09:25</span> <a id="a_comment_author_2330289" href="http://www.cnblogs.com/qianxudetianxia/" target="_blank">谦虚的天下</a> <a href="http://msg.cnblogs.com/send/%E8%B0%A6%E8%99%9A%E7%9A%84%E5%A4%A9%E4%B8%8B" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2330289" class="blog_comment_body"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2330257" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2330257);">@</a>
+天籁の圁<br>呵呵，我以为是要加密，这个方法不错<br>的确，在android系统中文件名太长创建文件会不成功，我之前在工作中也碰到过~</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2330289,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2330289,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2330289_avatar" style="display:none;">http://pic.cnblogs.com/face/u31770.png?id=08141252</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2331090" class="layer">#13楼</a><a name="2331090" id="comment_anchor_2331090"></a>  <span class="comment_date">2012-03-15 01:05</span> <a id="a_comment_author_2331090" href="http://www.cnblogs.com/xingfu/" target="_blank">天籁の圁</a> <a href="http://msg.cnblogs.com/send/%E5%A4%A9%E7%B1%81%E3%81%AE%E5%9C%81" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2331090" class="blog_comment_body">@谦虚的天下<br>期待你分享更多精彩的技术贴</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2331090,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2331090,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2331090_avatar" style="display:none;">http://pic.cnblogs.com/face/u230565.jpg</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2404374" class="layer">#14楼</a><a name="2404374" id="comment_anchor_2404374"></a>  <span class="comment_date">2012-06-19 17:29</span> <a id="a_comment_author_2404374" href="http://www.cnblogs.com/aduovip/" target="_blank">aduovip</a> <a href="http://msg.cnblogs.com/send/aduovip" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2404374" class="blog_comment_body">博主能把  AppApplication， FileUtils， AsyncHttpClient 类完整提供出来不，拿到项目中到处 红线 ?<br><br>  本人邮箱 wgh290424389@290424389.com，  能否发送一份</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2404374,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2404374,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2404374_avatar" style="display:none;">http://pic.cnblogs.com/face/u314197.jpg?id=10004929</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2404439" class="layer">#15楼</a><a name="2404439" id="comment_anchor_2404439"></a>[<span class="louzhu">楼主</span>]  <span class="comment_date">2012-06-19 19:17</span> <a id="a_comment_author_2404439" href="http://www.cnblogs.com/qianxudetianxia/" target="_blank">谦虚的天下</a> <a href="http://msg.cnblogs.com/send/%E8%B0%A6%E8%99%9A%E7%9A%84%E5%A4%A9%E4%B8%8B" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2404439" class="blog_comment_body"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2404374" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2404374);">@</a>
+aduovip<br>请参考<a href="https://github.com/openproject/world" target="_blank">https://github.com/openproject/world</a></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2404439,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2404439,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2404439_avatar" style="display:none;">http://pic.cnblogs.com/face/u31770.png?id=08141252</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2405312" class="layer">#16楼</a><a name="2405312" id="comment_anchor_2405312"></a>  <span class="comment_date">2012-06-20 22:58</span> <a id="a_comment_author_2405312" href="http://www.cnblogs.com/aduovip/" target="_blank">aduovip</a> <a href="http://msg.cnblogs.com/send/aduovip" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2405312" class="blog_comment_body">@<br>请教博主, 下载后floworld 工程 代码中很多地方不知道来源<br>如图 <img src="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/2012062022511831.jpg" alt="" border="0" "=""><br><br>在SettingTabActivity类中,cornerContainer,listDatas 等变量，看不出  从哪得来的,求指点.........</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2405312,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2405312,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2405312_avatar" style="display:none;">http://pic.cnblogs.com/face/u314197.jpg?id=10004929</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2405334" class="layer">#17楼</a><a name="2405334" id="comment_anchor_2405334"></a>[<span class="louzhu">楼主</span>]  <span class="comment_date">2012-06-20 23:42</span> <a id="a_comment_author_2405334" href="http://www.cnblogs.com/qianxudetianxia/" target="_blank">谦虚的天下</a> <a href="http://msg.cnblogs.com/send/%E8%B0%A6%E8%99%9A%E7%9A%84%E5%A4%A9%E4%B8%8B" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2405334" class="blog_comment_body"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2405312" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2405312);">@</a>
+aduovip<br>setLayout()方法是override的，你查看它的父类看看，会找到你想要的<br>工程上需要提取，便于调用者少写一些代码</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2405334,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2405334,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2405334_avatar" style="display:none;">http://pic.cnblogs.com/face/u31770.png?id=08141252</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2536412" class="layer">#18楼</a><a name="2536412" id="comment_anchor_2536412"></a>  <span class="comment_date">2012-11-16 11:08</span> <a id="a_comment_author_2536412" href="http://home.cnblogs.com/u/421061/" target="_blank">心惶惶呀</a> <a href="http://msg.cnblogs.com/send/%E5%BF%83%E6%83%B6%E6%83%B6%E5%91%80" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2536412" class="blog_comment_body">博主能把 AppApplication， FileUtils， AsyncHttpClient 类完整提供出来不，拿到项目中到处 红线 ?<br><br>本人邮箱 fangood163@163.com， 能否发送一份</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2536412,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2536412,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2536509" class="layer">#19楼</a><a name="2536509" id="comment_anchor_2536509"></a>  <span class="comment_date">2012-11-16 11:36</span> <a id="a_comment_author_2536509" href="http://home.cnblogs.com/u/421061/" target="_blank">心惶惶呀</a> <a href="http://msg.cnblogs.com/send/%E5%BF%83%E6%83%B6%E6%83%B6%E5%91%80" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2536509" class="blog_comment_body">AppApplication，NetWorkUtils，FileUtils，都是写的什么内容呢，新手望指点</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2536509,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2536509,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2567031" class="layer">#20楼</a><a name="2567031" id="comment_anchor_2567031"></a>  <span class="comment_date">2012-11-30 11:15</span> <a id="a_comment_author_2567031" href="http://home.cnblogs.com/u/474583/" target="_blank">xxywy</a> <a href="http://msg.cnblogs.com/send/xxywy" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2567031" class="blog_comment_body"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2536509" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2536509);">@</a>
+心惶惶呀<br>你用git 取下一份自己看吧<br>NetWorkUtils 检测当前网络状态 <br>FileUtils 基本的读写文件<br>appapplication 里内容略多，自己看吧</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2567031,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2567031,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2574777" class="layer">#21楼</a><a name="2574777" id="comment_anchor_2574777"></a>  <span class="comment_date">2012-12-11 09:54</span> <a id="a_comment_author_2574777" href="http://home.cnblogs.com/u/470445/" target="_blank">狼毒花</a> <a href="http://msg.cnblogs.com/send/%E7%8B%BC%E6%AF%92%E8%8A%B1" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2574777" class="blog_comment_body">楼主，能给多一点代码吗？？谢谢了！！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2574777,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2574777,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2633710" class="layer">#22楼</a><a name="2633710" id="comment_anchor_2633710"></a>  <span class="comment_date">2013-03-13 10:59</span> <a id="a_comment_author_2633710" href="http://home.cnblogs.com/u/501389/" target="_blank">susu001</a> <a href="http://msg.cnblogs.com/send/susu001" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2633710" class="blog_comment_body">楼主发个源码 37502807@qq.com</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2633710,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2633710,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2641311" class="layer">#23楼</a><a name="2641311" id="comment_anchor_2641311"></a>  <span class="comment_date">2013-03-23 23:53</span> <a id="a_comment_author_2641311" href="http://home.cnblogs.com/u/436072/" target="_blank">cheater</a> <a href="http://msg.cnblogs.com/send/cheater" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2641311" class="blog_comment_body">博主，能否发个完整的代码到邮箱:704480904@qq.com  先谢谢了</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2641311,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2641311,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2714236" class="layer">#24楼</a><a name="2714236" id="comment_anchor_2714236"></a>  <span class="comment_date">2013-06-26 22:41</span> <a id="a_comment_author_2714236" href="http://home.cnblogs.com/u/463631/" target="_blank">kbc</a> <a href="http://msg.cnblogs.com/send/kbc" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2714236" class="blog_comment_body">博主，能否发个完整的代码吗？邮箱:546851596@qq.com 3Q</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2714236,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2714236,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2728364" class="layer">#25楼</a><a name="2728364" id="comment_anchor_2728364"></a>  <span class="comment_date">2013-07-16 13:57</span> <a id="a_comment_author_2728364" href="http://www.cnblogs.com/qchy/" target="_blank">青城幻影</a> <a href="http://msg.cnblogs.com/send/%E9%9D%92%E5%9F%8E%E5%B9%BB%E5%BD%B1" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2728364" class="blog_comment_body">尊敬的楼主 能发个项目文件吗 非常感谢 354777464@qq.com</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2728364,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2728364,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2728364_avatar" style="display:none;">http://pic.cnblogs.com/face/504894/20130326003810.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2752906" class="layer">#26楼</a><a name="2752906" id="comment_anchor_2752906"></a>  <span class="comment_date">2013-08-16 13:41</span> <a id="a_comment_author_2752906" href="http://www.cnblogs.com/sunnycoffee/" target="_blank">SunnyCoffee</a> <a href="http://msg.cnblogs.com/send/SunnyCoffee" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2752906" class="blog_comment_body">看到你的文章我又有了新启发。<br>我之前的做法也算是我的建议吧：<br><br>1.每个http请求对应一个文件，文件名即：对请求的url进行16位的md5加密的字符串<br>2.文件内容不是json这样的文本，而是将json解析成对象后进行序列化，然后存入文件，读取的时候反序列化直接生产javabean<br>3.其他人提到的用Map&lt;key,filePath&gt;来管理缓存文件，这个我想也不错</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2752906,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2752906,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2928785" class="layer">#27楼</a><a name="2928785" id="comment_anchor_2928785"></a>  <span class="comment_date">2014-04-30 17:03</span> <a id="a_comment_author_2928785" href="http://www.cnblogs.com/zouzhenglu/" target="_blank">走正路</a> <a href="http://msg.cnblogs.com/send/%E8%B5%B0%E6%AD%A3%E8%B7%AF" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2928785" class="blog_comment_body">感觉零零散散的，看得不是很明白。又源码分享下不？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2928785,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2928785,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2928785_avatar" style="display:none;">http://pic.cnblogs.com/face/525187/20130506141417.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2960501" class="layer">#28楼</a><a name="2960501" id="comment_anchor_2960501"></a>  <span class="comment_date">2014-06-09 12:23</span> <a id="a_comment_author_2960501" href="http://home.cnblogs.com/u/641118/" target="_blank">Abigale.</a> <a href="http://msg.cnblogs.com/send/Abigale." title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2960501" class="blog_comment_body">求 AppApplication， FileUtils， AsyncHttpClien 代码 <br>576391225@qq.com 不胜感激</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2960501,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2960501,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2971209" class="layer">#29楼</a><a name="2971209" id="comment_anchor_2971209"></a>  <span class="comment_date">2014-06-25 13:14</span> <a id="a_comment_author_2971209" href="http://www.cnblogs.com/ahao214/" target="_blank">算盘</a> <a href="http://msg.cnblogs.com/send/%E7%AE%97%E7%9B%98" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2971209" class="blog_comment_body">收藏了，多谢分享。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2971209,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2971209,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2971209_avatar" style="display:none;">http://pic.cnblogs.com/face/399186/20130128134016.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#2989567" class="layer">#30楼</a><a name="2989567" id="comment_anchor_2989567"></a>  <span class="comment_date">2014-07-18 11:30</span> <a id="a_comment_author_2989567" href="http://home.cnblogs.com/u/652011/" target="_blank">CWVS</a> <a href="http://msg.cnblogs.com/send/CWVS" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2989567" class="blog_comment_body">你好，能否发一下完整的代码，或者几个引用的类的代码，谢谢</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2989567,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2989567,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#3072822" class="layer">#31楼</a><a name="3072822" id="comment_anchor_3072822"></a>  <span class="comment_date">2014-11-27 11:12</span> <a id="a_comment_author_3072822" href="http://home.cnblogs.com/u/697392/" target="_blank">四叶草（火龙果）</a> <a href="http://msg.cnblogs.com/send/%E5%9B%9B%E5%8F%B6%E8%8D%89%EF%BC%88%E7%81%AB%E9%BE%99%E6%9E%9C%EF%BC%89" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3072822" class="blog_comment_body">楼主思路清晰，写的很好，学习了</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3072822,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3072822,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#3132178" class="layer">#32楼</a><a name="3132178" id="comment_anchor_3132178"></a>  <span class="comment_date">2015-02-27 10:59</span> <a id="a_comment_author_3132178" href="http://www.cnblogs.com/gc-gongchao/" target="_blank">Android将军</a> <a href="http://msg.cnblogs.com/send/Android%E5%B0%86%E5%86%9B" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3132178" class="blog_comment_body">不错</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3132178,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3132178,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#3140042" class="layer">#33楼</a><a name="3140042" id="comment_anchor_3140042"></a>  <span class="comment_date">2015-03-13 10:02</span> <a id="a_comment_author_3140042" href="http://home.cnblogs.com/u/730576/" target="_blank">soapstone</a> <a href="http://msg.cnblogs.com/send/soapstone" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3140042" class="blog_comment_body">博主看了您这个，很适合我现在的开发需要，可以提供一下其他相关类的完整代码吗？（ps：新手，不吝请教，谢谢）  邮箱：andy_whf@163.com</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3140042,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3140042,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#3140162" class="layer">#34楼</a><a name="3140162" id="comment_anchor_3140162"></a>  <span class="comment_date">2015-03-13 11:48</span> <a id="a_comment_author_3140162" href="http://www.cnblogs.com/wolipengbo/" target="_blank">TealerProg</a> <a href="http://msg.cnblogs.com/send/TealerProg" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3140162" class="blog_comment_body">mark 一下</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3140162,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3140162,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#3177031" class="layer">#35楼</a><a name="3177031" id="comment_anchor_3177031"></a>  <span class="comment_date">2015-05-06 10:38</span> <a id="a_comment_author_3177031" href="http://home.cnblogs.com/u/578024/" target="_blank">szlcw的学习笔记</a> <a href="http://msg.cnblogs.com/send/szlcw%E7%9A%84%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3177031" class="blog_comment_body">楼主您好，代码中getUrlCache()函数返回的是String对象，我想请问一下，如果想缓存图像数据的话，这个缓存和读取工作是如何完成的呢？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3177031,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3177031,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#3247194" class="layer">#36楼</a><a name="3247194" id="comment_anchor_3247194"></a>  <span class="comment_date">2015-08-13 15:48</span> <a id="a_comment_author_3247194" href="http://home.cnblogs.com/u/797942/" target="_blank">vivi小怪兽</a> <a href="http://msg.cnblogs.com/send/vivi%E5%B0%8F%E6%80%AA%E5%85%BD" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3247194" class="blog_comment_body">很好的文章</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3247194,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3247194,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#3340683" class="layer">#37楼</a><a name="3340683" id="comment_anchor_3340683"></a>  <span class="comment_date">2016-01-04 17:16</span> <a id="a_comment_author_3340683" href="http://www.cnblogs.com/leov1/" target="_blank">疯狂的maxv1</a> <a href="http://msg.cnblogs.com/send/%E7%96%AF%E7%8B%82%E7%9A%84maxv1" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3340683" class="blog_comment_body">如果需要存储 超过20条数据时，应该使用何种选择方案呢 ？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3340683,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3340683,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#3433056" class="layer">#38楼</a><a name="3433056" id="comment_anchor_3433056"></a>  <span class="comment_date">2016-05-17 13:54</span> <a id="a_comment_author_3433056" href="http://home.cnblogs.com/u/794948/" target="_blank">阿冰67</a> <a href="http://msg.cnblogs.com/send/%E9%98%BF%E5%86%B067" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3433056" class="blog_comment_body">没有找到git地址啊  楼主方便给个链接或者发一份吗？724266839@qq.com</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3433056,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3433056,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#3596660" class="layer">#39楼</a><a name="3596660" id="comment_anchor_3596660"></a>[<span class="louzhu">楼主</span>]<span id="comment-maxId" style="display:none;">3596660</span><span id="comment-maxDate" style="display:none;">2017/1/5 10:14:22</span>  <span class="comment_date">2017-01-05 10:14</span> <a id="a_comment_author_3596660" href="http://www.cnblogs.com/qianxudetianxia/" target="_blank">谦虚的天下</a> <a href="http://msg.cnblogs.com/send/%E8%B0%A6%E8%99%9A%E7%9A%84%E5%A4%A9%E4%B8%8B" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3596660" class="blog_comment_body"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#3433056" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3433056);">@</a>
+阿冰67<br><a href="https://github.com/openproject/LessCode/blob/master/lesscode-core/src/main/java/com/jayfeng/lesscode/core/CacheLess.java" target="_blank">https://github.com/openproject/LessCode/blob/master/lesscode-core/src/main/java/com/jayfeng/lesscode/core/CacheLess.java</a></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3596660,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3596660,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_3596660_avatar" style="display:none;">http://pic.cnblogs.com/face/u31770.png?id=08141252</span>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20/2112128.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://cloud.tencent.com/developer/labs?fromSource=gwzcw.436876.436876.436876" target="_blank">【推荐】腾讯云上实验室 1小时搭建人工智能应用</a><br><a href="http://www.gcpowertools.com.cn/products/spreadjs/?utm_source=cnblogs&utm_medium=blogpage&utm_term=bottom&utm_content=SpreadJS&utm_campaign=community" target="_blank">【推荐】可嵌入您系统的“在线Excel”！SpreadJS 纯前端表格控件</a><br><a href="http://click.aliyun.com/m/18488/" target="_blank">【推荐】阿里云“全民云计算”优惠升级</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="https://www.mtyun.com/promote/69f73a72-f46d-4103-88e5-94ed2f81259d/" target="_blank"><img width="300" height="250" src="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/24442-20170921101521025-1845913848.jpg" alt="美团云0921"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/579164/" target="_blank">现身多伦多的马云，和加拿大总理特鲁多都谈了些什么？</a><br> ·  <a href="http://news.cnblogs.com/n/579163/" target="_blank">买完VR游戏八成要后悔？Oculus Rift推出贴心退款政策</a><br> ·  <a href="http://news.cnblogs.com/n/579162/" target="_blank">国庆长假来临 请收下这份余额宝攻略</a><br> ·  <a href="http://news.cnblogs.com/n/579161/" target="_blank">全国近30所高校小程序上线：有你的学校吗？</a><br> ·  <a href="http://news.cnblogs.com/n/579160/" target="_blank">小米之家深圳旗舰店试营业：黑科技逆天</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="https://www.jiguang.cn/devservice?source=bky&hmsr=%E5%8D%9A%E5%AE%A2%E5%9B%AD&hmpl=&hmcu=&hmkw=&hmci=" target="_blank"><img width="468" height="60" src="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/24442-20170908132742304-1045119416.gif" alt="极光0908"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/576251/" target="_blank">如何阅读计算机科学类的书</a><br> ·  <a href="http://kb.cnblogs.com/page/578103/" target="_blank">Google 及其云智慧</a><br> ·  <a href="http://kb.cnblogs.com/page/575829/" target="_blank">做到这一点，你也可以成为优秀的程序员</a><br> ·  <a href="http://kb.cnblogs.com/page/566880/" target="_blank">写给立志做码农的大学生</a><br> ·  <a href="http://kb.cnblogs.com/page/569057/" target="_blank">架构腐化之谜</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/qianxudetianxia/">谦虚的天下</a><br>园龄：<a href="http://home.cnblogs.com/u/qianxudetianxia/" title="入园时间：2008-04-01">9年5个月</a><br>荣誉：<a href="http://www.cnblogs.com/expert/">推荐博客</a><br>粉丝：<a href="http://home.cnblogs.com/u/qianxudetianxia/followers/">2159</a><br>关注：<a href="http://home.cnblogs.com/u/qianxudetianxia/followees/">28</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;8233420b-63cf-dd11-9e4d-001cf0cd104b&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2012/01/01&#39;);return false;">&lt;</a></td><td align="center">2012年2月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2012/03/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td class="CalWeekendDay" align="center">4</td></tr><tr><td class="CalWeekendDay" align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td class="CalWeekendDay" align="center">11</td></tr><tr><td class="CalWeekendDay" align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td class="CalWeekendDay" align="center">18</td></tr><tr><td class="CalWeekendDay" align="center">19</td><td align="center"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/20.html"><u>20</u></a></td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td class="CalWeekendDay" align="center">25</td></tr><tr><td class="CalWeekendDay" align="center">26</td><td align="center"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02/27.html"><u>27</u></a></td><td align="center">28</td><td align="center">29</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/qianxudetianxia/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/qianxudetianxia/tag/Android/">Android</a>(73)</li><li><a href="http://www.cnblogs.com/qianxudetianxia/tag/Android%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97/">Android学习系列</a>(42)</li><li><a href="http://www.cnblogs.com/qianxudetianxia/tag/FastObject/">FastObject</a>(20)</li><li><a href="http://www.cnblogs.com/qianxudetianxia/tag/ExtJs2.0/">ExtJs2.0</a>(16)</li><li><a href="http://www.cnblogs.com/qianxudetianxia/tag/Android%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%B3%BB%E5%88%97/">Android设计模式系列</a>(13)</li><li><a href="http://www.cnblogs.com/qianxudetianxia/tag/Android%E6%8B%93%E5%B1%95%E7%B3%BB%E5%88%97/">Android拓展系列</a>(11)</li><li><a href="http://www.cnblogs.com/qianxudetianxia/tag/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>(10)</li><li><a href="http://www.cnblogs.com/qianxudetianxia/tag/Ext/">Ext</a>(4)</li><li><a href="http://www.cnblogs.com/qianxudetianxia/tag/Extjs/">Extjs</a>(4)</li><li><a href="http://www.cnblogs.com/qianxudetianxia/tag/%E4%B8%AA%E4%BA%BA%E6%A1%86%E6%9E%B6/">个人框架</a>(3)</li><li><a href="http://www.cnblogs.com/qianxudetianxia/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(70)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/qianxudetianxia/category/327647.html">Android框架源码剖析系列</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/qianxudetianxia/category/312863.html">Android设计模式系列(13)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/qianxudetianxia/category/297580.html">Android拓展系列(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/qianxudetianxia/category/297264.html">Android陷阱系列</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/qianxudetianxia/category/293007.html">Android学习系列(39)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/qianxudetianxia/category/369752.html">Android应用(6)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(88)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/qianxudetianxia/archive/2016/03.html">2016年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/qianxudetianxia/archive/2015/11.html">2015年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/qianxudetianxia/archive/2015/09.html">2015年9月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/qianxudetianxia/archive/2015/03.html">2015年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/qianxudetianxia/archive/2015/01.html">2015年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/qianxudetianxia/archive/2014/12.html">2014年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/qianxudetianxia/archive/2014/09.html">2014年9月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/qianxudetianxia/archive/2014/07.html">2014年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/qianxudetianxia/archive/2014/05.html">2014年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/qianxudetianxia/archive/2014/04.html">2014年4月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/qianxudetianxia/archive/2013/04.html">2013年4月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/qianxudetianxia/archive/2012/12.html">2012年12月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/qianxudetianxia/archive/2012/11.html">2012年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/qianxudetianxia/archive/2012/10.html">2012年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/qianxudetianxia/archive/2012/09.html">2012年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/qianxudetianxia/archive/2012/08.html">2012年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/qianxudetianxia/archive/2012/07.html">2012年7月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/qianxudetianxia/archive/2012/06.html">2012年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/qianxudetianxia/archive/2012/05.html">2012年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/qianxudetianxia/archive/2012/04.html">2012年4月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/qianxudetianxia/archive/2012/03.html">2012年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/qianxudetianxia/archive/2012/02.html">2012年2月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/qianxudetianxia/archive/2012/01.html">2012年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/qianxudetianxia/archive/2011/12.html">2011年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/qianxudetianxia/archive/2011/09.html">2011年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/qianxudetianxia/archive/2011/08.html">2011年8月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/qianxudetianxia/archive/2011/07.html">2011年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_27" href="http://www.cnblogs.com/qianxudetianxia/archive/2011/06.html">2011年6月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_28" href="http://www.cnblogs.com/qianxudetianxia/archive/2011/05.html">2011年5月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_29" href="http://www.cnblogs.com/qianxudetianxia/archive/2011/04.html">2011年4月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_30" href="http://www.cnblogs.com/qianxudetianxia/archive/2008/08.html">2008年8月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_31" href="http://www.cnblogs.com/qianxudetianxia/archive/2008/07.html">2008年7月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_32" href="http://www.cnblogs.com/qianxudetianxia/archive/2008/06.html">2008年6月 (4)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	389849
+	</li>
+	<li class="liRank">
+		排名 -	351
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/12/05/2803894.html#3737840">1. Re:Android学习系列(33)--App应用之提交到各大市场渠道</a></li>
+        <li class="recent_comment_body">苹果安卓app，无需审核直接发布稳定有效，无需帐号一键安装,渠道配合快速修改上架市场，微信里直接安装安卓苹果APP快速上架各大APP应用商店！积分墙机刷,App冲刷榜，刷下载量评论,ASO应用商店优化......</li>
+        <li class="recent_comment_author">--网络技术开发者</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/qianxudetianxia/p/4948499.html#3686786">2. Re:Android打包的那些事</a></li>
+        <li class="recent_comment_body">问下，如果我当前项目有源码库工程依赖，那怎么对该源码库做混淆？</li>
+        <li class="recent_comment_author">--petercao</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/09/27/2703230.html#3663480">3. Re:[Android应用]《幽默笑话》V1.0 Beta 版本发布！</a></li>
+        <li class="recent_comment_body">楼主你好，我发现 精选的 hostname失效了啊，www.kaiyuanxiangmu.com但是我看你的博客都没问题=qrcode&amp;frwbqr=53 大神能否提供一下 新的api接口地址？感谢...</li>
+        <li class="recent_comment_author">--aspirant</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/qianxudetianxia/p/4824536.html#3659705">4. Re:记一次小团队Git实践(上)</a></li>
+        <li class="recent_comment_body">@Ruo_Nan加了...</li>
+        <li class="recent_comment_author">--菜鸟就的先飞</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/qianxudetianxia/archive/2011/12/11/2283794.html#3610898">5. Re:Android学习系列(17)--App列表之圆角ListView(续)</a></li>
+        <li class="recent_comment_body">請問該如何讓初始狀態就有選中的效果?</li>
+        <li class="recent_comment_author">--nex314</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2011/04/09/2010468.html">1. Android学习系列(1)--为App签名(为apk签名)(141303)</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/04/04/2432406.html">2. Android学习系列(28)--App集成支付宝[已过期](51664)</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2011/04/12/2010919.html">3. Android学习系列(2)--App自动更新之通知栏下载(48235)</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2012/12/05/2803894.html">4. Android学习系列(33)--App应用之提交到各大市场渠道(47221)</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2011/06/07/2074326.html">5. Android学习系列(9)--App列表之分组ListView(44480)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2011/04/12/2010919.html">1. Android学习系列(2)--App自动更新之通知栏下载(68)</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2008/06/26/1230082.html">2. ExtJs2.0学习系列(1)--Ext.MessageBox(45)</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2008/06/30/1232083.html">3. ExtJs2.0学习系列(4)--Ext.FormPanel之第一式(44)</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2008/06/27/1230805.html">4. ExtJs2.0学习系列(2)--Ext.Panel(40)</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2008/08/07/1261514.html">5. ExtJs2.0学习系列(8)--Ext.FormPanel之第五式(综合篇)(40)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2011/04/09/2010468.html">1. Android学习系列(1)--为App签名(为apk签名)(24)</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2011/04/12/2010919.html">2. Android学习系列(2)--App自动更新之通知栏下载(23)</a></li><li><a href="./Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园_files/Android学习系列(27)--App缓存管理 - 谦虚的天下 - 博客园.html">3. Android学习系列(27)--App缓存管理(22)</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2011/05/03/2029704.html">4. Android学习系列(7)--App轮询服务器消息(21)</a></li><li><a href="http://www.cnblogs.com/qianxudetianxia/archive/2011/05/01/2030232.html">5. Android学习系列(6)--App模块化及工程扩展(20)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2017 谦虚的天下
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>
