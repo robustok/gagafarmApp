@@ -43,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterResul
        ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),registerFragment,R.id.contentFrame);
 
        //以下两行代码将pesenter层与View层联系起来
-        mRegisterPresenter = new RegisterPresenter(Injection.provideUserRepository(getApplicationContext()), registerFragment);
+        mRegisterPresenter = new RegisterPresenter(Injection.provideUserRepository(getApplicationContext(),this), registerFragment);
         registerFragment.setPresenter(mRegisterPresenter);
     }
 
@@ -51,19 +51,16 @@ public class RegisterActivity extends AppCompatActivity implements RegisterResul
     public void onFragmentInteraction(Uri uri) {
         Toast.makeText(this,"交流,角楼",Toast.LENGTH_LONG).show();
     }
-    @Override
-    public void onFragmentInteraction(String str) {
-        Toast.makeText(this,"交流,角楼"+str,Toast.LENGTH_LONG).show();
-    }
+
 
     @Override
-    public void onFragmentInteraction(User user) {
+    public void onFragmentInteraction(String registerOkOrNot) {
       //  Toast.makeText(this,"交流,角楼"+"user",Toast.LENGTH_LONG).show();
        // Fragment f = (Fragment) RegisterFragment.newInstance();
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null) .replace(R.id.contentFrame,
-              RegisterResultFragment.newInstance(user.getUserName(),user.getPassword())).commit();
+              RegisterResultFragment.newInstance(registerOkOrNot,null)).commit();
 
     }
 

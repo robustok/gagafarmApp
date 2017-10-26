@@ -1,13 +1,17 @@
 package com.robustok.gagafarm.data.source;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 
 import com.robustok.gagafarm.Utility.UserPersistenceContract;
 import com.robustok.gagafarm.data.GagafarmDbHelper;
 import com.robustok.gagafarm.data.User;
+import com.robustok.gagafarm.register.RegisterActivity;
 
+import android.content.ContextWrapper;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.annotation.NonNull;
@@ -28,6 +32,7 @@ import java.util.List;
 public class LocalUserDataSource implements UserDataSource {
 
    public static LocalUserDataSource INSTANCE ;
+    public static Context mContext;
     private GagafarmDbHelper mGagafarmDbHelper;
     private LocalUserDataSource(@NonNull Context context){
       checkNotNull(context);
@@ -36,16 +41,35 @@ public class LocalUserDataSource implements UserDataSource {
     @Override
     public void saveUser(@NonNull User user) {
             checkNotNull(user);
-            SQLiteDatabase db = mGagafarmDbHelper.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put(UserPersistenceContract.UserEntry.COLUMN_NAME_USERNAME, user.getUserName());
-            values.put(UserPersistenceContract.UserEntry.COLUMN_NAME_PASSWORD, user.getPassword());
-            //返回插入成功的行的id
-            long i = db.insert(UserPersistenceContract.UserEntry.TABLE_NAME, null, values);
-            db.close();
+            long i = 0L;
+           try {
+                SQLiteDatabase db = mGagafarmDbHelper.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put(UserPersistenceContract.UserEntry.COLUMN_NAME_USERNAME, user.getUserName());
+                values.put(UserPersistenceContract.UserEntry.COLUMN_NAME_PASSWORD, user.getPassword());
+                //返回插入成功的行的id
+                i = db.insert(UserPersistenceContract.UserEntry.TABLE_NAME, null, values);
+                db.close();
+           }
+           catch(SQLiteCantOpenDatabaseException e)
+           {
+               e.printStackTrace();
+           }
+            catch(Exception e)
+            {
+                 e.printStackTrace();
+            }
+            RegisterActivity ra = (RegisterActivity)mContext;
+            if(i>0){
+                ra.onFragmentInteraction("注册成功啦！");
+            }
+            else{
+                ra.onFragmentInteraction("对不起，注册失败");
+            }
     }
+
     @Override
-    public User getUser(String getUser) {
+    public User getUser(String userName) {
         return null;
     }
 
@@ -77,9 +101,13 @@ public class LocalUserDataSource implements UserDataSource {
         return false;
     }
 
-    public static LocalUserDataSource getInstance(Context context){
-      if(INSTANCE == null)
-        INSTANCE = new LocalUserDataSource(context);
+    public static LocalUserDataSource getInstance(Context context,Context activityContext){
+      if(INSTANCE == null) {
+          mContext = (RegisterActivity)activityContext;
+
+          INSTANCE = new LocalUserDataSource(context);
+      }
       return INSTANCE;
     }
+
 }

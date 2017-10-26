@@ -27,7 +27,7 @@ public class GagafarmDbHelper extends SQLiteOpenHelper {
                     " )";
     public void onCreate(SQLiteDatabase db){
        // db.execSQL("");referenct to todoapp
-       db.execSQL(SQL_CREATE_ENTRIES);//创建表  person
+       db.execSQL(SQL_CREATE_ENTRIES);//创建表
            Log.d("create table user:","ok");
             }
 

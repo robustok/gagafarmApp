@@ -7,6 +7,8 @@ import com.robustok.gagafarm.data.source.LocalUserDataSource;
 import com.robustok.gagafarm.data.source.RemoteUserDataSource;
 import com.robustok.gagafarm.data.source.UserDataSource;
 import com.robustok.gagafarm.data.source.UserRepository;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 //import static com.google.common.base.Preconditions.checkNotNull;
 
 
@@ -15,8 +17,10 @@ import com.robustok.gagafarm.data.source.UserRepository;
  */
 
 public class Injection {
-    public static UserRepository provideUserRepository(@NonNull Context context){
-      // checkNotNull(context);
-        return UserRepository.getInstance(RemoteUserDataSource.getInstance(),LocalUserDataSource.getInstance(context));
+    public static UserRepository provideUserRepository(@NonNull Context context,@NonNull Context activityContext){
+        checkNotNull(context);
+        return UserRepository.getInstance(RemoteUserDataSource.getInstance(activityContext),LocalUserDataSource.getInstance(context,activityContext));
     }
+
+
 }

@@ -16,7 +16,8 @@ public class UserRepository implements UserDataSource {
     private final  UserDataSource mLocalUserDataSource;
     private final UserDataSource mRemoteUserDataSource;
 
-    private UserRepository(UserDataSource localUserDataSource,UserDataSource remoteUserDataSource){
+
+    private UserRepository(UserDataSource remoteUserDataSource,UserDataSource localUserDataSource){
         mLocalUserDataSource = localUserDataSource;
         mRemoteUserDataSource = remoteUserDataSource;
     }
@@ -33,17 +34,20 @@ public class UserRepository implements UserDataSource {
 
     @Override
     public void saveUser(User user) {
-        mLocalUserDataSource.saveUser(user);
         mRemoteUserDataSource.saveUser(user);
+         /*
+        mLocalUserDataSource.saveUser(user);
         if(mCatchedUsers==null) {
             mCatchedUsers = new LinkedHashMap<>();
         }
         mCatchedUsers.put(user.getUserName(),user);
+        */
+
     }
 
     @Override
-    public User getUser(String getUser) {
-        return null;
+    public User getUser(String userName) {
+       return null;
     }
 
     @Override

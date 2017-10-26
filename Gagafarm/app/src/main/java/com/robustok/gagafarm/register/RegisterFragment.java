@@ -53,13 +53,9 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
     }
     @Override
     public void showRegisterSuccess(String okOrNot) {
-      /*  getFragmentManager()
-                .beginTransaction()
-                .addToBackStack(null) .replace(R.id.contentFrame, new
-                RegisterResultFragment()).commit();*/
-       //How delivery okOrNot to RegisterResultFragment?
-        User user =new User(okOrNot,null);
-        mListener.onFragmentInteraction(user);
+
+        mListener.onFragmentInteraction(okOrNot);
+
     }
 
     //return a instance using factory pattern
@@ -72,7 +68,7 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
     }
 
     public interface OnFragmentInteractionListener{
-        void onFragmentInteraction(User user);
+        void onFragmentInteraction(String registerOkOrNot);
     }
 
     @Override

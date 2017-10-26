@@ -72,12 +72,12 @@ public class RegisterResultFragment extends Fragment {
        // return inflater.inflate(R.layout.fragment_register_result, container, false);
         View view = inflater.inflate(R.layout.fragment_register_result, container, false);
         Button button= (Button) view.findViewById(R.id.button1);
-        button.setText(this.mParam1);
+        button.setText("注册结果："+this.mParam1);
         button.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-               mListener.onFragmentInteraction("2b");
+           //    mListener.onFragmentInteraction("2b");
             }
         });
         return  view;

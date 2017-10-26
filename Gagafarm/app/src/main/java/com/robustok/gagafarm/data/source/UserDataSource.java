@@ -10,12 +10,13 @@ import java.util.List;
  */
 
 public interface UserDataSource {
-
     //保存用户数据
     void saveUser(User user);
 
+
+
     //获取一个指定用户
-    User getUser(String getUser);
+    User getUser(String userName);
 
     //获取所有用户的信息
     List<User> getAllUsers();

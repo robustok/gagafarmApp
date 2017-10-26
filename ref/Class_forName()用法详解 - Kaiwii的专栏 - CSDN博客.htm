@@ -1,0 +1,1198 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0051)http://blog.csdn.net/kaiwii/article/details/7405761 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><HTML 
+xmlns="http://www.w3.org/1999/xhtml"><HEAD><META content="IE=11.0000" 
+http-equiv="X-UA-Compatible">
+                      <LINK href="http://blog.csdn.net/kaiwii/article/details/7405761" 
+rel="canonical">       
+<META http-equiv="Cache-Control" content="no-siteapp"><LINK href="#" rel="alternate" 
+media="handheld">     
+<META name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848"> 
+           <TITLE>Class.forName()用法详解 - Kaiwii的专栏         - CSDN博客</TITLE>     
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">     
+<META name="description" content="主要功能Class.forName(xxx.xx.xx)返回的是一个类Class.forName(xxx.xx.xx)的作用是要求JVM查找并加载指定的类，也就是说JVM会执行该类的静态代码段下面，通过解答以下三个问题的来详细讲解下Class.forName()的用法。一.什么时候用Class.forName()？先来个热身，给你一个字符串变量，它代表一个类的包名和类名，你怎么实"> 
+    
+<META name="keywords" content="class,jvm,jdbc">        
+<SCRIPT src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/blog_static_head.min.js" type="text/javascript"></SCRIPT>
+             <!--new top-->                       <!--new top-->           <!-- ad begin --> 
+             <!-- ad end-->     <LINK href="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/style.css" 
+rel="Stylesheet" type="text/css">         <LINK title="RSS" id="RSSLink" href="/Kaiwii/rss/list" 
+rel="alternate" type="application/rss+xml">     <LINK href="http://c.csdnimg.cn/public/favicon.ico" 
+rel="shortcut icon">     <LINK href="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/default.css" 
+rel="stylesheet" type="text/css">      <LINK href="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/csdn_public_blog_detail.min.css" 
+rel="stylesheet" type="text/css">               <LINK href="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/csdn_blog_detail.min.css" 
+rel="stylesheet">       <!-- 请置于所有广告位代码之前 -->             
+<SCRIPT src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/ds.js"></SCRIPT>
+ 
+<META name="GENERATOR" content="MSHTML 11.00.9600.18698"></HEAD> 
+<BODY>
+<DIV class="tracking-ad" data-con="ad_content_2072" data-order="40" data-mtp="62" 
+data-mod="ad_popu_72" data-view="true">
+<SCRIPT id="popuLayer_js_q" src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/popuLayer.js" defer="defer" type="text/javascript"></SCRIPT>
+                 
+<DIV id="layerd" style="right: 0px; bottom: 0px; line-height: 0px; position: fixed; z-index: 1000;">
+<DIV class="J_close layer_close" style="font: 12px/24px Helvetica, Tahoma, Arial, sans-serif; padding: 0px; text-align: right; color: rgb(51, 51, 51); font-size-adjust: none; font-stretch: normal; background-color: rgb(239, 239, 239);">关闭</DIV><!-- 广告占位容器 --> 
+                    
+<DIV id="cpro_u2895327"><!-- 投放代码 -->                         
+<SCRIPT src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/ds.js"></SCRIPT>
+                        <!-- 广告位：PC端-博客详情页右侧弹窗-300*250 -->                       
+      
+<SCRIPT>
+                                (function () {
+                                    var s = "_" + Math.random().toString(36).slice(2);
+                                    document.write('<div id="' + s + '"></div>');
+                                    (window.slotbydup = window.slotbydup || []).push({
+                                        id: '4740870',
+                                        container: s,
+                                        size: '300,250',
+                                        display: 'inlay-fix'
+                                    });
+                                })();
+                            </SCRIPT>
+                     </DIV></DIV>
+<SCRIPT>  document.getElementById("popuLayer_js_q").onload = function () {
+      var styObjd = styObj = { width: "300px", "height": parseInt(250) + 28 };
+      window.CSDN.Layer.PopuLayer("#layerd", { storageName: "layerd", styleObj: styObjd, total: 50, expoire: 1000 * 60 });
+  }</SCRIPT>
+                          </DIV><!-- 广告位开始 -->             <!-- 广告位结束 -->        
+      <!--new top-->     
+<SCRIPT id="toolbar-tpl-scriptId" src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/html.js" type="text/javascript" skin="black" prod="blog" fixed="true"></SCRIPT>
+      <!--new top-->     
+<DIV id="container">
+<DIV id="header">
+<DIV class="header">
+<DIV id="blog_title">
+<H2><A href="http://blog.csdn.net/kaiwii">Kaiwii的专栏</A></H2>
+<H3>System.out.println(“我是金融IT菜鸟");</H3>
+<DIV class="clear"></DIV></DIV>
+<DIV class="clear"></DIV></DIV></DIV>
+<DIV id="navigator">
+<DIV class="navigator_bg"></DIV>
+<DIV class="navigator">
+<UL>
+  <LI id="btnContents"><A 
+  href="http://blog.csdn.net/kaiwii?viewmode=contents"><SPAN onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])"><IMG 
+  src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/ico_list.gif">目录视图</SPAN></A></LI> 
+                  
+  <LI id="btnView"><A href="http://blog.csdn.net/kaiwii?viewmode=list"><SPAN 
+  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])"><IMG 
+  src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/ico_summary.gif">摘要视图</SPAN></A></LI> 
+                  
+  <LI id="btnRss"><A href="http://blog.csdn.net/kaiwii/rss/list"><SPAN onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])"><IMG 
+  src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/ico_rss.gif">订阅</SPAN></A></LI> 
+                                         </UL></DIV></DIV>
+<SCRIPT type="text/javascript">
+    var username = "Kaiwii";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/kaiwii";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</SCRIPT>
+         
+<DIV id="body">
+<DIV id="main">
+<DIV class="main">
+<DIV class="ad_class">
+<DIV class="notice tracking-ad" data-mod="popu_3"><A href="http://blog.csdn.net/epubit17/article/details/78210459"><FONT 
+color="red"><STRONG>异步赠书：10月Python畅销书升级</STRONG></FONT></A> 
+&nbsp;&nbsp;&nbsp;&nbsp;<A 
+href="http://edu.csdn.net/topic/ai1?utm_source=blog4"><FONT 
+color="blue"><STRONG>【线路图】人工智能到底学什么？！</STRONG></FONT></A> 
+&nbsp;&nbsp;&nbsp;&nbsp;<A href="http://blog.csdn.net/turingbooks/article/details/78017356"><FONT 
+color="blue"><STRONG>程序员9月书讯</STRONG></FONT></A> &nbsp;&nbsp;&nbsp;&nbsp;<A 
+href="http://blog.csdn.net/broadview2006/article/details/78257196"><FONT color="red"><STRONG>每周荐书（京东篇）：618取胜之道、质量保障、技术解密）</STRONG></FONT></A> 
+</DIV></DIV>
+<SCRIPT src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/category.js" type="text/javascript"></SCRIPT>
+   
+<SCRIPT type="text/ecmascript">
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=Class.forName()%e7%94%a8%e6%b3%95%e8%af%a6%e8%a7%a3&u=http://blog.csdn.net/kaiwii/article/details/7405761"
+    </SCRIPT>
+ 
+<DIV class="details" id="article_details">
+<DIV class="article_title"><SPAN class="ico ico_type_Repost"></SPAN>     
+<H1><SPAN class="link_title"><A href="http://blog.csdn.net/kaiwii/article/details/7405761"> 
+       Class.forName()用法详解                            </A>         </SPAN>       
+       </H1> </DIV>
+<DIV class="article_manage clearfix">
+<DIV class="article_l"><SPAN class="link_categories">            标签：             
+  <A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);" 
+href="http://www.csdn.net/tag/class" target="_blank">class</A><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);" 
+href="http://www.csdn.net/tag/jvm" target="_blank">jvm</A><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);" 
+href="http://www.csdn.net/tag/jdbc" target="_blank">jdbc</A><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);" 
+href="http://www.csdn.net/tag/%e6%95%b0%e6%8d%ae%e5%ba%93" 
+target="_blank">数据库</A><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);" 
+href="http://www.csdn.net/tag/documentation" target="_blank">documentation</A><A 
+onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);" 
+href="http://www.csdn.net/tag/java" target="_blank">java</A>             </SPAN> 
+        </DIV>
+<DIV class="article_r"><SPAN class="link_postdate">2012-03-29 09:39</SPAN>       
+      <SPAN title="阅读次数" class="link_view">90719人阅读</SPAN>             <SPAN 
+title="评论次数" class="link_comments"><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])" 
+href="http://blog.csdn.net/kaiwii/article/details/7405761#comments">评论</A>(19)</SPAN> 
+            <SPAN class="link_collect tracking-ad" data-mod="popu_171"><A title="收藏" 
+onclick="javascript:collectArticle('Class.forName()%e7%94%a8%e6%b3%95%e8%af%a6%e8%a7%a3','7405761');return false;" 
+href="javascript:void(0);">收藏</A></SPAN>              <SPAN 
+class="link_report"><A title="举报" onclick="javascript:report(7405761,2);return false;" 
+href="http://blog.csdn.net/kaiwii/article/details/7405761#report">举报</A></SPAN>  
+       </DIV></DIV>
+<STYLE type="text/css">.embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </STYLE>
+     
+<SCRIPT type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </SCRIPT>
+       
+<DIV class="category clearfix">
+<DIV class="category_l"><IMG src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/category_icon.jpg"> 
+            <SPAN>分类：</SPAN>         </DIV>
+<DIV class="category_r"><LABEL onclick="GetCategoryArticles('878857','Kaiwii','top','7405761');"><SPAN 
+onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">Java考古学<EM>（74）</EM></SPAN> 
+                      <IMG class="arrow-down" style="display: inline;" src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/arrow_triangle%2520_down.jpg"> 
+                      <IMG class="arrow-up" style="display: none;" src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/arrow_triangle_up.jpg"> 
+                        
+<DIV class="subItem">
+<DIV class="subItem_t"><A href="http://blog.csdn.net/Kaiwii/article/category/878857" 
+target="_blank">作者同类文章</A><I class="J_close">X</I></DIV>
+<UL class="subItem_l" id="top_878857"></UL></DIV></LABEL>                        
+    </DIV></DIV>
+<DIV class="article_content tracking-ad" id="article_content" data-mod="popu_307" 
+data-dsm="post">
+<PRE>主要功能
+Class.forName(xxx.xx.xx)返回的是一个类
+Class.forName(xxx.xx.xx)的作用是要求JVM查找并加载指定的类，
+也就是说JVM会执行该类的静态代码段</PRE>
+<P>下面，通过解答以下三个问题的来详细讲解下Class.forName()的用法。<BR><SPAN style="color: rgb(0, 0, 255);">一.什么时候用Class.forName()？</SPAN><BR>
+先来个热身，给你一个字符串变量，它代表一个类的包名和类名，你怎么实例化它？你第一想到的肯定是new,但是注意一点：<BR>A a = 
+(A)Class.forName(“pacage.A”).newInstance();<BR>这和你 A a = new A()； 是一样的效果。</P>
+<P>现在言归正传。<BR>动态加载和创建Class 对象，比如想根据用户输入的字符串来创建对象时需要用到：<BR>String str = 
+“用户输入的字符串” ;<BR>Class t = Class.forName(str);<BR>t.newInstance();</P>
+<P>在初始化一个类，生成一个实例的时候，newInstance()方法和new关键字除了一个是方法，一个是关键字外，最主要有什么区别？它们的区别在于创建对象的方式不一样，前者是使用类加载机制，后者是创建一个新类。那么为什么会有两种创建对象方式？这主要考虑到软件的可伸缩、可扩展和可重用等软件设计思想。</P>
+<P>Java中工厂模式经常使用newInstance()方法来创建对象，因此从为什么要使用工厂模式上可以找到具体答案。 例如：<BR>class c = 
+Class.forName(“Example”);<BR>factory = (ExampleInterface)c.newInstance();</P>
+<P>其中ExampleInterface是Example的接口，可以写成如下形式：<BR>String className = 
+“Example”;<BR>class c = Class.forName(className);<BR>factory = 
+(ExampleInterface)c.newInstance();</P>
+<P>进一步可以写成如下形式：<BR>String className = readfromXMlConfig;//从xml 
+配置文件中获得字符串<BR>class c = Class.forName(className);<BR>factory = 
+(ExampleInterface)c.newInstance();</P>
+<P>上面代码已经不存在Example的类名称，它的优点是，无论Example类怎么变化，上述代码不变，甚至可以更换Example的兄弟类Example2 , 
+Example3 , Example4……，只要他们继承ExampleInterface就可以。</P>
+<P>从JVM的角度看，我们使用关键字new创建一个类的时候，这个类可以没有被加载。但是使用newInstance()方法的时候，就必须保证：<BR>1、这个类已经加载；<BR>2、这个类已经连接了。<BR>
+而完成上面两个步骤的正是Class的静态方法forName()所完成的，这个静态方法调用了启动类加载器，即加载 java API的那个加载器。</P>
+<P>现在可以看出，newInstance()实际上是把new这个方式分解为两步，即首先调用Class加载方法加载某个类，然后实例化。 
+这样分步的好处是显而易见的。我们可以在调用class的静态加载方法forName时获得更好的灵活性，提供给了一种降耦的手段。</P>
+<P><SPAN style="color: rgb(0, 0, 255);">二.new 和Class.forName（）有什么区别？</SPAN><BR>
+其实上面已经说到一些了，这里来做个总结：<BR>首先，newInstance( )是一个方法，而new是一个关键字；<BR>
+其次，Class下的newInstance()的使用有局限，因为它生成对象只能调用无参的构造函数，而使用 new关键字生成对象没有这个限制。<BR>
+简言之：<BR>newInstance(): 弱类型,低效率,只能调用无参构造。<BR>new: 
+强类型,相对高效,能调用任何public构造。<BR>Class.forName(“”)返回的是类。<BR>Class.forName(“”).newInstance()返回的是object 
+。<BR><SPAN style="color: rgb(0, 0, 255);">三.为什么在加载数据库驱动包的时候有用的是Class.forName( 
+)，却没有调用newInstance( )？</SPAN><BR>在Java开发特别是数据库开发中，经常会用到Class.forName( )这个方法。<BR>
+通过查询Java Documentation我们会发现使用Class.forName( )静态方法的目的是为了动态加载类。<BR>
+通常编码过程中，在加载完成后，一般还要调用Class下的newInstance( )静态方法来实例化对象以便操作。因此，单单使用Class.forName( 
+)是动态加载类是没有用的，其最终目的是为了实例化对象。</P>
+<P>有数据库开发经验朋友会发现，为什么在我们加载数据库驱动包的时候有的却没有调用newInstance( )方法呢？<BR>
+即有的jdbc连接数据库的写法里是Class.forName(xxx.xx.xx);而有一 
+些：Class.forName(xxx.xx.xx).newInstance()，为什么会有这两种写法呢？<BR>
+刚才提到，Class.forName(“”);的作用是要求JVM查找并加载指定的类，首先要明白，java里面任何class都要装载在虚拟机上才能运行，而静态代码是和class绑定的，class装载成功就表示执行了你的静态代码了，而且以后不会再走这段静态代码了。<BR>
+而我们前面也说了，Class.forName(xxx.xx.xx)的作用就是要求JVM查找并加载指定的类，如果在类中有静态初始化器的话，JVM必然会执行该类的静态代码段。<BR>
+而在JDBC规范中明确要求这个Driver类必须向DriverManager注册自己，即任何一个JDBC Driver的 
+Driver类的代码都必须类似如下：<BR>public class MyJDBCDriver implements Driver {<BR>static 
+{<BR>DriverManager.registerDriver(new MyJDBCDriver());<BR>}<BR>
+}<BR>既然在静态初始化器的中已经进行了注册，所以我们在使用JDBC时只需要Class.forName(XXX.XXX);就可以了。</P>
+<PRE>相关英文参考文献如下：
+we just want to load the driver to jvm only, but not need to user the instance of driver,
+so call Class.forName(xxx.xx.xx) is enough, if you call Class.forName(xxx.xx.xx).newInstance(),
+the result will same as calling Class.forName(xxx.xx.xx),
+because Class.forName(xxx.xx.xx).newInstance() will load driver first,
+and then create instance, but the instacne you will never use in usual,
+so you need not to create it.</PRE><BR></DIV><!-- Baidu Button BEGIN --> 
+<DIV class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172"><A 
+class="bds_more" style='background-position: 0px 0px !important; background-image: url("http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png") !important;' 
+href="http://blog.csdn.net/kaiwii/article/details/7405761#" data-cmd="more"></A> 
+<A title="分享到QQ空间" class="bds_qzone" style="background-position: 0px -52px !important;" 
+href="http://blog.csdn.net/kaiwii/article/details/7405761#" 
+data-cmd="qzone"></A> <A title="分享到新浪微博" class="bds_tsina" style="background-position: 0px -104px !important;" 
+href="http://blog.csdn.net/kaiwii/article/details/7405761#" 
+data-cmd="tsina"></A> <A title="分享到腾讯微博" class="bds_tqq" style="background-position: 0px -260px !important;" 
+href="http://blog.csdn.net/kaiwii/article/details/7405761#" data-cmd="tqq"></A> 
+<A title="分享到人人网" class="bds_renren" style="background-position: 0px -208px !important;" 
+href="http://blog.csdn.net/kaiwii/article/details/7405761#" 
+data-cmd="renren"></A> <A title="分享到微信" class="bds_weixin" style="background-position: 0px -1612px !important;" 
+href="http://blog.csdn.net/kaiwii/article/details/7405761#" 
+data-cmd="weixin"></A> </DIV>
+<SCRIPT>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</SCRIPT>
+ <!-- Baidu Button END -->    <!--172.16.140.12--> <!-- Baidu Button BEGIN --> 
+<SCRIPT id="bdshare_js" type="text/javascript" data="type=tools&amp;uid=1536434"></SCRIPT>
+ 
+<SCRIPT id="bdshell_js" type="text/javascript"></SCRIPT>
+ 
+<SCRIPT type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</SCRIPT>
+ <!-- Baidu Button END -->          
+<DIV id="digg" articleid="7405761">
+<DL class="digg digg_disable" id="btnDigg" onclick="btndigga();">
+  <DT>顶</DT>
+  <DD>79</DD></DL>
+<DL class="digg digg_disable" id="btnBury" onclick="btnburya();">
+  <DT>踩</DT>
+  <DD>2</DD></DL></DIV>
+<DIV class="tracking-ad" data-mod="popu_222"><A 
+href="javascript:void(0);">&nbsp;</A>   </DIV>
+<DIV class="tracking-ad" data-mod="popu_223"><A 
+href="javascript:void(0);">&nbsp;</A></DIV>
+<SCRIPT type="text/javascript">
+        function btndigga() {
+            $(".tracking-ad[data-mod='popu_222'] a").click();
+        }
+        function btnburya() {
+            $(".tracking-ad[data-mod='popu_223'] a").click();
+        }
+            </SCRIPT>
+    
+<UL class="article_next_prev">
+  <LI class="prev_article"><SPAN onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/Kaiwii/article/details/7387873';">上一篇</SPAN><A 
+  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])" 
+  href="http://blog.csdn.net/Kaiwii/article/details/7387873">关于基本类型的简单赋值和复合赋值运算</A></LI>
+  <LI class="next_article"><SPAN onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/Kaiwii/article/details/7407113';">下一篇</SPAN><A 
+  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])" 
+  href="http://blog.csdn.net/Kaiwii/article/details/7407113">在eclipse中配置android 
+  ndk的自动编译环境builders</A></LI></UL>
+<DIV style="height: 10px; clear: both;"></DIV>
+<DIV class="similar_article">
+<H4></H4>
+<DIV class="similar_c" style="margin: 20px 0px 0px;">
+<DIV class="similar_c_t">                          &nbsp;&nbsp;相关文章推荐            
+             </DIV>
+<DIV class="similar_wrap tracking-ad" style="max-height: 250px;" data-mod="popu_36">
+<UL class="similar_list fl">
+  <LI><EM>•</EM>                                        <A title="判断树是否为平衡二叉树" 
+  href="http://blog.csdn.net/zhaojinjia/article/details/11891523" target="_blank" 
+  strategy="BlogCommendFromBaidu_0">判断树是否为平衡二叉树</A>                              
+        </LI>
+  <LI><EM>•</EM>                                        <A title="机器学习之数学基础系列--AI100" 
+  href="http://edu.csdn.net/combo/detail/532?utm_source=blog7" target="_blank" 
+  strategy="undefined">机器学习之数学基础系列--AI100</A>                                    
+  </LI>
+  <LI><EM>•</EM>                                        <A title="Java面试——从JVM角度比较equals和==的区别" 
+  href="http://blog.csdn.net/SEU_Calvin/article/details/52089040" target="_blank" 
+  strategy="BlogCommendFromBaidu_1">Java面试——从JVM角度比较equals和==的区别</A>             
+                         </LI>
+  <LI><EM>•</EM>                                        <A title="使用Keras快速构造自己的深度学习模型--谢梁" 
+  href="http://edu.csdn.net/huiyiCourse/series_detail/68?utm_sorce=blog7" 
+  target="_blank" strategy="undefined">使用Keras快速构造自己的深度学习模型--谢梁</A>              
+                        </LI>
+  <LI><EM>•</EM>                                        <A title="算法相关——Java排序算法之归并排序（八）" 
+  href="http://blog.csdn.net/SEU_Calvin/article/details/60129650" target="_blank" 
+  strategy="BlogCommendFromBaidu_2">算法相关——Java排序算法之归并排序（八）</A>                   
+                   </LI>
+  <LI><EM>•</EM>                                        <A title="跳过Java开发的各种坑" 
+  href="http://edu.csdn.net/course/detail/4856?utm_source=blog7" target="_blank" 
+  strategy="undefined">跳过Java开发的各种坑</A>                                    </LI>
+  <LI><EM>•</EM>                                        <A title="NIO操作类型与就绪条件" 
+  href="http://blog.csdn.net/zhouhl_cn/article/details/6567877" target="_blank" 
+  strategy="BlogCommendFromBaidu_3">NIO操作类型与就绪条件</A>                             
+         </LI>
+  <LI><EM>•</EM>                                        <A title="Android自动化刷量、作弊与防作弊" 
+  href="http://edu.csdn.net/course/detail/3722?utm_source=blog7" target="_blank" 
+  strategy="undefined">Android自动化刷量、作弊与防作弊</A>                                   
+   </LI></UL>
+<UL class="similar_list fr">
+  <LI><EM>•</EM>                                        <A title="NIO与IO的区别" 
+  href="http://blog.csdn.net/xyls12345/article/details/38261229" target="_blank" 
+  strategy="BlogCommendFromBaidu_4">NIO与IO的区别</A>                                
+      </LI>
+  <LI><EM>•</EM>                                        <A title="Retrofit 从入门封装到源码解析" 
+  href="http://edu.csdn.net/course/detail/4100?utm_source=blog7" target="_blank" 
+  strategy="undefined">Retrofit 从入门封装到源码解析</A>                                   
+   </LI>
+  <LI><EM>•</EM>                                        <A title="NIO与传统IO的区别" 
+  href="http://blog.csdn.net/zhouhl_cn/article/details/6568119" target="_blank" 
+  strategy="BlogCommendFromBaidu_5">NIO与传统IO的区别</A>                              
+        </LI>
+  <LI><EM>•</EM>                                        <A title="使用Pandas与Matplotlib分析科比职业生涯数据" 
+  href="http://edu.csdn.net/course/detail/4661?utm_source=blog7" target="_blank" 
+  strategy="undefined">使用Pandas与Matplotlib分析科比职业生涯数据</A>                         
+             </LI>
+  <LI><EM>•</EM>                                        <A title="Java技术——你真的了解String类的intern()方法吗" 
+  href="http://blog.csdn.net/SEU_Calvin/article/details/52291082" target="_blank" 
+  strategy="BlogCommendFromBaidu_6">Java技术——你真的了解String类的intern()方法吗</A>         
+                             </LI>
+  <LI><EM>•</EM>                                        <A title="Class.forName()用法详解" 
+  href="http://blog.csdn.net/bxdxy/article/details/72874875" target="_blank" 
+  strategy="BlogCommendFromCsdn_7">Class.forName()用法详解</A>                       
+               </LI>
+  <LI><EM>•</EM>                                        <A title="Class.forName()用法详解" 
+  href="http://blog.csdn.net/u013196181/article/details/53055802" target="_blank" 
+  strategy="BlogCommendFromCsdn_8">Class.forName()用法详解</A>                       
+               </LI>
+  <LI><EM>•</EM>                                        <A title="Class.forName()用法详解" 
+  href="http://blog.csdn.net/gzq110103/article/details/51473867" target="_blank" 
+  strategy="BlogCommendFromCsdn_9">Class.forName()用法详解</A>                       
+               </LI></UL></DIV></DIV></DIV></DIV>
+<DIV><!-- 请置于所有广告位代码之前 -->         
+<SCRIPT src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/dm.js"></SCRIPT>
+         <!-- 广告位：PC端-博客详情页底部banner-728*90 -->         
+<SCRIPT>
+            (function() {
+                var s = "_" + Math.random().toString(36).slice(2);
+                document.write('<div id="' + s + '"></div>');
+                (window.slotbydup=window.slotbydup || []).push({
+                    id: '4770926',
+                    container: s,
+                    size: '728,90',
+                    display: 'inlay-fix'
+                });
+            })();
+        </SCRIPT>
+      </DIV>
+<DIV id="suggest"></DIV>
+<SCRIPT language="javascript" type="text/javascript">     
+             $(function(){
+                 $.get("/Kaiwii/svc/GetSuggestContent/7405761",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </SCRIPT>
+                                                                                 
+                         <!-- 广告位开始 -->         <!-- 广告位结束 --> 
+<DIV class="comment_class">
+<DIV class="panel_head" id="comment_title"><SPAN 
+class="see_comment">查看评论</SPAN><A name="comments"></A></DIV>
+<DIV id="comment_list"></DIV>
+<DIV id="comment_bar"></DIV>
+<DIV id="comment_form"></DIV>
+<DIV class="announce">* 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<A name="reply"></A><A 
+name="quote"></A></DIV></DIV>
+<SCRIPT type="text/javascript">
+    var fileName = '7405761';
+    var commentscount = 19;
+    var islock = false
+</SCRIPT>
+     
+<DIV id="ad_bot"></DIV>
+<DIV id="report_dialog"></DIV>
+<DIV id="d-top" style="bottom: 60px;"><A title="快速回复" class="btn btn-top q-reply" 
+id="quick-reply" style="display: none;"><IMG alt="快速回复" src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/blog-icon-reply.png"> 
+        </A>        <A title="返回顶部" class="btn btn-top backtop" id="d-top-a" 
+style="display: none;" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])"><IMG 
+alt="TOP" src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/top.png">  
+   </A> </DIV>
+<SCRIPT type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</SCRIPT>
+ 
+<STYLE type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</STYLE>
+ 
+<DIV id="pop_win" style="background: 0px 0px rgb(255, 255, 255); border: 1px solid rgb(220, 220, 220); border-image: none; left: 630px; top: 222.5px; display: none; position: absolute; z-index: 10000; opacity: 1;"></DIV>
+<DIV id="popup_mask"></DIV>
+<STYLE>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</STYLE>
+ 
+<SCRIPT type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='Class.forName()用法详解';
+
+</SCRIPT>
+                         
+<DIV class="clear"></DIV></DIV></DIV>
+<DIV id="side">
+<DIV class="side">
+<DIV class="panel" id="panel_Profile">
+<UL class="panel_head"><SPAN>个人资料</SPAN></UL>
+<UL class="panel_body profile">
+  <DIV id="blog_userface"><A href="http://my.csdn.net/Kaiwii" 
+  target="_blank"><IMG title="访问我的空间" style="max-width: 90%;" src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/1_kaiwii.jpg"> 
+      </A>     <BR><SPAN><A class="user_name" href="http://my.csdn.net/Kaiwii" 
+  target="_blank">Kaiwii</A></SPAN></DIV>
+  <DIV class="interact"><A title="[加关注]" class="attent" id="span_add_follow" 
+  href="javascript:void(0);"></A>  <A title="[发私信]" class="letter" onclick="window.open('http://msg.csdn.net/letters/model?receiver=Kaiwii','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])" 
+  href="javascript:void(0);"></A>  </DIV>
+  <DIV id="blog_medal">
+  <DIV id="bms_box"></DIV></DIV>
+  <UL id="blog_rank">
+    <LI>访问：<SPAN>1397295次</SPAN></LI>
+    <LI>积分：<SPAN>12652</SPAN> </LI>
+    <LI>等级： <SPAN 
+    style="display: inline-block; position: relative; z-index: 1;"><IMG id="leveImg" 
+    style="vertical-align: middle;" alt="" src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/blog7.png"> 
+                
+    <DIV id="smallTittle" style="border: 2px solid rgb(221, 221, 221); border-image: none; left: -24px; top: 25px; width: 101px; height: 32px; text-align: center; line-height: 32px; display: none; position: absolute; z-index: 999; background-color: rgb(255, 255, 255);">
+    <DIV style="left: 42%; top: -8px; width: 0px; height: 0px; border-right-color: transparent; border-bottom-color: rgb(234, 234, 234); border-left-color: transparent; border-right-width: 10px; border-bottom-width: 8px; border-left-width: 10px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; position: absolute;"></DIV> 
+               积分：12652 </DIV></SPAN>  </LI>
+    <LI>排名：<SPAN>第1164名</SPAN></LI></UL>
+  <UL id="blog_statistics">
+    <LI>原创：<SPAN>93篇</SPAN></LI>
+    <LI>转载：<SPAN>317篇</SPAN></LI>
+    <LI>译文：<SPAN>19篇</SPAN></LI>
+    <LI>评论：<SPAN>146条</SPAN></LI></UL></UL></DIV>
+<DIV class="panel" id="panel_Search">
+<UL class="panel_head"><SPAN>文章搜索</SPAN></UL>
+<UL class="panel_body">
+  <FORM class="form_search csdn-tracking-statistics" id="frmSearch" action="http://so.csdn.net/search" 
+  target="_blank" data-mod="popu_306"><SPAN><INPUT title="请输入关键字" class="blogsearch" id="inputSearch" type="text"></SPAN> 
+          <INPUT title="search in blog" id="btnSubmit" type="button" value="搜索"> 
+          <INPUT name="q" id="inputQ" type="hidden">         
+<INPUT name="t" type="hidden" value="blog">         <A id="btnSearchBlog" 
+  target="_blank"></A>         </FORM></UL></DIV>
+<SCRIPT type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            window.location.href = url;
+        }   
+    });
+</SCRIPT>
+
+<DIV class="panel" id="panel_Category"> 
+<UL class="panel_head"><SPAN>文章分类</SPAN></UL>
+<UL class="panel_body">
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/848450">分布式（hadoop）</A><SPAN>(7)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/864383">开源搜索引擎（nutch）</A><SPAN>(15)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/865923">ant</A><SPAN>(2)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/872340">maven</A><SPAN>(2)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/873711">eclipse使用技巧</A><SPAN>(4)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/874518">特殊符号</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/876678">正则表达式（regular 
+  expression）</A><SPAN>(7)</SPAN>                 </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/878857">Java考古学</A><SPAN>(75)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/879048">英语技术词汇</A><SPAN>(21)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/881287">感想人生</A><SPAN>(2)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/883511">设计模式</A><SPAN>(4)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/891691">数据库（oracle）</A><SPAN>(24)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/904796">J2EE</A><SPAN>(46)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/904797">spring</A><SPAN>(20)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/907523">sitemesh</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/908304">web 
+  service</A><SPAN>(4)</SPAN>                 </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/908332">xml</A><SPAN>(2)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/908388">apache 
+  cxf</A><SPAN>(6)</SPAN>                 </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/912060">simplecaptcha</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/912062">struts</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/912063">extjs</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/912329">网络基础</A><SPAN>(20)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/912423">extjs</A><SPAN>(0)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/915434">jasperreports</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/915898">extjs</A><SPAN>(0)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/924019">操作系统</A><SPAN>(51)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/924382">linux</A><SPAN>(66)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/927970">ssh</A><SPAN>(4)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/928900">crux</A><SPAN>(9)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/929308">vmware</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/942344">文件系统</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/942520">人工智能（AI）</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/942521">离散数学</A><SPAN>(2)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/952858">图形图像</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/952911">研究生课程</A><SPAN>(4)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1072064">c&amp;amp;c++</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1082732">虚拟化</A><SPAN>(2)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1087021">shell</A><SPAN>(9)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1089632">linux编程-菜鸟篇</A><SPAN>(15)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1095298">bashdb</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1095300">调试</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1102167">找工作</A><SPAN>(38)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1105338">算法题</A><SPAN>(7)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1106686">汇编语言</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1111783">android</A><SPAN>(78)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1121353">关于那个android项目的笔记</A><SPAN>(18)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1121403">嵌入式开发</A><SPAN>(13)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1128295">我的产品之路</A><SPAN>(6)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1128296">产品个案分析</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1132271">产品概念</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1137040">云计算</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1137041">网格计算</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1146509">fuse（用户态文件系统）</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1168473">c&amp;c++</A><SPAN>(19)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1168827">openssl</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1183869">open 
+  api</A><SPAN>(1)</SPAN>                 </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1184621">android 
+  framework</A><SPAN>(64)</SPAN>                 </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1196665">Sencha 
+  Touch</A><SPAN>(0)</SPAN>                 </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1218978">spring 
+  mvc</A><SPAN>(2)</SPAN>                 </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1218982">liferay</A><SPAN>(0)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1219034">portal</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1220445">tomcat</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1231229">mysql</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1231531">Log</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1235113">android底层</A><SPAN>(15)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1242309">数据结构</A><SPAN>(2)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1244541">被“鄙视”的那些题目</A><SPAN>(58)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1279320">变态小学生数学题</A><SPAN>(5)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1308399">Android安全</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1325522">sqlite</A><SPAN>(11)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1330011">blowfish</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1332021">mina</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1418379">Arduino</A><SPAN>(0)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1483357">SeSQLite</A><SPAN>(0)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1521877">测试</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1522629">weblogic</A><SPAN>(3)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1524309">windows使用</A><SPAN>(0)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/1531615">银行业务知识</A><SPAN>(1)</SPAN> 
+                  </LI>
+  <LI><A onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); " 
+  href="http://blog.csdn.net/Kaiwii/article/category/2949239">HTML&amp;JS</A><SPAN>(3)</SPAN> 
+                  </LI></UL></DIV>
+<DIV class="panel" id="panel_Archive">
+<UL class="panel_head"><SPAN>文章存档</SPAN></UL>
+<UL class="panel_body">
+  <DIV id="archive_list"><!--归档统计--> 
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2015/06">2015年06月</A><SPAN>(2)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2015/03">2015年03月</A><SPAN>(1)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2014/03">2014年03月</A><SPAN>(5)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2013/08">2013年08月</A><SPAN>(2)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2013/07">2013年07月</A><SPAN>(5)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2013/03">2013年03月</A><SPAN>(1)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2013/02">2013年02月</A><SPAN>(4)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2013/01">2013年01月</A><SPAN>(36)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2012/12">2012年12月</A><SPAN>(17)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2012/11">2012年11月</A><SPAN>(18)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2012/10">2012年10月</A><SPAN>(24)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2012/09">2012年09月</A><SPAN>(39)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2012/08">2012年08月</A><SPAN>(38)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2012/07">2012年07月</A><SPAN>(23)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2012/06">2012年06月</A><SPAN>(12)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2012/05">2012年05月</A><SPAN>(15)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2012/04">2012年04月</A><SPAN>(16)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2012/03">2012年03月</A><SPAN>(30)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2012/02">2012年02月</A><SPAN>(14)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2012/01">2012年01月</A><SPAN>(1)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2011/12">2011年12月</A><SPAN>(5)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2011/11">2011年11月</A><SPAN>(23)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2011/10">2011年10月</A><SPAN>(42)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2011/09">2011年09月</A><SPAN>(38)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2011/08">2011年08月</A><SPAN>(17)</SPAN></LI>
+  <LI><A 
+  href="http://blog.csdn.net/Kaiwii/article/month/2011/07">2011年07月</A><SPAN>(1)</SPAN></LI></DIV></UL></DIV>
+<DIV class="panel tracking-ad" id="hotarticls" data-mod="popu_340">
+<UL class="panel_head"><SPAN>阅读排行    </SPAN> </UL>
+<UL class="panel_body itemlist">
+  <LI><A title="tomcat奇怪错误之A child container failed during start" href="http://blog.csdn.net/kaiwii/article/details/7899783">tomcat奇怪错误之A 
+  child container failed during start</A><SPAN>(111249)</SPAN> </LI>
+  <LI><A title="Class.forName()用法详解" href="http://blog.csdn.net/kaiwii/article/details/7405761">Class.forName()用法详解</A><SPAN>(90597)</SPAN> 
+  </LI>
+  <LI><A title="FragmentPagerAdapter API" href="http://blog.csdn.net/kaiwii/article/details/7823613">FragmentPagerAdapter 
+  API</A><SPAN>(64834)</SPAN> </LI>
+  <LI><A title="org.springframework.context.ApplicationContextAware使用理解" href="http://blog.csdn.net/kaiwii/article/details/6872642">org.springframework.context.ApplicationContextAware使用理解</A><SPAN>(60013)</SPAN> 
+  </LI>
+  <LI><A title="父类引用指向子类对象" href="http://blog.csdn.net/kaiwii/article/details/8042488">父类引用指向子类对象</A><SPAN>(53907)</SPAN> 
+  </LI>
+  <LI><A title="关于/dev/null及用途" href="http://blog.csdn.net/kaiwii/article/details/7308729">关于/dev/null及用途</A><SPAN>(51517)</SPAN> 
+  </LI>
+  <LI><A title="生产者/消费者模式" href="http://blog.csdn.net/kaiwii/article/details/6758942">生产者/消费者模式</A><SPAN>(50827)</SPAN> 
+  </LI>
+  <LI><A title="SIT与UAT的分别" href="http://blog.csdn.net/kaiwii/article/details/9446243">SIT与UAT的分别</A><SPAN>(34562)</SPAN> 
+  </LI>
+  <LI><A title="oracle监听器（listener）配置心得" href="http://blog.csdn.net/kaiwii/article/details/6825509">oracle监听器（listener）配置心得</A><SPAN>(23817)</SPAN> 
+  </LI>
+  <LI><A title="pthread_kill和pthread_cancel" href="http://blog.csdn.net/kaiwii/article/details/7719011">pthread_kill和pthread_cancel</A><SPAN>(20350)</SPAN> 
+  </LI></UL></DIV>
+<DIV class="panel tracking-ad" id="hotarticls2" data-mod="popu_341">
+<UL class="panel_head"><SPAN>评论排行</SPAN></UL>
+<UL class="panel_body itemlist">
+  <LI><A title="父类引用指向子类对象" href="http://blog.csdn.net/kaiwii/article/details/8042488">父类引用指向子类对象</A><SPAN>(23)</SPAN> 
+  </LI>
+  <LI><A title="Class.forName()用法详解" href="http://blog.csdn.net/kaiwii/article/details/7405761">Class.forName()用法详解</A><SPAN>(19)</SPAN> 
+  </LI>
+  <LI><A title="tomcat奇怪错误之A child container failed during start" href="http://blog.csdn.net/kaiwii/article/details/7899783">tomcat奇怪错误之A 
+  child container failed during start</A><SPAN>(9)</SPAN> </LI>
+  <LI><A title="spring security设置（springSecurityFilterChain与DelegatingFilterProxy）" 
+  href="http://blog.csdn.net/kaiwii/article/details/6916353">spring 
+  security设置（springSecurityFilterChain与DelegatingFilterProxy）</A><SPAN>(8)</SPAN> 
+  </LI>
+  <LI><A title="org.springframework.context.ApplicationContextAware使用理解" href="http://blog.csdn.net/kaiwii/article/details/6872642">org.springframework.context.ApplicationContextAware使用理解</A><SPAN>(7)</SPAN> 
+  </LI>
+  <LI><A title="FragmentPagerAdapter API" href="http://blog.csdn.net/kaiwii/article/details/7823613">FragmentPagerAdapter 
+  API</A><SPAN>(7)</SPAN> </LI>
+  <LI><A title="pthread_kill和pthread_cancel" href="http://blog.csdn.net/kaiwii/article/details/7719011">pthread_kill和pthread_cancel</A><SPAN>(7)</SPAN> 
+  </LI>
+  <LI><A title="启动init.rc文件中的service" href="http://blog.csdn.net/kaiwii/article/details/8332541">启动init.rc文件中的service</A><SPAN>(6)</SPAN> 
+  </LI>
+  <LI><A title="生产者/消费者模式" href="http://blog.csdn.net/kaiwii/article/details/6758942">生产者/消费者模式</A><SPAN>(5)</SPAN> 
+  </LI>
+  <LI><A title="android sqlite db-journal文件产生原因及说明 ." href="http://blog.csdn.net/kaiwii/article/details/8609093">android 
+  sqlite db-journal文件产生原因及说明 .</A><SPAN>(4)</SPAN> </LI></UL></DIV>
+<DIV class="panel tracking-ad" id="homepageArticles" data-mod="popu_4">
+<UL class="panel_head"><SPAN>推荐文章</SPAN></UL>
+<UL class="panel_body" id="ad_commend">
+  <UL>
+    <LI><A href="http://blog.csdn.net/PK.html" target="_blank">* 
+    【观点】第二十三期：程序员应该如何积累财富？</A></LI>
+    <LI><A href="http://blog.csdn.net/lowprofile_coding/article/details/77852131" 
+    target="_blank">* Android检查更新下载安装</A></LI>
+    <LI><A href="http://blog.csdn.net/yhaolpz/article/details/77366154" target="_blank">* 
+    动手打造史上最简单的 Recycleview 侧滑菜单</A></LI>
+    <LI><A href="http://blog.csdn.net/sweettool/article/details/77018506" 
+    target="_blank">* TCP网络通讯如何解决分包粘包问题</A></LI>
+    <LI><A href="http://blog.csdn.net/pangpang123654/article/details/78256361" 
+    target="_blank">* 如何更加安全、高效地选择开源项目（内附详解）</A></LI>
+    <LI><A href="http://blog.csdn.net/pangpang123654/article/details/78012706" 
+    target="_blank">* 快速集成一个视频直播功能 </A></LI></UL></UL></DIV>
+<DIV class="panel" id="newcomments">
+<UL class="panel_head"><SPAN>最新评论</SPAN></UL>
+<UL class="panel_body itemlist">
+  <LI><A 
+  href="http://blog.csdn.net/kaiwii/article/details/8042488#comments">父类引用指向子类对象</A> 
+      
+  <P style="margin: 0px;"><A class="user_name" href="http://blog.csdn.net/xiqi4145">xiqi4145</A>: 
+  谢谢     </P></LI>
+  <LI><A 
+  href="http://blog.csdn.net/kaiwii/article/details/7405761#comments">Class.forName()用法详解</A> 
+      
+  <P style="margin: 0px;"><A class="user_name" href="http://blog.csdn.net/u010283894">u010283894</A>: 
+  转载的，有原文地址吗？？     </P></LI>
+  <LI><A 
+  href="http://blog.csdn.net/kaiwii/article/details/7405761#comments">父类引用指向子类对象</A> 
+      
+  <P style="margin: 0px;"><A class="user_name" href="http://blog.csdn.net/tiancaihang">tiancaihang</A>: 
+  第三行，就出现错误，无语     </P></LI>
+  <LI><A 
+  href="http://blog.csdn.net/kaiwii/article/details/7405761#comments">父类引用指向子类对象</A> 
+      
+  <P style="margin: 0px;"><A class="user_name" href="http://blog.csdn.net/SweetyoYY">SweetyoYY</A>: 
+  讲解的很详细很全面~     </P></LI>
+  <LI><A 
+  href="http://blog.csdn.net/kaiwii/article/details/7405761#comments">Class.forName()用法详解</A> 
+      
+  <P style="margin: 0px;"><A class="user_name" href="http://blog.csdn.net/qq_18989669">qq_18989669</A>: 
+  说的太棒了     </P></LI>
+  <LI><A 
+  href="http://blog.csdn.net/kaiwii/article/details/7405761#comments">Class.forName()用法详解</A> 
+      
+  <P style="margin: 0px;"><A class="user_name" href="http://blog.csdn.net/who_s_your_daddy">who_s_your_daddy</A>: 
+  解释的很详细     </P></LI>
+  <LI><A 
+  href="http://blog.csdn.net/kaiwii/article/details/7405761#comments">父类引用指向子类对象</A> 
+      
+  <P style="margin: 0px;"><A class="user_name" href="http://blog.csdn.net/hunbuang7111">hunbuang7111</A>:
+   love love     </P></LI>
+  <LI><A 
+  href="http://blog.csdn.net/kaiwii/article/details/6872642#comments">org.springframework.context.ApplicationContextAware使用理解</A> 
+      
+  <P style="margin: 0px;"><A class="user_name" href="http://blog.csdn.net/qq_33469774">qq_33469774</A>: 
+  多谢     </P></LI>
+  <LI><A 
+  href="http://blog.csdn.net/kaiwii/article/details/6872642#comments">org.springframework.context.ApplicationContextAware使用理解</A> 
+      
+  <P style="margin: 0px;"><A class="user_name" href="http://blog.csdn.net/jessicachenlu">jessicachenlu</A>: 
+  写的很详细，条理清晰，顶一个     </P></LI>
+  <LI><A 
+  href="http://blog.csdn.net/kaiwii/article/details/6872642#comments">Class.forName()用法详解</A> 
+      
+  <P style="margin: 0px;"><A class="user_name" href="http://blog.csdn.net/qq_27571221">qq_27571221</A>: 
+  太赞了，解释了我的疑惑，构建数据库连接的那段     </P></LI></UL></DIV></DIV>
+<DIV class="clear"></DIV>
+<DIV class="tracking-ad" style="width: 200px; height: 400px;" data-con="ad_content_1260" 
+data-order="40" data-mtp="63" data-view="true">
+<DIV id="nav_show_top_stop" style="width: 200px; height: 500px; z-index: 1000;">
+<DIV id="cpro_u2734128"><!-- 投放代码 -->                                            
+             <!-- 请置于所有广告位代码之前 -->                                 
+<SCRIPT src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/ds.js"></SCRIPT>
+                                  <!-- 广告位：PC端-博客详情页-左侧button1-200*200 -->       
+                              
+<SCRIPT>
+                                        (function () {
+                                            var s = "_" + Math.random().toString(36).slice(2);
+                                            document.write('<div id="' + s + '"></div>');
+                                            (window.slotbydup = window.slotbydup || []).push({
+                                                id: '4740881',
+                                                container: s,
+                                                size: '200,200',
+                                                display: 'inlay-fix'
+                                            });
+                                        })();
+                                    </SCRIPT>
+                              </DIV>
+<DIV id="cpro_u3031287"><!-- 投放代码 -->                                 <!-- 请置于所有广告位代码之前 --> 
+                                    
+<SCRIPT src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/ds.js"></SCRIPT>
+                                  <!-- 广告位：PC端-博客详情页-左侧button2-200*200 -->       
+                          
+<SCRIPT>
+                                    (function () {
+                                        var s = "_" + Math.random().toString(36).slice(2);
+                                        document.write('<div id="' + s + '"></div>');
+                                        (window.slotbydup = window.slotbydup || []).push({
+                                            id: '4740894',
+                                            container: s,
+                                            size: '200,200',
+                                            display: 'inlay-fix'
+                                        });
+                                    })();
+                                </SCRIPT>
+                              </DIV></DIV></DIV>
+<SCRIPT type="text/javascript">
+                    setTimeout(function () {
+                        var naviga_offsetTop = 0;
+                        function naviga_stay_top() { var scrollTop = jQuery(document).scrollTop(); if (scrollTop > naviga_offsetTop) { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": "0px" }); } else { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop - scrollTop + "px" }); } }
+                        function onload_function() { naviga_offsetTop = jQuery("#nav_show_top_stop").position().top; jQuery(window).bind("scroll", naviga_stay_top); jQuery(window).bind("mousewheel", naviga_stay_top); jQuery(document).bind("scroll", naviga_stay_top); jQuery(document).bind("mousewheel", naviga_stay_top); } jQuery(document).ready(onload_function);
+
+                    }, 200);
+                </SCRIPT>
+                               </DIV>
+<DIV class="clear"></DIV></DIV>
+<SCRIPT src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/login.js" type="text/javascript"></SCRIPT>
+ 
+<SCRIPT type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</SCRIPT>
+     </DIV>
+<SCRIPT src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/MathJax.js" type="text/javascript"></SCRIPT>
+           
+<SCRIPT src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/csdn_blog_detail.min.js" type="text/javascript"></SCRIPT>
+             
+<SCRIPT src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/csdn_public_blog_detail.min.js" type="text/javascript"></SCRIPT>
+     
+<SCRIPT src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/showblogmedal.js" type="text/javascript"></SCRIPT>
+   
+<DIV id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+<SCRIPT id="adJs52b5334"></SCRIPT>
+                     
+<SCRIPT>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</SCRIPT>
+    </DIV>
+<DIV class="pop_CA_cover" style="display: none;"></DIV>
+<DIV class="pop pop_CA" style="display: none;">
+<DIV class="CA_header">收藏助手             <SPAN class="cancel_icon" id="fapancle" 
+onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></SPAN></DIV><IFRAME 
+width="100%" height="360" id="fa" src="Class_forName()用法详解%20-%20Kaiwii的专栏%20-%20CSDN博客_files/o.htm" 
+frameborder="0" scrolling="no"></IFRAME>     </DIV>
+<SCRIPT type="text/javascript">
+
+            $(function () {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function () {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function () {
+                $(".toc a[target='_blank']").attr("target", "");
+            }, 500);
+
+        </SCRIPT>
+    </BODY></HTML>

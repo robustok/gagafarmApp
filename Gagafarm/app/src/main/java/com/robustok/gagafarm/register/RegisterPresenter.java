@@ -1,6 +1,7 @@
 package com.robustok.gagafarm.register;
 
 import com.robustok.gagafarm.data.User;
+import com.robustok.gagafarm.data.source.RemoteUserDataSource;
 import com.robustok.gagafarm.data.source.UserDataSource;
 
 import java.util.List;
@@ -20,15 +21,16 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public boolean userNameIsAvailable(String userName) {
+       // return false;
+      if(this.getUserByName(userName)!=null)
+          return true;
+      else
         return false;
     }
 
     @Override
     public void saveUser(User user) {
         mUserRepository.saveUser(user);
-        if (this.getUserByName(user.getUserName()) == null) {
-            mRegisterFragment.showRegisterSuccess(user.getUserName());
-        }
     }
 
 
@@ -39,7 +41,8 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public User getUserByName(String userName) {
-        return null;
+       User user =  mUserRepository.getUser(userName);
+       return user;
     }
 
     @Override
@@ -56,4 +59,6 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     public boolean updateUser(User user) {
         return false;
     }
+
+
 }
