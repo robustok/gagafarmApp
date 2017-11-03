@@ -1,5 +1,6 @@
 package com.robustok.gagafarm.Utility;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -17,9 +18,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 
 public class Injection {
-    public static UserRepository provideUserRepository(@NonNull Context context,@NonNull Context activityContext){
+    public static UserRepository provideUserRepository(@NonNull Context context,@NonNull Fragment fragment){
         checkNotNull(context);
-        return UserRepository.getInstance(RemoteUserDataSource.getInstance(activityContext),LocalUserDataSource.getInstance(context,activityContext));
+        checkNotNull(fragment);
+        return UserRepository.getInstance(RemoteUserDataSource.getInstance(fragment),LocalUserDataSource.getInstance(context,fragment));
     }
 
 

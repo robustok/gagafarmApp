@@ -1,10 +1,14 @@
 package com.robustok.gagafarm.Utility;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.annotation.NonNull;
+/*
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
+*/
 /**
  * Created by Administrator on 2017/7/5.
  * This class provides methods to help activities to load their UI

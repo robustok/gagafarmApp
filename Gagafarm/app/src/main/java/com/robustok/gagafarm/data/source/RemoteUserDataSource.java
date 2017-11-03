@@ -1,13 +1,17 @@
 package com.robustok.gagafarm.data.source;
 
+import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+
 import android.support.v4.os.AsyncTaskCompat;
+import android.view.View;
 
 import com.robustok.gagafarm.data.User;
 import com.robustok.gagafarm.register.RegisterActivity;
+import com.robustok.gagafarm.register.RegisterFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,37 +38,64 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class RemoteUserDataSource implements UserDataSource {
     public static RemoteUserDataSource INSTANCE = null;
-    public static Context mContext;//用于向RegisterActivity发送消息
+    public static RegisterFragment mFragment;//用于向RegisterActivity发送消息
     private RemoteUserDataSource(){
     }
-    public static RemoteUserDataSource getInstance(@NonNull Context activityContext){
-         checkNotNull(activityContext);
+    public static RemoteUserDataSource getInstance(@NonNull Fragment fragment){
+         checkNotNull(fragment);
         if(INSTANCE == null){
             INSTANCE=new RemoteUserDataSource();
-            mContext = activityContext;
+            mFragment = (RegisterFragment)fragment;
             return INSTANCE;
         }
         return INSTANCE;
     }
 
     //保存用户
-    private class SaveUserAsyncTask extends AsyncTask<User ,String ,String>{
+    private class SaveUserAsyncTask extends AsyncTask<User ,Integer ,String>{
 
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            //  显示RegisterFragment中的进度条
+            mFragment.getProgressBar().setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer...values){
+
+            mFragment.getProgressBar().setProgress(values[0]);
+        }
 
         @Override
         protected String doInBackground(User... params) {
-            return saveUser2Remote(params[0]);
+             String result = saveUser2Remote(params[0]);
+            Integer i = 0;
+            while (i<11){
+                publishProgress(i*10);
+                i = i+1;
+               try {
+                   Thread.sleep(2000);
+               }
+               catch (InterruptedException ex){
+                   ex.printStackTrace();
+               }
+
+            }
+             return result;
         }
+
+
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            RegisterActivity ra = (RegisterActivity)mContext;
-
+            mFragment.getProgressBar().setVisibility(View.GONE);
             if(Integer.parseInt(s) == 1){
-                ra.onFragmentInteraction("注册成功啦！");
+                mFragment.showRegisterSuccess("注册成功啦！");
             }
             else{
-                ra.onFragmentInteraction("对不起，注册失败");
+                mFragment.showRegisterSuccess("对不起，注册失败");
             }
         }
     }

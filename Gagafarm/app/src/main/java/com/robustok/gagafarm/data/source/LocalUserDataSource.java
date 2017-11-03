@@ -1,6 +1,7 @@
 package com.robustok.gagafarm.data.source;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 
@@ -8,6 +9,7 @@ import com.robustok.gagafarm.Utility.UserPersistenceContract;
 import com.robustok.gagafarm.data.GagafarmDbHelper;
 import com.robustok.gagafarm.data.User;
 import com.robustok.gagafarm.register.RegisterActivity;
+import com.robustok.gagafarm.register.RegisterFragment;
 
 import android.content.ContextWrapper;
 import android.database.Cursor;
@@ -32,7 +34,7 @@ import java.util.List;
 public class LocalUserDataSource implements UserDataSource {
 
    public static LocalUserDataSource INSTANCE ;
-    public static Context mContext;
+    public static Fragment mFragment;
     private GagafarmDbHelper mGagafarmDbHelper;
     private LocalUserDataSource(@NonNull Context context){
       checkNotNull(context);
@@ -59,12 +61,12 @@ public class LocalUserDataSource implements UserDataSource {
             {
                  e.printStackTrace();
             }
-            RegisterActivity ra = (RegisterActivity)mContext;
+        RegisterFragment rf = (RegisterFragment)mFragment;
             if(i>0){
-                ra.onFragmentInteraction("注册成功啦！");
+                rf.showRegisterSuccess("注册成功啦！");
             }
             else{
-                ra.onFragmentInteraction("对不起，注册失败");
+                rf.showRegisterSuccess("对不起，注册失败");
             }
     }
 
@@ -101,9 +103,9 @@ public class LocalUserDataSource implements UserDataSource {
         return false;
     }
 
-    public static LocalUserDataSource getInstance(Context context,Context activityContext){
+    public static LocalUserDataSource getInstance(Context context,Fragment fragment){
       if(INSTANCE == null) {
-          mContext = (RegisterActivity)activityContext;
+          mFragment = (RegisterFragment)fragment;
 
           INSTANCE = new LocalUserDataSource(context);
       }

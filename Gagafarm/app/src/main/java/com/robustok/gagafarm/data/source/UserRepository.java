@@ -34,14 +34,18 @@ public class UserRepository implements UserDataSource {
 
     @Override
     public void saveUser(User user) {
+       //保存到远程
         mRemoteUserDataSource.saveUser(user);
-         /*
+/*
+        //保存到本地DB
         mLocalUserDataSource.saveUser(user);
+
+        //保存到缓存
         if(mCatchedUsers==null) {
             mCatchedUsers = new LinkedHashMap<>();
         }
         mCatchedUsers.put(user.getUserName(),user);
-        */
+*/
 
     }
 

@@ -33,17 +33,17 @@ public class RegisterActivity extends AppCompatActivity implements RegisterResul
        // Intent intent = getIntent();
         //((TextView)findViewById(R.id.hello)).setText(intent.getStringExtra("name"));
 
-        RegisterFragment registerFragment=(RegisterFragment)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        RegisterFragment registerFragment=(RegisterFragment)getFragmentManager().findFragmentById(R.id.contentFrame);
         if(registerFragment==null)
         {
            registerFragment= RegisterFragment.newInstance();
 
         }
 
-       ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),registerFragment,R.id.contentFrame);
+       ActivityUtils.addFragmentToActivity(getFragmentManager(),registerFragment,R.id.contentFrame);
 
        //以下两行代码将pesenter层与View层联系起来
-        mRegisterPresenter = new RegisterPresenter(Injection.provideUserRepository(getApplicationContext(),this), registerFragment);
+        mRegisterPresenter = new RegisterPresenter(Injection.provideUserRepository(getApplicationContext(),registerFragment), registerFragment);
         registerFragment.setPresenter(mRegisterPresenter);
     }
 

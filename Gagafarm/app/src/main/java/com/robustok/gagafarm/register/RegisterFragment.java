@@ -1,14 +1,16 @@
 package com.robustok.gagafarm.register;
 
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.robustok.gagafarm.R;
@@ -23,6 +25,7 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
     private TextView mUserName;
     private TextView mPassword;
     private OnFragmentInteractionListener  mListener;
+    private ProgressBar mProgressBar;
     public RegisterFragment() {
         // Required empty public constructor
     }
@@ -35,6 +38,7 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
         View root = inflater.inflate(R.layout.fragment_register, container, false);
         mUserName = (TextView)root.findViewById(R.id.userName);
         mPassword = (TextView)root.findViewById(R.id.password);
+        mProgressBar =(ProgressBar) root.findViewById(R.id.progress);
         return root;
     }
    @Override
@@ -88,4 +92,8 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
         mListener = null;
     }
 
+
+    public ProgressBar getProgressBar(){
+        return this.mProgressBar;
+    }
 }
