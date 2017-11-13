@@ -18,10 +18,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 
 public class Injection {
-    public static UserRepository provideUserRepository(@NonNull Context context,@NonNull Fragment fragment){
+    public static UserRepository provideUserRepository(@NonNull Context context){
         checkNotNull(context);
-        checkNotNull(fragment);
-        return UserRepository.getInstance(RemoteUserDataSource.getInstance(fragment),LocalUserDataSource.getInstance(context,fragment));
+      //  checkNotNull(fragment);
+        return UserRepository.getInstance(RemoteUserDataSource.getInstance(context),LocalUserDataSource.getInstance(context));
     }
 
 

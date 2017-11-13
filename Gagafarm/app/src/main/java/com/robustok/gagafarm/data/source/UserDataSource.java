@@ -1,6 +1,8 @@
 package com.robustok.gagafarm.data.source;
 
 import com.robustok.gagafarm.data.User;
+import com.robustok.gagafarm.login.LoginContract;
+import com.robustok.gagafarm.register.RegisterContract;
 
 import java.util.List;
 
@@ -10,6 +12,12 @@ import java.util.List;
  */
 
 public interface UserDataSource {
+
+    //注入一个LoginPrsenter
+    void setLoginPresent(LoginContract.Presenter present);
+    //注入一个RegisterPrsenter
+    void setRegisterPresenter(RegisterContract.Presenter presenter);
+
     //保存用户数据
     void saveUser(User user);
 

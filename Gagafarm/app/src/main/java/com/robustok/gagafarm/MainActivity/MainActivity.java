@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.robustok.gagafarm.R;
+import com.robustok.gagafarm.login.LoginActivity;
 import com.robustok.gagafarm.register.RegisterActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.btnRegister).setOnClickListener(this);
+        findViewById(R.id.btnLogin).setOnClickListener(this);
 
 
     }
@@ -25,10 +27,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRegister:
-                Intent intent = new Intent(this, RegisterActivity.class);
-                this.startActivity(intent);
-
+                Intent intentRegister = new Intent(this, RegisterActivity.class);
+                this.startActivity(intentRegister);
                 break;
+            case R.id.btnLogin:
+                Intent intentLoging = new Intent(this, LoginActivity.class);
+                this.startActivity(intentLoging);
             default:
                 break;
 

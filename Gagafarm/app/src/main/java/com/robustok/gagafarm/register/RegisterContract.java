@@ -76,5 +76,8 @@ public interface RegisterContract {
          */
         boolean updateUser(User user);
 
+       //调用View层方法，返回注册结果
+        void showRegisterResult(String str);
+
     }
 }

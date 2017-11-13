@@ -1,23 +1,18 @@
 package com.robustok.gagafarm.data.source;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 
 import com.robustok.gagafarm.Utility.UserPersistenceContract;
 import com.robustok.gagafarm.data.GagafarmDbHelper;
 import com.robustok.gagafarm.data.User;
-import com.robustok.gagafarm.register.RegisterActivity;
-import com.robustok.gagafarm.register.RegisterFragment;
+import com.robustok.gagafarm.login.LoginContract;
+import com.robustok.gagafarm.register.RegisterContract;
 
-import android.content.ContextWrapper;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -34,12 +29,25 @@ import java.util.List;
 public class LocalUserDataSource implements UserDataSource {
 
    public static LocalUserDataSource INSTANCE ;
-    public static Fragment mFragment;
+    private RegisterContract.Presenter mRegisterPresenter;
+    private LoginContract.Presenter mLoginPresenter;
+    //public static Fragment mFragment;
     private GagafarmDbHelper mGagafarmDbHelper;
     private LocalUserDataSource(@NonNull Context context){
       checkNotNull(context);
       mGagafarmDbHelper = new GagafarmDbHelper(context);
     }
+
+    @Override
+    public void setLoginPresent(LoginContract.Presenter present) {
+        this.mLoginPresenter = present;
+    }
+
+    @Override
+    public void setRegisterPresenter(RegisterContract.Presenter presenter) {
+        this.mRegisterPresenter = presenter;
+    }
+
     @Override
     public void saveUser(@NonNull User user) {
             checkNotNull(user);
@@ -61,12 +69,12 @@ public class LocalUserDataSource implements UserDataSource {
             {
                  e.printStackTrace();
             }
-        RegisterFragment rf = (RegisterFragment)mFragment;
+ //       RegisterFragment rf = (RegisterFragment)mFragment;
             if(i>0){
-                rf.showRegisterSuccess("注册成功啦！");
+     //           rf.showRegisterSuccess("注册成功啦！");
             }
             else{
-                rf.showRegisterSuccess("对不起，注册失败");
+     //           rf.showRegisterSuccess("对不起，注册失败");
             }
     }
 
@@ -103,9 +111,9 @@ public class LocalUserDataSource implements UserDataSource {
         return false;
     }
 
-    public static LocalUserDataSource getInstance(Context context,Fragment fragment){
+    public static LocalUserDataSource getInstance(Context context){
       if(INSTANCE == null) {
-          mFragment = (RegisterFragment)fragment;
+        //  mFragment = (RegisterFragment)fragment;
 
           INSTANCE = new LocalUserDataSource(context);
       }

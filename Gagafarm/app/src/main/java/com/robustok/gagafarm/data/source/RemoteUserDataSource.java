@@ -1,17 +1,12 @@
 package com.robustok.gagafarm.data.source;
 
-import android.app.Fragment;
-import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-import android.support.v4.os.AsyncTaskCompat;
-import android.view.View;
-
 import com.robustok.gagafarm.data.User;
-import com.robustok.gagafarm.register.RegisterActivity;
-import com.robustok.gagafarm.register.RegisterFragment;
+import com.robustok.gagafarm.login.LoginContract;
+import com.robustok.gagafarm.register.RegisterContract;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,10 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -38,14 +30,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class RemoteUserDataSource implements UserDataSource {
     public static RemoteUserDataSource INSTANCE = null;
-    public static RegisterFragment mFragment;//用于向RegisterActivity发送消息
+  //  public static RegisterFragment mFragment;//用于向RegisterActivity发送消息,但会打乱分层结构，不建议使用
+    private RegisterContract.Presenter mRegisterPresenter;
+    private LoginContract.Presenter mLoginPresenter;
     private RemoteUserDataSource(){
     }
-    public static RemoteUserDataSource getInstance(@NonNull Fragment fragment){
-         checkNotNull(fragment);
+    public static RemoteUserDataSource getInstance(@NonNull Context context){
+         checkNotNull(context);
         if(INSTANCE == null){
             INSTANCE=new RemoteUserDataSource();
-            mFragment = (RegisterFragment)fragment;
+          //  mFragment = (RegisterFragment)fragment;
             return INSTANCE;
         }
         return INSTANCE;
@@ -58,18 +52,20 @@ public class RemoteUserDataSource implements UserDataSource {
         protected void onPreExecute(){
             super.onPreExecute();
             //  显示RegisterFragment中的进度条
-            mFragment.getProgressBar().setVisibility(View.VISIBLE);
+          //  mFragment.getProgressBar().setVisibility(View.VISIBLE);
         }
 
         @Override
         protected void onProgressUpdate(Integer...values){
 
-            mFragment.getProgressBar().setProgress(values[0]);
+           // mFragment.getProgressBar().setProgress(values[0]);
         }
 
         @Override
         protected String doInBackground(User... params) {
-             String result = saveUser2Remote(params[0]);
+            String result = saveUser2Remote(params[0]);
+            return result;
+           /*
             Integer i = 0;
             while (i<11){
                 publishProgress(i*10);
@@ -82,7 +78,8 @@ public class RemoteUserDataSource implements UserDataSource {
                }
 
             }
-             return result;
+            */
+
         }
 
 
@@ -90,14 +87,24 @@ public class RemoteUserDataSource implements UserDataSource {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            mFragment.getProgressBar().setVisibility(View.GONE);
+          //  mFragment.getProgressBar().setVisibility(View.GONE);
             if(Integer.parseInt(s) == 1){
-                mFragment.showRegisterSuccess("注册成功啦！");
+                mRegisterPresenter.showRegisterResult("注册成功啦！");
             }
             else{
-                mFragment.showRegisterSuccess("对不起，注册失败");
+                mRegisterPresenter.showRegisterResult("对不起，注册失败");
             }
         }
+    }
+
+    @Override
+    public void setLoginPresent(LoginContract.Presenter present) {
+        this.setLoginPresent(present);
+    }
+
+    @Override
+    public void setRegisterPresenter(RegisterContract.Presenter presenter) {
+            this.mRegisterPresenter = presenter;
     }
 
     @Override

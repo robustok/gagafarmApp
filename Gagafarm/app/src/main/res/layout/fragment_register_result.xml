@@ -16,12 +16,6 @@ tools:context="com.robustok.gagafarm.register.RegisterResultFragment">
     android:layout_marginTop="22dp"
     android:orientation="horizontal"
     >
-    <TextView
-        android:id="@+id/registerResult"
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
 </LinearLayout>
 <LinearLayout

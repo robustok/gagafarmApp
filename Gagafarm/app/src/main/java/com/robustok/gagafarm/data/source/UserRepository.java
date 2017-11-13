@@ -1,8 +1,9 @@
 package com.robustok.gagafarm.data.source;
 
 import com.robustok.gagafarm.data.User;
+import com.robustok.gagafarm.login.LoginContract;
+import com.robustok.gagafarm.register.RegisterContract;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ public class UserRepository implements UserDataSource {
     public static UserRepository INSTANCE = null;
     private final  UserDataSource mLocalUserDataSource;
     private final UserDataSource mRemoteUserDataSource;
+    private RegisterContract.Presenter mRegisterPresenter;
+    private LoginContract.Presenter mLoginPresent;
 
 
     private UserRepository(UserDataSource remoteUserDataSource,UserDataSource localUserDataSource){
@@ -30,6 +33,21 @@ public class UserRepository implements UserDataSource {
         }
         return INSTANCE;
 
+    }
+
+    @Override
+    public void setLoginPresent(LoginContract.Presenter present) {
+        this.mLoginPresent = present;
+
+
+    }
+
+    @Override
+    public void setRegisterPresenter(RegisterContract.Presenter presenter) {
+        this.mRegisterPresenter = presenter;
+        //为本地和远程数据源分别注入presenter
+        mLocalUserDataSource.setRegisterPresenter(this.mRegisterPresenter);
+        mRemoteUserDataSource.setRegisterPresenter(this.mRegisterPresenter);
     }
 
     @Override

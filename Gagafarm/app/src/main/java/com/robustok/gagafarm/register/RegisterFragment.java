@@ -20,7 +20,8 @@ import com.robustok.gagafarm.data.User;
  * A simple {@link Fragment} subclass.
  */
 public class RegisterFragment extends Fragment implements RegisterContract.View {
-
+    public static RegisterFragment instance = null;
+    private String TAG = "RegisterFragment";//only for debugging
     private RegisterContract.Presenter mRegisterPresenter;
     private TextView mUserName;
     private TextView mPassword;
@@ -28,12 +29,14 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
     private ProgressBar mProgressBar;
     public RegisterFragment() {
         // Required empty public constructor
+
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG,"onCreateView");
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_register, container, false);
         mUserName = (TextView)root.findViewById(R.id.userName);
@@ -64,7 +67,9 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
 
     //return a instance using factory pattern
     public static RegisterFragment newInstance(){
-        return new RegisterFragment();
+        if(instance == null)
+            instance = new RegisterFragment();
+        return instance;
     }
 
     public void setPresenter(RegisterContract.Presenter  registerPresenter ){

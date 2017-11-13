@@ -60,5 +60,10 @@ public class RegisterPresenter implements RegisterContract.Presenter {
         return false;
     }
 
+    @Override
+    public void showRegisterResult(String str) {
+        this.mRegisterFragment.showRegisterSuccess(str);
+    }
+
 
 }
