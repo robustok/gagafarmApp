@@ -31,8 +31,8 @@ public class LoginActivity extends Activity implements LoginFragment.OnFragmentI
         ActivityUtils.addFragmentToActivity(getFragmentManager(),mLoginFragment,R.id.loginFrame);
 
         //建立model,presenter,view三层间的联系
-        UserRepository userRepository = Injection.provideUserRepository(getApplicationContext());
-        mLoginPresenter = LoginPresenter.newInstance(userRepository,mLoginFragment);
+        mUserRepository = Injection.provideUserRepository(getApplicationContext());
+        mLoginPresenter = LoginPresenter.newInstance(mUserRepository,mLoginFragment);
         mLoginFragment.setPresenter(mLoginPresenter);
         mUserRepository.setLoginPresent(mLoginPresenter);
     }

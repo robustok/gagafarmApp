@@ -1,5 +1,8 @@
 package com.robustok.gagafarm.data.source;
 
+import android.support.annotation.NonNull;
+
+import com.robustok.gagafarm.data.Login;
 import com.robustok.gagafarm.data.User;
 import com.robustok.gagafarm.login.LoginContract;
 import com.robustok.gagafarm.register.RegisterContract;
@@ -68,8 +71,8 @@ public class UserRepository implements UserDataSource {
     }
 
     @Override
-    public User getUser(String userName) {
-       return null;
+    public void getUser(@NonNull Login login, GetUserCallback getUserCallback) {
+            mRemoteUserDataSource.getUser(login,getUserCallback);
     }
 
     @Override

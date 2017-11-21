@@ -1,5 +1,7 @@
 package com.robustok.gagafarm.register;
 
+import android.view.View;
+
 import com.robustok.gagafarm.data.User;
 import com.robustok.gagafarm.data.source.RemoteUserDataSource;
 import com.robustok.gagafarm.data.source.UserDataSource;
@@ -41,8 +43,8 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public User getUserByName(String userName) {
-       User user =  mUserRepository.getUser(userName);
-       return user;
+      // User user =  mUserRepository.getUser(userName);
+      return null;
     }
 
     @Override
@@ -62,6 +64,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public void showRegisterResult(String str) {
+       //如何判断当前视是激活状态
         this.mRegisterFragment.showRegisterSuccess(str);
     }
 

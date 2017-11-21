@@ -1,5 +1,8 @@
 package com.robustok.gagafarm.data.source;
 
+import android.support.annotation.NonNull;
+
+import com.robustok.gagafarm.data.Login;
 import com.robustok.gagafarm.data.User;
 import com.robustok.gagafarm.login.LoginContract;
 import com.robustok.gagafarm.register.RegisterContract;
@@ -12,6 +15,13 @@ import java.util.List;
  */
 
 public interface UserDataSource {
+    //用于Presenter从Model层获取用户数据的回调接口
+    public interface GetUserCallback{
+        void onUserLoaded(User user);
+        void onDataNotAvailable();
+
+    }
+
 
     //注入一个LoginPrsenter
     void setLoginPresent(LoginContract.Presenter present);
@@ -19,12 +29,13 @@ public interface UserDataSource {
     void setRegisterPresenter(RegisterContract.Presenter presenter);
 
     //保存用户数据
+    //add a callback parameters for feedbacking the result to the caller
     void saveUser(User user);
 
 
 
-    //获取一个指定用户
-    User getUser(String userName);
+    //通过回调，获取一个指定用户
+    void getUser(@NonNull Login login, @NonNull GetUserCallback getUserCallback);
 
     //获取所有用户的信息
     List<User> getAllUsers();

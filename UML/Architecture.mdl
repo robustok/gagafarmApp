@@ -303,7 +303,7 @@
 			    location   	(267, 550)
 			    anchor_loc 	1
 			    nlines     	2
-			    max_width  	325
+			    max_width  	362
 			    justify    	0
 			    label      	"游客")
 			icon       	"Actor"
@@ -553,7 +553,7 @@
 			    location   	(1334, 557)
 			    anchor_loc 	1
 			    nlines     	2
-			    max_width  	325
+			    max_width  	362
 			    justify    	0
 			    label      	"用户")
 			icon       	"Actor"
@@ -1265,7 +1265,7 @@
 				    Parent_View 	@43
 				    location   	(1656, 263)
 				    anchor_loc 	1
-				    nlines     	2
+				    nlines     	1
 				    max_width  	490
 				    justify    	0
 				    label      	"UserDataSource")
@@ -1274,6 +1274,23 @@
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"59534BBD02E0"
+				compartment 	(object Compartment
+				    Parent_View 	@43
+				    location   	(1655, 264)
+				    font       	(object Font
+					size       	12
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    icon_style 	"Icon"
+				    anchor     	2
+				    nlines     	7
+				    max_width  	0
+				    justify    	0)
 				width      	58
 				height     	58
 				annotation 	8
@@ -1687,11 +1704,20 @@
 			quid       	"5953615301DB"
 			documentation 	"用户bean"
 			class_attributes 	(list class_attribute_list
-			    (object ClassAttribute "mName"
+			    (object ClassAttribute "mUserName"
 				quid       	"59536188036B"
 				type       	"String")
 			    (object ClassAttribute "mPassword"
 				quid       	"595361C800B2"
+				type       	"String")))
+		    (object Class "Login"
+			quid       	"5A13BC1D03C5"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "mUserName"
+				quid       	"5A13BC610105"
+				type       	"String")
+			    (object ClassAttribute "mPassword"
+				quid       	"5A13BCA500E3"
 				type       	"String")))
 		    (object Class_Category "source"
 			quid       	"59534C4D024A"
@@ -1714,18 +1740,19 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "getUser"
+				    (object Operation "void"
 					quid       	"5953629B03A4"
 					documentation 	"获取一个指定用户"
 					parameters 	(list Parameters
-					    (object Parameter "userName"
+					    (object Parameter "getUserCallback"
 						quid       	"595362C102D2"
-						type       	"String"))
-					result     	"User"
+						type       	"GetUserCallback"
+						quidu      	"5A0BAC5302B1"))
+					result     	"GetUserCallback"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0
-					quidu      	"5953615301DB")
+					quidu      	"5A0BAC5302B1")
 				    (object Operation "getAllUsers"
 					quid       	"595363160013"
 					result     	"List<User>"
@@ -1749,7 +1776,46 @@
 					result     	"boolean"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
-					uid        	0)))
+					uid        	0)
+				    (object Operation "getUser"
+					quid       	"5A0D258F0232"
+					parameters 	(list Parameters
+					    (object Parameter "login"
+						quid       	"5A0D25A4017E"
+						type       	"Login"
+						quidu      	"5A13BC1D03C5")
+					    (object Parameter "getUserCallback"
+						quid       	"5A0D25D6026D"
+						type       	"GetUserCallback"
+						quidu      	"5A0BAC5302B1"))
+					result     	"void"
+					concurrency 	"Sequential"
+					post_condition 	(object Semantic_Info
+					    PDL        	"parameters @NonNull")
+					opExportControl 	"Public"
+					uid        	0))
+				nestedClasses 	(list nestedClasses
+				    (object Class "GetUserCallback"
+					quid       	"5A0BAC5302B1"
+					documentation 	"用于Presenter从Model层获取用户数据的回调接口"
+					stereotype 	"Interface"
+					operations 	(list Operations
+					    (object Operation "onUserLoaded"
+						quid       	"5A0BAD7C032E"
+						parameters 	(list Parameters
+						    (object Parameter "user"
+							quid       	"5A0BADD00176"
+							type       	"User"
+							quidu      	"5953615301DB"))
+						result     	"void"
+						concurrency 	"Sequential"
+						opExportControl 	"Public"
+						uid        	0)
+					    (object Operation "onDataNotAvailable"
+						quid       	"5A0BADEE0382"
+						concurrency 	"Sequential"
+						opExportControl 	"Public"
+						uid        	0)))))
 			    (object Class "LocalUserDataSource"
 				quid       	"59534C8C004A"
 				documentation 	"用户注册数据源"
@@ -1810,6 +1876,23 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"59534BBD02E0"
+					compartment 	(object Compartment
+					    Parent_View 	@68
+					    location   	(582, 349)
+					    font       	(object Font
+						size       	12
+						face       	"Arial"
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	TRUE)
+					    icon_style 	"Icon"
+					    anchor     	2
+					    nlines     	7
+					    max_width  	369
+					    justify    	0)
 					width      	58
 					height     	58
 					annotation 	8
@@ -1998,12 +2081,12 @@
 				    (object Operation "login"
 					quid       	"5A014A690349"
 					parameters 	(list Parameters
-					    (object Parameter "user"
+					    (object Parameter "login"
 						quid       	"5A014C3F01FB"
-						type       	"User"
-						quidu      	"5953615301DB"
+						type       	"Login"
+						quidu      	"5A13BC1D03C5"
 						initv      	"null"))
-					result     	"Boolean"
+					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)))))
@@ -2058,7 +2141,7 @@
 					supplier   	"用户登录"
 					quidu      	"5A02A29B0077"
 					messages   	(list Messages
-					    (object Message "login(User)"
+					    (object Message "login(Login)"
 						quid       	"5A02A3A10205"
 						frequency  	"Aperiodic"
 						synchronization 	"Simple"
@@ -2089,7 +2172,7 @@
 					supplier   	"查询用户"
 					quidu      	"5A02A3BD01CD"
 					messages   	(list Messages
-					    (object Message "getUser(String)"
+					    (object Message "void(GetUserCallback)"
 						quid       	"5A02A46903AC"
 						frequency  	"Aperiodic"
 						synchronization 	"Simple"
@@ -2120,7 +2203,7 @@
 					supplier   	"本地查询"
 					quidu      	"5A02A4840315"
 					messages   	(list Messages
-					    (object Message "getUser(String)"
+					    (object Message "void(GetUserCallback)"
 						quid       	"5A02A4C7021C"
 						frequency  	"Aperiodic"
 						synchronization 	"Simple"
@@ -2143,7 +2226,7 @@
 					supplier   	"远程查询"
 					quidu      	"5A02A4A803A5"
 					messages   	(list Messages
-					    (object Message "getUser(String)"
+					    (object Message "void(GetUserCallback)"
 						quid       	"5A02A4D7024A"
 						frequency  	"Aperiodic"
 						synchronization 	"Simple"
@@ -2217,23 +2300,6 @@
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"5A01492602D2"
-				compartment 	(object Compartment
-				    Parent_View 	@76
-				    location   	(170, 290)
-				    font       	(object Font
-					size       	10
-					face       	"Arial"
-					bold       	FALSE
-					italics    	FALSE
-					underline  	FALSE
-					strike     	FALSE
-					color      	0
-					default_color 	TRUE)
-				    icon_style 	"Icon"
-				    anchor     	2
-				    nlines     	2
-				    max_width  	309
-				    justify    	0)
 				width      	58
 				height     	58
 				annotation 	8
@@ -2276,7 +2342,7 @@
 				supplier   	@76
 				vertices   	(list Points
 				    (330, 690)
-				    (330, 389))
+				    (330, 220))
 				line_style 	0)
 			    (object ClassView "Class" "Logical View::login::LoginContract::Presenter" @79
 				ShowCompartmentStereotypes 	TRUE
@@ -2307,9 +2373,9 @@
 				quidu      	"5A014A4503A2"
 				compartment 	(object Compartment
 				    Parent_View 	@79
-				    location   	(761, 287)
+				    location   	(845, 190)
 				    font       	(object Font
-					size       	10
+					size       	12
 					face       	"Arial"
 					bold       	FALSE
 					italics    	FALSE
@@ -2320,7 +2386,7 @@
 				    icon_style 	"Icon"
 				    anchor     	2
 				    nlines     	2
-				    max_width  	159
+				    max_width  	0
 				    justify    	0)
 				width      	58
 				height     	58
@@ -2364,7 +2430,7 @@
 				supplier   	@79
 				vertices   	(list Points
 				    (847, 684)
-				    (846, 386))
+				    (846, 217))
 				line_style 	0)))
 		    (object InteractionDiagram "LoginSequenceDiagram"
 			mechanism_ref 	@75
@@ -2392,7 +2458,7 @@
 				    location   	(213, 253)
 				    anchor_loc 	1
 				    nlines     	2
-				    max_width  	238
+				    max_width  	360
 				    justify    	0
 				    label      	"用户")
 				icon       	"Actor"
@@ -2400,7 +2466,7 @@
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"5A02997503A1"
-				width      	250
+				width      	120
 				height     	1143
 				icon_height 	162
 				icon_width 	120
@@ -2701,7 +2767,7 @@
 				origin     	(228, 338)
 				terminus   	(563, 338)
 				ordinal    	0)
-			    (object InterMessView "login(User)" @105
+			    (object InterMessView "login(Login)" @105
 				location   	(0, 453)
 				font       	(object Font
 				    size       	12
@@ -2727,9 +2793,9 @@
 				    quidu      	"5A02A3A10205"
 				    anchor_loc 	1
 				    nlines     	1
-				    max_width  	301
+				    max_width  	10
 				    justify    	0
-				    label      	"login(User)"
+				    label      	"login(Login)"
 				    pctDist    	0.500000
 				    height     	45
 				    orientation 	0)
@@ -2741,7 +2807,7 @@
 				origin     	(594, 453)
 				terminus   	(986, 453)
 				ordinal    	1)
-			    (object InterMessView "getUser(String)" @107
+			    (object InterMessView "void(GetUserCallback)" @107
 				location   	(0, 558)
 				font       	(object Font
 				    size       	12
@@ -2767,9 +2833,9 @@
 				    quidu      	"5A02A46903AC"
 				    anchor_loc 	1
 				    nlines     	1
-				    max_width  	398
+				    max_width  	10
 				    justify    	0
-				    label      	"getUser(String)"
+				    label      	"void(GetUserCallback)"
 				    pctDist    	0.500000
 				    height     	45
 				    orientation 	0)
@@ -2781,7 +2847,7 @@
 				origin     	(1017, 558)
 				terminus   	(1414, 558)
 				ordinal    	2)
-			    (object InterMessView "getUser(String)" @109
+			    (object InterMessView "void(GetUserCallback)" @109
 				location   	(0, 663)
 				font       	(object Font
 				    size       	12
@@ -2807,9 +2873,9 @@
 				    quidu      	"5A02A4C7021C"
 				    anchor_loc 	1
 				    nlines     	1
-				    max_width  	391
+				    max_width  	10
 				    justify    	0
-				    label      	"getUser(String)"
+				    label      	"void(GetUserCallback)"
 				    pctDist    	0.500000
 				    height     	45
 				    orientation 	0)
@@ -2821,7 +2887,7 @@
 				origin     	(1445, 663)
 				terminus   	(1925, 663)
 				ordinal    	3)
-			    (object InterMessView "getUser(String)" @111
+			    (object InterMessView "void(GetUserCallback)" @111
 				location   	(0, 873)
 				font       	(object Font
 				    size       	12
@@ -2847,9 +2913,9 @@
 				    quidu      	"5A02A4D7024A"
 				    anchor_loc 	1
 				    nlines     	1
-				    max_width  	391
+				    max_width  	10
 				    justify    	0
-				    label      	"getUser(String)"
+				    label      	"void(GetUserCallback)"
 				    pctDist    	0.500000
 				    height     	45
 				    orientation 	0)
@@ -2874,7 +2940,7 @@
 				    default_color 	TRUE)
 				label      	(object SegLabel @114
 				    Parent_View 	@113
-				    location   	(1221, 1035)
+				    location   	(1220, 1035)
 				    font       	(object Font
 					size       	12
 					face       	"Arial"

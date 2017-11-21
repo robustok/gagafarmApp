@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.robustok.gagafarm.Utility.UserPersistenceContract;
 import com.robustok.gagafarm.data.GagafarmDbHelper;
+import com.robustok.gagafarm.data.Login;
 import com.robustok.gagafarm.data.User;
 import com.robustok.gagafarm.login.LoginContract;
 import com.robustok.gagafarm.register.RegisterContract;
@@ -79,8 +80,8 @@ public class LocalUserDataSource implements UserDataSource {
     }
 
     @Override
-    public User getUser(String userName) {
-        return null;
+    public void getUser(@NonNull Login login, GetUserCallback getUserCallback) {
+        return ;
     }
 
     @Override

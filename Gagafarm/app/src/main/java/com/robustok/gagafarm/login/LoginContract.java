@@ -1,5 +1,6 @@
 package com.robustok.gagafarm.login;
 
+import com.robustok.gagafarm.data.Login;
 import com.robustok.gagafarm.data.User;
 
 /**
@@ -14,13 +15,15 @@ public interface LoginContract {
          * @param presenter
          */
         void setPresenter(LoginContract.Presenter presenter);
+        void showLoginResult(User user);
     }
     public interface Presenter{
         /**
          * 用户登录
-         * @param user
+         * @param login
          * @return
          */
-        boolean login(User user);
+        void login(Login login);
+
     }
 }

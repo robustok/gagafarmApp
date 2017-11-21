@@ -3,7 +3,9 @@ package com.robustok.gagafarm.data.source;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.robustok.gagafarm.data.Login;
 import com.robustok.gagafarm.data.User;
 import com.robustok.gagafarm.login.LoginContract;
 import com.robustok.gagafarm.register.RegisterContract;
@@ -33,6 +35,8 @@ public class RemoteUserDataSource implements UserDataSource {
   //  public static RegisterFragment mFragment;//用于向RegisterActivity发送消息,但会打乱分层结构，不建议使用
     private RegisterContract.Presenter mRegisterPresenter;
     private LoginContract.Presenter mLoginPresenter;
+    private GetUserCallback mGetUserCallback;
+
     private RemoteUserDataSource(){
     }
     public static RemoteUserDataSource getInstance(@NonNull Context context){
@@ -118,7 +122,7 @@ public class RemoteUserDataSource implements UserDataSource {
     }
     private String  saveUser2Remote(User user){
         String result = ""; // 声明一个代表显示内容的字符串
-        String target = "http://10.200.192.148/web_robustok/userRegi.php";   //ip:10.200.192.148是本机动态获取的，每次开机不同，可用 ipconfig查看
+        String target = "http://10.200.192.148/web_robustok/forApp/userRegi.php";   //ip:10.200.192.148是本机动态获取的，每次开机不同，可用 ipconfig查看
        // String target = "http://robustok.com/userRegi.php";   //要提交的目标地址
         URL url;
         JSONObject jsonObject;
@@ -178,12 +182,11 @@ public class RemoteUserDataSource implements UserDataSource {
     }
 
 
-    //为获取AsyncTask人返回值
-    User userReturn = null;
-   private class getUserAsyncTast extends AsyncTask<String,Void,User>{
+
+   private class GetUserAsyncTast extends AsyncTask<Login,Void,User>{
 
        @Override
-       protected User doInBackground(String... params) {
+       protected User doInBackground(Login... params) {
            User user = null;
            try{
                user = getUserFromRemote(params[0]);
@@ -197,19 +200,75 @@ public class RemoteUserDataSource implements UserDataSource {
        @Override
        protected void onPostExecute(User user) {
            super.onPostExecute(user);
-           userReturn = user;
+           if(user == null)
+               mGetUserCallback.onDataNotAvailable();
+           else
+               mGetUserCallback.onUserLoaded(user);
        }
    }
-  private User getUserFromRemote(String userName){
-     //测试用user object
-      User user = new User("testUserName","testPassword");
-     return user;
+      private User getUserFromRemote(Login login){
+      String result = "";
+      User user = new User();
+      String target = "http://10.200.192.148/web_robustok/forApp/login.php";
+      URL url = null;
+      JSONObject jsonObject = null;
+      try{
+          url = new URL(target);
+          HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+          urlConnection.setRequestMethod("POST");
+          urlConnection.setRequestMethod("POST"); // 指定使用POST请求方式
+          urlConnection.setDoInput(true); // 向连接中写入数据
+          urlConnection.setDoOutput(true); // 从连接中读取数据
+          urlConnection.setUseCaches(false); // 禁止缓存
+          urlConnection.setInstanceFollowRedirects
+                  (true);   //自动执行HTTP重定向
+          urlConnection.setRequestProperty
+                  ("Content-Type","application/x-www-form-urlencoded"); // 设置内容类型
+          DataOutputStream dos =new DataOutputStream(urlConnection.getOutputStream());
+          String parameter = "userName="+URLEncoder.encode(login.getUserName(),"utf-8")+"&password="
+                  +URLEncoder.encode(login.getPassword(),"utf-8");
+          dos.writeBytes(parameter);
+          dos.flush();
+          dos.close();
+
+          Integer i = urlConnection.getResponseCode();
+          if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
+              //获取字节流
+              InputStreamReader isr = new InputStreamReader(urlConnection.getInputStream());
+              //获取字符流
+              BufferedReader br = new BufferedReader(isr);
+              String inputLines = null;
+              while((inputLines=br.readLine()) != null){
+                    result += inputLines + "\n";
+              }
+              isr.close();
+              result = result.substring(2);
+              jsonObject = new JSONObject(result);
+              user.setUserName(jsonObject.getString("userName"));
+              user.setPassword(jsonObject.getString("password"));
+          }
+          urlConnection.disconnect();
+          }
+      catch(MalformedURLException ex)
+      {
+          ex.printStackTrace();
+      }
+      catch (IOException ex) {
+          ex.printStackTrace();
+      }
+      catch(JSONException ex){
+          ex.printStackTrace();
+      }
+      return user;
   }
 
 
-    public User getUser( String userName) {
-        new getUserAsyncTast().execute(userName);
-        return  this.userReturn;
+
+
+    public void getUser(@NonNull Login login, GetUserCallback getUserCallback) {
+        mGetUserCallback = getUserCallback;
+        GetUserAsyncTast getUserAsyncTast = new GetUserAsyncTast();
+        getUserAsyncTast.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,login);
     }
 
     @Override

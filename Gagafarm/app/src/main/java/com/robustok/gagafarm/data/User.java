@@ -21,6 +21,6 @@ public final class User {
     public String getPassword(){
         return this.mPassword;
     }
-    public void setUserName(String userName){mUserName = userName;}
-    public void setPassword(String password){mPassword = password;}
+    public void setUserName(String userName){this.mUserName = userName;}
+    public void setPassword(String password){this.mPassword = password;}
 }
