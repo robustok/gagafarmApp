@@ -122,7 +122,7 @@ public class RemoteUserDataSource implements UserDataSource {
     }
     private String  saveUser2Remote(User user){
         String result = ""; // 声明一个代表显示内容的字符串
-        String target = "http://10.200.192.148/web_robustok/forApp/userRegi.php";   //ip:10.200.192.148是本机动态获取的，每次开机不同，可用 ipconfig查看
+        String target = "http://10.200.192.148/gagafarm/forApp/userRegi.php";   //ip:10.200.192.148是本机动态获取的，每次开机不同，可用 ipconfig查看
        // String target = "http://robustok.com/userRegi.php";   //要提交的目标地址
         URL url;
         JSONObject jsonObject;
@@ -209,7 +209,7 @@ public class RemoteUserDataSource implements UserDataSource {
       private User getUserFromRemote(Login login){
       String result = "";
       User user = new User();
-      String target = "http://10.200.192.148/web_robustok/forApp/login.php";
+      String target = "http://10.200.192.148/gagafarm/forApp/login.php";
       URL url = null;
       JSONObject jsonObject = null;
       try{
@@ -244,8 +244,12 @@ public class RemoteUserDataSource implements UserDataSource {
               isr.close();
               result = result.substring(2);
               jsonObject = new JSONObject(result);
-              user.setUserName(jsonObject.getString("userName"));
+             String userName = jsonObject.getString("userName");
+              if(userName == "null")
+                  return user = null;
+              user.setUserName(userName);
               user.setPassword(jsonObject.getString("password"));
+
           }
           urlConnection.disconnect();
           }
