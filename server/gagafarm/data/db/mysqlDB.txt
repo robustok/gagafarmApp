@@ -1,0 +1,21 @@
+create table IF NOT EXISTS userLogin(
+	userName CHAR(50) NOT NULL ,
+	password CHAR(50) NOT NULL,
+	PRIMARY KEY(userName)
+);
+
+create table IF NOT EXISTS user(
+	userName CHAR(50) NOT NULL,
+	password CHAR(50) NOT NULL,
+	isAdmin SMALLINT NOT NULL,
+	email CHAR(100)  NULL,
+	mobilePhone CHAR(20)  NULL,
+	telephone CHAR(20) NULL,
+	qq CHAR(50) NULL,
+	msn CHAR(50) NULL,
+	lastVisit DATETIME NOT NULL,
+	PRIMARY KEY(userName)
+);
+
+
+	
