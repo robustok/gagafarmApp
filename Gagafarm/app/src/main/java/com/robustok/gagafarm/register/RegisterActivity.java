@@ -15,7 +15,7 @@ import com.robustok.gagafarm.Utility.Injection;
 import com.robustok.gagafarm.data.source.UserRepository;
 
 
-public class RegisterActivity extends AppCompatActivity implements RegisterResultFragment.OnFragmentInteractionListener,RegisterFragment.OnFragmentInteractionListener {
+public class RegisterActivity extends AppCompatActivity implements RegisterFragment.OnFragmentInteractionListener {
 
     private RegisterFragment mRegisterFragment;
     private RegisterPresenter mRegisterPresenter;
@@ -44,10 +44,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterResul
         mUserRepository.setRegisterPresenter(mRegisterPresenter);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        Toast.makeText(this,"交流,角楼",Toast.LENGTH_LONG).show();
-    }
+
 
 
     @Override

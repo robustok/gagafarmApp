@@ -3,10 +3,8 @@ package com.robustok.gagafarm.data.source;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.robustok.gagafarm.data.Login;
-import com.robustok.gagafarm.data.User;
+import com.robustok.gagafarm.data.UserLogin;
 import com.robustok.gagafarm.login.LoginContract;
 import com.robustok.gagafarm.register.RegisterContract;
 
@@ -21,7 +19,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -35,7 +32,8 @@ public class RemoteUserDataSource implements UserDataSource {
   //  public static RegisterFragment mFragment;//用于向RegisterActivity发送消息,但会打乱分层结构，不建议使用
     private RegisterContract.Presenter mRegisterPresenter;
     private LoginContract.Presenter mLoginPresenter;
-    private GetUserCallback mGetUserCallback;
+    private SaveUserLoginCallback mSaveUserLoginCallback;
+    private GetUserLoginCallback mGetUserLoginCallback;
 
     private RemoteUserDataSource(){
     }
@@ -50,40 +48,22 @@ public class RemoteUserDataSource implements UserDataSource {
     }
 
     //保存用户
-    private class SaveUserAsyncTask extends AsyncTask<User ,Integer ,String>{
+    private class SaveUserLoginAsyncTask extends AsyncTask<UserLogin ,Integer ,String>{
 
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            //  显示RegisterFragment中的进度条
-          //  mFragment.getProgressBar().setVisibility(View.VISIBLE);
         }
 
         @Override
         protected void onProgressUpdate(Integer...values){
 
-           // mFragment.getProgressBar().setProgress(values[0]);
         }
 
         @Override
-        protected String doInBackground(User... params) {
-            String result = saveUser2Remote(params[0]);
+        protected String doInBackground(UserLogin... params) {
+            String result = saveUserLogin2Remote(params[0]);
             return result;
-           /*
-            Integer i = 0;
-            while (i<11){
-                publishProgress(i*10);
-                i = i+1;
-               try {
-                   Thread.sleep(2000);
-               }
-               catch (InterruptedException ex){
-                   ex.printStackTrace();
-               }
-
-            }
-            */
-
         }
 
 
@@ -93,17 +73,17 @@ public class RemoteUserDataSource implements UserDataSource {
             super.onPostExecute(s);
           //  mFragment.getProgressBar().setVisibility(View.GONE);
             if(Integer.parseInt(s) == 1){
-                mRegisterPresenter.showRegisterResult("注册成功啦！");
+                mSaveUserLoginCallback.onSaveOk();
             }
             else{
-                mRegisterPresenter.showRegisterResult("对不起，注册失败");
+                mSaveUserLoginCallback.onSaveFailed();
             }
         }
     }
 
     @Override
     public void setLoginPresent(LoginContract.Presenter present) {
-        this.setLoginPresent(present);
+        this.mLoginPresenter = present;
     }
 
     @Override
@@ -112,15 +92,17 @@ public class RemoteUserDataSource implements UserDataSource {
     }
 
     @Override
-    public void saveUser(User user) {
-        SaveUserAsyncTask saveUserAsynTask = new SaveUserAsyncTask();
-        saveUserAsynTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,user);
-
-        //该UI线程代码不会等到上面的异步线程结束，故此处获取的状态值不准确。
-       // boolean saveOk = saveUserAsynTask.getSaveOk();
+    public void saveUserLogin(@NonNull UserLogin userLogin, SaveUserLoginCallback saveUserLoginCallback) {
+        this.mSaveUserLoginCallback = saveUserLoginCallback;
+        SaveUserLoginAsyncTask saveUserLoginAsynTask = new SaveUserLoginAsyncTask();
+        saveUserLoginAsynTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,userLogin);
 
     }
-    private String  saveUser2Remote(User user){
+
+
+
+
+    private String  saveUserLogin2Remote(UserLogin userLogin){
         String result = ""; // 声明一个代表显示内容的字符串
         String target = "http://10.200.192.148/gagafarm/forApp/userRegi.php";   //ip:10.200.192.148是本机动态获取的，每次开机不同，可用 ipconfig查看
        // String target = "http://robustok.com/userRegi.php";   //要提交的目标地址
@@ -140,10 +122,10 @@ public class RemoteUserDataSource implements UserDataSource {
                     ("Content-Type","application/x-www-form-urlencoded"); // 设置内容类型
             DataOutputStream out = new DataOutputStream(urlConn.getOutputStream());// 获取输出流
             String param = "userName="
-                    + URLEncoder.encode(user.getUserName().toString(), "utf-8")
+                    + URLEncoder.encode(userLogin.getUserName().toString(), "utf-8")
                     + "&password="
                     + URLEncoder.encode
-                    (user.getPassword().toString(), "utf-8"); //连接要提交的数据
+                    (userLogin.getPassword().toString(), "utf-8"); //连接要提交的数据
             out.writeBytes(param);//将要传递的数据写入数据输出流
             out.flush();    //输出缓存
             out.close();    //关闭数据输出流
@@ -183,32 +165,29 @@ public class RemoteUserDataSource implements UserDataSource {
 
 
 
-   private class GetUserAsyncTast extends AsyncTask<Login,Void,User>{
+   private class GetUserLoginAsyncTast extends AsyncTask<UserLogin,Void,UserLogin>{
 
        @Override
-       protected User doInBackground(Login... params) {
-           User user = null;
+       protected UserLogin doInBackground(UserLogin... params) {
+           UserLogin userLogin = null;
            try{
-               user = getUserFromRemote(params[0]);
+               userLogin = getUserLoginFromRemote(params[0]);
            }
            catch(Exception ex){
                return null;
            }
 
-           return user;
+           return userLogin;
        }
        @Override
-       protected void onPostExecute(User user) {
-           super.onPostExecute(user);
-           if(user == null)
-               mGetUserCallback.onDataNotAvailable();
-           else
-               mGetUserCallback.onUserLoaded(user);
+       protected void onPostExecute(UserLogin userLogin) {
+           super.onPostExecute(userLogin);
+           mGetUserLoginCallback.onLoaded(userLogin);
        }
    }
-      private User getUserFromRemote(Login login){
+      private UserLogin getUserLoginFromRemote(UserLogin login){
       String result = "";
-      User user = new User();
+      UserLogin userLogin = new UserLogin();
       String target = "http://10.200.192.148/gagafarm/forApp/login.php";
       URL url = null;
       JSONObject jsonObject = null;
@@ -246,9 +225,9 @@ public class RemoteUserDataSource implements UserDataSource {
               jsonObject = new JSONObject(result);
              String userName = jsonObject.getString("userName");
               if(userName == "null")
-                  return user = null;
-              user.setUserName(userName);
-              user.setPassword(jsonObject.getString("password"));
+                  return userLogin = null;
+              userLogin.setUserName(userName);
+              userLogin.setPassword(jsonObject.getString("password"));
 
           }
           urlConnection.disconnect();
@@ -263,30 +242,30 @@ public class RemoteUserDataSource implements UserDataSource {
       catch(JSONException ex){
           ex.printStackTrace();
       }
-      return user;
+      return userLogin;
   }
 
 
 
-
-    public void getUser(@NonNull Login login, GetUserCallback getUserCallback) {
-        mGetUserCallback = getUserCallback;
-        GetUserAsyncTast getUserAsyncTast = new GetUserAsyncTast();
-        getUserAsyncTast.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,login);
+    @Override
+    public void getUserLogin(@NonNull UserLogin userLogin, GetUserLoginCallback getUserLoginCallback) {
+        mGetUserLoginCallback = getUserLoginCallback;
+        GetUserLoginAsyncTast getUserAsyncTast = new GetUserLoginAsyncTast();
+        getUserAsyncTast.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,userLogin);
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return null;
+    public void getAllUserLogin(GetUserLoginCallback getUserLoginCallback) {
+        return ;
     }
 
     @Override
-    public boolean deleteUser(String deleteUser) {
-        return false;
+    public void deleteUserLogin(String userName, DeleteUserLoginCallback deleteUserLoginCallback) {
+        return ;
     }
 
     @Override
-    public boolean deleteAllUsers() {
-        return false;
+    public void deleteAllUserLogin(DeleteUserLoginCallback deleteUserLoginCallback) {
+        return ;
     }
 }

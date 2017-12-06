@@ -9,7 +9,7 @@ public final class UserPersistenceContract {
     private UserPersistenceContract(){};
 
     public static abstract class UserEntry {
-        public static final String TABLE_NAME = "user";
+        public static final String TABLE_NAME = "userLogin";
 
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_USERNAME = "userName";

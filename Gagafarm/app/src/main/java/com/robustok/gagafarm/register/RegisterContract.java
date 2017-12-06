@@ -1,6 +1,8 @@
 package com.robustok.gagafarm.register;
 
 import com.robustok.gagafarm.data.User;
+import com.robustok.gagafarm.data.UserLogin;
+import com.robustok.gagafarm.data.source.UserDataSource;
 
 import java.util.List;
 
@@ -33,51 +35,23 @@ public interface RegisterContract {
     interface Presenter{
 
         /**
-         * 用户名是否可用，若可用则返回1，不可用返回0；
-         * @param userName
-         * @return
+         * 保存用户的快速注册数据
+         * @param userLogin
+         * @param saveUserLoginCallback
          */
-        boolean userNameIsAvailable(String userName);
+        void saveUserLogin(UserLogin userLogin,
+                           UserDataSource.SaveUserLoginCallback saveUserLoginCallback);
 
         /**
-         * 保存用户的注册数据
-         * @param user
+         * 获取所有用户的快速注册数据
          */
-        void saveUser(User user);
+        void getAllUserLogin(UserDataSource.GetUserLoginCallback getUserLoginCallback);
 
         /**
-         * 获取所有用户
-         */
-        List<User> getAllUser();
-
-        /**
-         * 获取指定用户
+         * 获取指定用户的快速注册数据
          * @param userName 用户名
          */
-        User getUserByName(String userName);
-
-        /**
-         * 删除指定用户
-         * @param userName
-         * @return
-         */
-        boolean deleteUser(String userName);
-
-        /**
-         * 删除所有用户
-         * @return
-         */
-        boolean deleteAllUser();
-
-        /**
-         * 更新用户数据
-         * @param user
-         * @return
-         */
-        boolean updateUser(User user);
-
-       //调用View层方法，返回注册结果
-        void showRegisterResult(String str);
+        void getUserLoginByName(String userName, UserDataSource.GetUserLoginCallback getUserLoginCallback);
 
     }
 }

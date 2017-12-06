@@ -3,12 +3,8 @@ package com.robustok.gagafarm.login;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
 
-import com.robustok.gagafarm.data.Login;
-import com.robustok.gagafarm.data.User;
-import com.robustok.gagafarm.data.source.LocalUserDataSource;
-import com.robustok.gagafarm.data.source.RemoteUserDataSource;
+import com.robustok.gagafarm.data.UserLogin;
 import com.robustok.gagafarm.data.source.UserDataSource;
-import com.robustok.gagafarm.data.source.UserRepository;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -31,20 +27,9 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void login(Login login) {
+    public void login(UserLogin userLogin, UserDataSource.GetUserLoginCallback getUserLoginCallback) {
         //delivery a object's reference which impliments GetUserCallback interface to mUserRepository,and  get the user's data.
-        mUserRepository.getUser(login,new UserDataSource.GetUserCallback(){
-
-            @Override
-            public void onUserLoaded(User user) {
-                mFragment.showLoginResult(user);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                mFragment.showLoginResult(null);
-            }
-        });
+        mUserRepository.getUserLogin(userLogin,getUserLoginCallback);
 
     }
 

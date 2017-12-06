@@ -24,7 +24,7 @@ public class LoginActivity extends Activity implements LoginFragment.OnFragmentI
         setContentView(R.layout.activity_login);
 
         //loading LoginFragment
-        mLoginFragment = (LoginFragment)getFragmentManager().findFragmentById(R.id.registerFrame);
+        mLoginFragment = (LoginFragment)getFragmentManager().findFragmentById(R.id.loginFrame);
         if(mLoginFragment == null){
             mLoginFragment = LoginFragment.newInstance();
         }

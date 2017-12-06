@@ -14,7 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.robustok.gagafarm.R;
-import com.robustok.gagafarm.data.User;
+import com.robustok.gagafarm.data.UserLogin;
+import com.robustok.gagafarm.data.source.UserDataSource;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,8 +54,19 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
        btnSubmit.setOnClickListener(new View.OnClickListener(){
            public void onClick(View view){
 
-                    User user =new User(mUserName.getText().toString(),mPassword.getText().toString());
-                    mRegisterPresenter.saveUser(user);
+                    UserLogin userLogin =new UserLogin(mUserName.getText().toString(),mPassword.getText().toString());
+                    mRegisterPresenter.saveUserLogin(userLogin, new UserDataSource.SaveUserLoginCallback(){
+
+                        @Override
+                        public void onSaveOk() {
+                            showRegisterSuccess("恭喜，注册成功！");
+                        }
+
+                        @Override
+                        public void onSaveFailed() {
+                            showRegisterSuccess("注册失败");
+                        }
+                    });
            }
        });
     }

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.robustok.gagafarm.R;
-import com.robustok.gagafarm.data.Login;
-import com.robustok.gagafarm.data.User;
+import com.robustok.gagafarm.data.UserLogin;
+import com.robustok.gagafarm.data.source.UserDataSource;
 
 
 /**
@@ -52,10 +51,26 @@ public class LoginFragment extends Fragment implements LoginContract.View {
 
             @Override
             public void onClick(View v) {
-                Login login =new Login();
-                login.setUserName(mUserName.getText().toString());
-                login.setPassword(mPassword.getText().toString());
-                mPresenter.login(login);
+                UserLogin Userlogin =new UserLogin();
+                Userlogin.setUserName(mUserName.getText().toString());
+                Userlogin.setPassword(mPassword.getText().toString());
+                mPresenter.login(Userlogin, new UserDataSource.GetUserLoginCallback(){
+
+                    @Override
+                    public void onLoaded(UserLogin userLogin) {
+                        showLoginResult(userLogin);
+                    }
+
+                    @Override
+                    public void onLoadedAll() {
+
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+
+                    }
+                });
             }
         });
     }
@@ -89,15 +104,15 @@ public class LoginFragment extends Fragment implements LoginContract.View {
 
     //与Activity互动的接口
     public interface OnFragmentInteractListener{
-        public void onFragmentInteract(String str);
+        public void onFragmentInteract(String string);
     }
 
-
-    public void showLoginResult(User user){
-        if(user == null)
+     //显示登录结果
+    public void showLoginResult(UserLogin userLogin){
+        if(userLogin == null)
             mUserName.setText("登录失败！");
         else
-            mUserName.setText("恭喜，"+user.getUserName()+"登录成功！");
+            mUserName.setText("恭喜，"+userLogin.getUserName()+"登录成功！");
 
 
 

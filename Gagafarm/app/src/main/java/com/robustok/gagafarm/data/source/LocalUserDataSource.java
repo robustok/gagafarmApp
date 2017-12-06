@@ -5,22 +5,15 @@ import android.content.Context;
 
 import com.robustok.gagafarm.Utility.UserPersistenceContract;
 import com.robustok.gagafarm.data.GagafarmDbHelper;
-import com.robustok.gagafarm.data.Login;
-import com.robustok.gagafarm.data.User;
+import com.robustok.gagafarm.data.UserLogin;
 import com.robustok.gagafarm.login.LoginContract;
 import com.robustok.gagafarm.register.RegisterContract;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2017/6/29.
@@ -50,43 +43,39 @@ public class LocalUserDataSource implements UserDataSource {
     }
 
     @Override
-    public void saveUser(@NonNull User user) {
-            checkNotNull(user);
-            long i = 0L;
-           try {
-                SQLiteDatabase db = mGagafarmDbHelper.getWritableDatabase();
-                ContentValues values = new ContentValues();
-                values.put(UserPersistenceContract.UserEntry.COLUMN_NAME_USERNAME, user.getUserName());
-                values.put(UserPersistenceContract.UserEntry.COLUMN_NAME_PASSWORD, user.getPassword());
-                //返回插入成功的行的id
-                i = db.insert(UserPersistenceContract.UserEntry.TABLE_NAME, null, values);
-                db.close();
-           }
-           catch(SQLiteCantOpenDatabaseException e)
-           {
-               e.printStackTrace();
-           }
-            catch(Exception e)
-            {
-                 e.printStackTrace();
-            }
- //       RegisterFragment rf = (RegisterFragment)mFragment;
-            if(i>0){
-     //           rf.showRegisterSuccess("注册成功啦！");
-            }
-            else{
-     //           rf.showRegisterSuccess("对不起，注册失败");
-            }
+    public void saveUserLogin(@NonNull UserLogin userLogin, @NonNull SaveUserLoginCallback saveUserLoginCallback) {
+        checkNotNull(userLogin);
+        long i = 0L;
+        try {
+            SQLiteDatabase db = mGagafarmDbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(UserPersistenceContract.UserEntry.COLUMN_NAME_USERNAME, userLogin.getUserName());
+            values.put(UserPersistenceContract.UserEntry.COLUMN_NAME_PASSWORD, userLogin.getPassword());
+            //返回插入成功的行的id
+            i = db.insert(UserPersistenceContract.UserEntry.TABLE_NAME, null, values);
+            db.close();
+        }
+        catch(SQLiteCantOpenDatabaseException e)
+        {
+            e.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
+
+
+
     @Override
-    public void getUser(@NonNull Login login, GetUserCallback getUserCallback) {
+    public void getUserLogin(@NonNull UserLogin login, GetUserLoginCallback getUserLoginCallback) {
         return ;
     }
 
     @Override
-    public List<User> getAllUsers() {
-       List<User> useres =new ArrayList<User>();
+    public void getAllUserLogin( GetUserLoginCallback getUserLoginCallback) {
+     /*  List<UserLogin> userLogins =new ArrayList<UserLogin>();
        SQLiteDatabase db = mGagafarmDbHelper.getWritableDatabase();
         Cursor cursor;
         if(db.isOpen())
@@ -94,22 +83,23 @@ public class LocalUserDataSource implements UserDataSource {
             cursor = db.query(UserPersistenceContract.UserEntry.TABLE_NAME, new String[]{UserPersistenceContract.UserEntry.COLUMN_NAME_ID,UserPersistenceContract.UserEntry.COLUMN_NAME_USERNAME, UserPersistenceContract.UserEntry.COLUMN_NAME_PASSWORD}, null, null, null, null, null);
             while(cursor.moveToNext())
             {
-                User user = new User(cursor.getString(cursor.getColumnIndex(UserPersistenceContract.UserEntry.COLUMN_NAME_USERNAME)),cursor.getString(cursor.getColumnIndex(UserPersistenceContract.UserEntry.COLUMN_NAME_PASSWORD)));
-                useres.add(user);
+                UserLogin userLogin = new UserLogin(cursor.getString(cursor.getColumnIndex(UserPersistenceContract.UserEntry.COLUMN_NAME_USERNAME)),cursor.getString(cursor.getColumnIndex(UserPersistenceContract.UserEntry.COLUMN_NAME_PASSWORD)));
+                userLogins.add(userLogin);
             }
         }
 
-        return useres;
+        return userLogins;
+        */
     }
 
     @Override
-    public boolean deleteUser(String deleteUser) {
-        return false;
+    public void deleteUserLogin(String userName, DeleteUserLoginCallback deleteUserLoginCallback) {
+        return ;
     }
 
     @Override
-    public boolean deleteAllUsers() {
-        return false;
+    public void deleteAllUserLogin(DeleteUserLoginCallback deleteUserLoginCallback) {
+        return ;
     }
 
     public static LocalUserDataSource getInstance(Context context){

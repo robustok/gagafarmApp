@@ -2,13 +2,18 @@ package com.robustok.gagafarm.data;
 
 /**
  * Created by Administrator on 2017/11/21.
+ * 用户的快速登录数据
  */
 
-public class Login {
+public class UserLogin {
     private String mUserName;
     private String mPassword;
 
-    public Login(){}
+    public UserLogin(){}
+    public UserLogin(String userName, String password){
+        mUserName = userName;
+        mPassword = password;
+    }
 
     public String  getUserName(){
         return this.mUserName;

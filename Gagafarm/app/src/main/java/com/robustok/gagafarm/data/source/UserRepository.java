@@ -2,12 +2,11 @@ package com.robustok.gagafarm.data.source;
 
 import android.support.annotation.NonNull;
 
-import com.robustok.gagafarm.data.Login;
 import com.robustok.gagafarm.data.User;
+import com.robustok.gagafarm.data.UserLogin;
 import com.robustok.gagafarm.login.LoginContract;
 import com.robustok.gagafarm.register.RegisterContract;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,12 +53,12 @@ public class UserRepository implements UserDataSource {
     }
 
     @Override
-    public void saveUser(User user) {
+    public void saveUserLogin(@NonNull UserLogin UserLogin, SaveUserLoginCallback saveUserLoginCallback) {
        //保存到远程
-        mRemoteUserDataSource.saveUser(user);
+        mRemoteUserDataSource.saveUserLogin(UserLogin,saveUserLoginCallback);
 /*
         //保存到本地DB
-        mLocalUserDataSource.saveUser(user);
+        mLocalUserDataSource.saveUserLogin(user);
 
         //保存到缓存
         if(mCatchedUsers==null) {
@@ -71,22 +70,22 @@ public class UserRepository implements UserDataSource {
     }
 
     @Override
-    public void getUser(@NonNull Login login, GetUserCallback getUserCallback) {
-            mRemoteUserDataSource.getUser(login,getUserCallback);
+    public void getUserLogin(@NonNull UserLogin UserLogin, GetUserLoginCallback getUserLoginCallback) {
+            mRemoteUserDataSource.getUserLogin(UserLogin,getUserLoginCallback);
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return null;
+    public void getAllUserLogin(UserDataSource.GetUserLoginCallback getUserLoginCallback) {
+        return ;
     }
 
     @Override
-    public boolean deleteUser(String deleteUser) {
-        return false;
+    public void deleteUserLogin(String userName, DeleteUserLoginCallback deleteUserLoginCallback) {
+        return ;
     }
 
     @Override
-    public boolean deleteAllUsers() {
-        return false;
+    public void deleteAllUserLogin(DeleteUserLoginCallback deleteUserLoginCallback) {
+        return ;
     }
 }
